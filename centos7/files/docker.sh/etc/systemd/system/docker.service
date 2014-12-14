@@ -1,0 +1,15 @@
+[Unit]
+Description=Docker Application Container Engine
+Documentation=http://docs.docker.com
+After=network.target docker.socket
+Requires=docker.socket
+
+[Service]
+#ExecStart=/usr/bin/docker -d -H fd://
+Environment="DOCKER_HOST=tcp://0.0.0.0:2375"
+ExecStart=/usr/bin/docker -d -D -H fd:// -H $DOCKER_HOST
+LimitNOFILE=1048576
+LimitNPROC=1048576
+
+[Install]
+Also=docker.socket
