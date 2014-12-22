@@ -91,3 +91,8 @@ bin/mysql -u root -e "INSERT INTO dummy_work (
   15,
   'etc1111111111111111111111111111111'
 )" dummy
+
+# create app account
+APPUSER_IP="localhost"
+cd ${MYSQL_HOME}
+bin/mysql -u root -e "GRANT SELECT,INSERT,UPDATE,DELETE ON *.* TO app@'${APPUSER_IP}'"

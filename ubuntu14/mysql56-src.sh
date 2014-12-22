@@ -29,6 +29,16 @@ then
 fi
 ${WGETCMD} http://dev.mysql.com/get/Downloads/MySQL-${MAJOR_VER}/${TAR}
 
+# check already executing mysql
+SERVICE_FILE=mysql.server
+INIT_DIR=/etc/init.d
+INIT_SCRIPT=${INIT_DIR}/${SERVICE_FILE}
+
+if [ -x ${INIT_SCRIPT} ]
+then
+  ${INIT_SCRIPT} stop
+fi
+
 # install dependencies
 bash ${MYDIR}/mysql56-src-dep.sh
 
@@ -100,11 +110,11 @@ do
 done
 
 # create service script
-cp support-files/mysql.server /etc/init.d/
-chmod +x /etc/init.d/mysql.server
+cp support-files/${SERVICE_FILE} ${INIT_SCRIPT}
+chmod +x ${INIT_SCRIPT}
 
 # start
-/etc/init.d/mysql.server start
+${INIT_SCRIPT} start
 
 # set environments
 echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> /etc/bash.bashrc
