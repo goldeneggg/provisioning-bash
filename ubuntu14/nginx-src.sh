@@ -1,18 +1,15 @@
 #!/bin/bash
 
-usage() {
-    cat << __EOT__
-Usage: $0
-
-Setup nginx(src) environment
-__EOT__
-}
-
-MYDIR=$(cd $(dirname $0) && pwd)
+#>>>>>>>>>> prepare
 MYNAME=`basename $0`
-WGETCMD="wget --no-check-certificate --no-cache"
+MYDIR=$(cd $(dirname $0) && pwd)
 
-# prepare dependency
+# load environments
+source ${MYDIR}/envs
+#<<<<<<<<<<
+
+
+# initial setup
 bash ${MYDIR}/init_ja.sh
 
 # download nginx
@@ -26,7 +23,14 @@ if [ -f ${TAR} ]
 then
   rm -f ${TAR}
 fi
-${WGETCMD} http://nginx.org/download/${TAR}
+${PRVENV_WGETCMD} http://nginx.org/download/${TAR}
+
+# check already executing nginx
+pgrep nginx >/dev/null
+if [ $? -eq 0 ]
+then
+  ${PRVENV_CMD_INIT_STOP} nginx
+fi
 
 # install dependencies
 bash ${MYDIR}/nginx-src-dep.sh
@@ -41,16 +45,10 @@ tar zxf ${TAR}
 # make, install
 ## http://wiki.nginx.org/InstallOptions
 cd nginx-${VER}
-./configure --with-http_ssl_module
+./configure \
+--with-http_ssl_module
 make
 make install
 
-# create upstart config
-COPY_TARGETS=("/etc/init/nginx.conf")
-for target in ${COPY_TARGETS[@]}
-do
-  cp ${MYDIR}/files/${MYNAME}${target} ${target}
-done
-
-# start by upstart
-initctl start nginx
+# init script
+bash ${MYDIR}/nginx-src-initscript.sh

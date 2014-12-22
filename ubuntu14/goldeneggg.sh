@@ -1,19 +1,13 @@
 #!/bin/bash
 
-usage() {
-    cat << __EOT__
-Usage: $0
-
-Install personal dotfiles
-__EOT__
-}
-
-MYDIR=$(cd $(dirname $0) && pwd)
+#>>>>>>>>>> prepare
 MYNAME=`basename $0`
-WGETCMD="wget --no-check-certificate --no-cache"
+MYDIR=$(cd $(dirname $0) && pwd)
 
-# prepare dependency
-#bash ${MYDIR}/cui.sh
+# load environments
+source ${MYDIR}/envs
+#<<<<<<<<<<
+
 
 # setup dotfiles
 cd ~

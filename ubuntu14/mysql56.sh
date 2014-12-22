@@ -1,16 +1,13 @@
 #!/bin/bash
 
-usage() {
-    cat << __EOT__
-Usage: $0
-
-Setup mysql 5.6 community server environment
-__EOT__
-}
-
-MYDIR=$(cd $(dirname $0) && pwd)
+#>>>>>>>>>> prepare
 MYNAME=`basename $0`
-WGETCMD="wget --no-check-certificate --no-cache"
+MYDIR=$(cd $(dirname $0) && pwd)
+
+# load environments
+source ${MYDIR}/envs
+#<<<<<<<<<<
+
 
 # prepare dependency
 bash ${MYDIR}/init_ja.sh
@@ -25,18 +22,18 @@ if [ -f ${APT_DEB} ]
 then
   rm -f ${APT_DEB}
 fi
-${WGETCMD} http://dev.mysql.com/get/${APT_DEB}
+${PRVENV_WGETCMD} http://dev.mysql.com/get/${APT_DEB}
 
 # add mysql apt repository
 # Note: This task needs interactive user operation. So it's not possible to be automatically...
-dpkg -i ${APT_DEB}
-apt-get -y update
+${PRVENV_CMD_LOCAL_PKG_INS} ${APT_DEB}
+${PRVENV_CMD_PKG_UPD}
 
 # install
-apt-get -y install mysql-server
+${PRVENV_CMD_PKG_INS} mysql-server
 
 # start
-service mysql start
+/etc/init.d/mysql start
 
 # security
 ## drop noname user

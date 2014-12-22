@@ -1,16 +1,13 @@
 #!/bin/bash
 
-usage() {
-    cat << __EOT__
-Usage: $0
-
-Setup mysql 5.6 community server environment
-__EOT__
-}
-
-MYDIR=$(cd $(dirname $0) && pwd)
+#>>>>>>>>>> prepare
 MYNAME=`basename $0`
-WGETCMD="wget --no-check-certificate --no-cache"
+MYDIR=$(cd $(dirname $0) && pwd)
+
+# load environments
+source ${MYDIR}/envs
+#<<<<<<<<<<
+
 
 # prepare dependency
 bash ${MYDIR}/mysql56-src.sh
@@ -27,10 +24,11 @@ addToMycnf() {
 }
 
 # create replication account
+MYSQL_CMD=${MYSQL_HOME}/bin/mysql
 REPL_IP="192.168.56.%"
 REPL_PW="p4ssword"
-cd ${MYSQL_HOME}
-bin/mysql -u root -e "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'${REPL_IP}' IDENTIFIED BY '${REPL_PW}'"
+
+${MYSQL_CMD} -u root -e "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'${REPL_IP}' IDENTIFIED BY '${REPL_PW}'"
 
 IFS_BK=${IFS}
 IFS=$'\n'
@@ -68,13 +66,13 @@ IFS=${IFS_BK}
 /etc/init.d/mysql.server restart
 
 # confirm master status
-bin/mysql -u root -e "SHOW MASTER STATUS \G"
+${MYSQL_CMD} -u root -e "SHOW MASTER STATUS \G"
 
 # create dummy database
-bin/mysql -u root -e "CREATE DATABASE dummy"
+${MYSQL_CMD} -u root -e "CREATE DATABASE dummy"
 
 # create dummy table
-bin/mysql -u root -e "CREATE TABLE dummy_work (
+${MYSQL_CMD} -u root -e "CREATE TABLE dummy_work (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(20) DEFAULT NULL,
   age int(11) DEFAULT NULL,
@@ -82,7 +80,7 @@ bin/mysql -u root -e "CREATE TABLE dummy_work (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8" dummy
 
-bin/mysql -u root -e "INSERT INTO dummy_work (
+${MYSQL_CMD} -u root -e "INSERT INTO dummy_work (
   name,
   age,
   etc
@@ -94,5 +92,4 @@ bin/mysql -u root -e "INSERT INTO dummy_work (
 
 # create app account
 APPUSER_IP="localhost"
-cd ${MYSQL_HOME}
-bin/mysql -u root -e "GRANT SELECT,INSERT,UPDATE,DELETE ON *.* TO app@'${APPUSER_IP}'"
+${MYSQL_CMD} -u root -e "GRANT SELECT,INSERT,UPDATE,DELETE ON *.* TO app@'${APPUSER_IP}'"

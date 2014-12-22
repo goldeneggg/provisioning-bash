@@ -1,16 +1,13 @@
 #!/bin/bash
 
-usage() {
-    cat << __EOT__
-Usage: $0
-
-Setup mysql 5.6 community server environment
-__EOT__
-}
-
-MYDIR=$(cd $(dirname $0) && pwd)
+#>>>>>>>>>> prepare
 MYNAME=`basename $0`
-WGETCMD="wget --no-check-certificate --no-cache"
+MYDIR=$(cd $(dirname $0) && pwd)
+
+# load environments
+source ${MYDIR}/envs
+#<<<<<<<<<<
+
 
 # prepare dependency
 bash ${MYDIR}/mysql56-src.sh
@@ -54,12 +51,12 @@ IFS=${IFS_BK}
 /etc/init.d/mysql.server restart
 
 # get master info
+MYSQL_CMD=${MYSQL_HOME}/bin/mysql
 MASTER_HOST="192.168.56.150"
 REPL_USER="repl"
 REPL_PW="p4ssword"
 
-cd ${MYSQL_HOME}
-MAS_INFO=$(echo 'SHOW MASTER STATUS' | bin/mysql -u ${REPL_USER} -p${REPL_PW} -h ${MASTER_HOST})
+MAS_INFO=$(echo 'SHOW MASTER STATUS' | ${MYSQL_CMD} -u ${REPL_USER} -p${REPL_PW} -h ${MASTER_HOST})
 LOG_FILE=$(echo ${MAS_INFO} | awk '{print $6}')
 echo "CURRENT LOG_FILE=${LOG_FILE}"
 LOG_POS=$(echo ${MAS_INFO} | awk '{print $7}')
@@ -68,16 +65,16 @@ echo "CURRENT LOG_POS=${LOG_POS}"
 # initial start replication by CHANGE MASTER
 ## Note: Before change master, run "show master status" and check "master_log_file" and "master_log_pos"
 MASTER_LOG="mysql-bin.000001"
-#bin/mysql -u root -e "STOP SLAVE"
-bin/mysql -u root -e "RESET SLAVE"
-bin/mysql -u root -e "CHANGE MASTER TO MASTER_HOST = '${MASTER_HOST}', MASTER_USER = '${REPL_USER}', MASTER_PASSWORD = '${REPL_PW}', MASTER_LOG_FILE = '${MASTER_LOG}', MASTER_LOG_POS = 0"
+#${MYSQL_CMD} -u root -e "STOP SLAVE"
+${MYSQL_CMD} -u root -e "RESET SLAVE"
+${MYSQL_CMD} -u root -e "CHANGE MASTER TO MASTER_HOST = '${MASTER_HOST}', MASTER_USER = '${REPL_USER}', MASTER_PASSWORD = '${REPL_PW}', MASTER_LOG_FILE = '${MASTER_LOG}', MASTER_LOG_POS = 0"
 
 # confirm slave status (before)
-bin/mysql -u root -e "SHOW SLAVE STATUS \G"
+${MYSQL_CMD} -u root -e "SHOW SLAVE STATUS \G"
 
 # start slave
 echo "START SLAVE"
-bin/mysql -u root -e "START SLAVE"
+${MYSQL_CMD} -u root -e "START SLAVE"
 
 # confirm slave status (after)
-bin/mysql -u root -e "SHOW SLAVE STATUS \G"
+${MYSQL_CMD} -u root -e "SHOW SLAVE STATUS \G"

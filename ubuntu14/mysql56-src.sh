@@ -1,16 +1,13 @@
 #!/bin/bash
 
-usage() {
-    cat << __EOT__
-Usage: $0
-
-Setup mysql 5.6 community server environment
-__EOT__
-}
-
-MYDIR=$(cd $(dirname $0) && pwd)
+#>>>>>>>>>> prepare
 MYNAME=`basename $0`
-WGETCMD="wget --no-check-certificate --no-cache"
+MYDIR=$(cd $(dirname $0) && pwd)
+
+# load environments
+source ${MYDIR}/envs
+#<<<<<<<<<<
+
 
 # prepare dependency
 bash ${MYDIR}/init_ja.sh
@@ -27,12 +24,11 @@ if [ -f ${TAR} ]
 then
   rm -f ${TAR}
 fi
-${WGETCMD} http://dev.mysql.com/get/Downloads/MySQL-${MAJOR_VER}/${TAR}
+${PRVENV_WGETCMD} http://dev.mysql.com/get/Downloads/MySQL-${MAJOR_VER}/${TAR}
 
 # check already executing mysql
 SERVICE_FILE=mysql.server
-INIT_DIR=/etc/init.d
-INIT_SCRIPT=${INIT_DIR}/${SERVICE_FILE}
+INIT_SCRIPT=/etc/init.d/${SERVICE_FILE}
 
 if [ -x ${INIT_SCRIPT} ]
 then
@@ -74,6 +70,7 @@ cmake .. \
 make
 make install
 
+# symlink
 MYSQL_HOME=/usr/local/mysql
 if [ -d ${MYSQL_HOME} -o -L ${MYSQL_HOME} ]
 then
@@ -89,12 +86,14 @@ groupadd ${GRP_MYSQL}
 useradd -r -g ${GRP_MYSQL} ${USER_MYSQL}
 cd /usr/local/mysql
 chown -R ${USER_MYSQL}:${GRP_MYSQL} .
+
 ## creates a default option file named my.cnf in the base installation directory.
 ### http://dev.mysql.com/doc/refman/5.6/en/server-default-configuration-file.html
 ### http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html
-scripts/mysql_install_db --user=mysql
+scripts/mysql_install_db --user=${USER_MYSQL}
 chown -R root:root .
 chown -R ${USER_MYSQL}:${GRP_MYSQL} data
+
 ## mk log dir
 mkdir log
 chown -R ${USER_MYSQL}:${GRP_MYSQL} log
@@ -118,10 +117,3 @@ ${INIT_SCRIPT} start
 
 # set environments
 echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> /etc/bash.bashrc
-
-# drop noname user
-#bin/mysql -u root -e "DROP USER ''@'localhost'"
-
-# set root password
-#bin/mysqladmin -u root password "root"
-

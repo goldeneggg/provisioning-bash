@@ -1,22 +1,19 @@
 #!/bin/bash
 
-usage() {
-    cat << __EOT__
-Usage: $0
-
-Setup nginx environment
-__EOT__
-}
-
-MYDIR=$(cd $(dirname $0) && pwd)
+#>>>>>>>>>> prepare
 MYNAME=`basename $0`
-WGETCMD="wget --no-check-certificate --no-cache"
+MYDIR=$(cd $(dirname $0) && pwd)
 
-# prepare dependency
+# load environments
+source ${MYDIR}/envs
+#<<<<<<<<<<
+
+
+# initial setup
 bash ${MYDIR}/init_ja.sh
 
 # install
-apt-get -y install nginx
+${PRVENV_CMD_PKG_INS} nginx
 
 # start
-service nginx start
+/etc/init.d/nginx start

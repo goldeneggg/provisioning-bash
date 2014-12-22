@@ -1,19 +1,16 @@
 #!/bin/bash
 
-usage() {
-    cat << __EOT__
-Usage: $0
-
-Setup spawn-fcgi environment
-__EOT__
-}
-
-MYDIR=$(cd $(dirname $0) && pwd)
+#>>>>>>>>>> prepare
 MYNAME=`basename $0`
-WGETCMD="wget --no-check-certificate --no-cache"
+MYDIR=$(cd $(dirname $0) && pwd)
+
+# load environments
+source ${MYDIR}/envs
+#<<<<<<<<<<
+
 
 # prepare dependency
 bash ${MYDIR}/init_ja.sh
 
 # install
-apt-get -y install spawn-fcgi
+${PRVENV_CMD_PKG_INS} spawn-fcgi
