@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 #>>>>>>>>>> prepare
 MYNAME=`basename $0`
 MYDIR=$(cd $(dirname $0) && pwd)
@@ -12,6 +11,15 @@ source ${MYDIR}/envs
 
 # prepare dependency
 bash ${MYDIR}/init_ja.sh
+
+# args
+## 1 = docker port
+DOCKER_PORT=4243
+if [ $# -eq 1 ]
+then
+  DOCKER_PORT=${1}
+  echo "ARGS(1) = docker port = ${DOCKER_PORT}"
+fi
 
 # install latest docker
 cd /usr/bin
@@ -31,7 +39,7 @@ ${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib
 ${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/upstart/docker.conf -O ${CONF_DOCKER}
 
 # modify DOCKER_OPTS
-export DOCKER_HOST=tcp://0.0.0.0:4243
+export DOCKER_HOST=tcp://0.0.0.0:${DOCKER_PORT}
 echo "DOCKER_OPTS=\"-D -H $DOCKER_HOST\"" >> ${DEFAULT_DOCKER}
 
 # add env value

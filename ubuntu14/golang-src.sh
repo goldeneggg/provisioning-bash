@@ -12,8 +12,16 @@ source ${MYDIR}/envs
 # prepare dependency
 bash ${MYDIR}/init_ja.sh
 
+# args
+## 1 = go version
+GO_VERSION="1.4"
+if [ $# -eq 1 ]
+then
+  GO_VERSION=${1}
+  echo "ARGS(1) = go version = ${GO_VERSION}"
+fi
+
 # install golang
-GO_VERSION=1.4
 GO_PREFIX=/usr/local
 GOROOT=${GO_PREFIX}/go
 if [ -d ${GOROOT} ]
