@@ -12,6 +12,29 @@ source ${MYDIR}/envs
 # prepare dependency
 bash ${MYDIR}/mysql56-src.sh
 
+# args
+## 1 = slave server id
+## 2 = replication master host
+## 3 = replication password
+SERVER_ID=2
+MASTER_HOST="192.168.56.150"
+REPL_PW="p4ssword"
+if [ $# -ge 1 ]
+then
+  SERVER_ID=${1}
+  echo "ARGS(1) = slave server id = ${SERVER_ID}"
+fi
+if [ $# -ge 2 ]
+then
+  MASTER_HOST=${2}
+  echo "ARGS(2) = replication master host = ${MASTER_HOST}"
+fi
+if [ $# -ge 3 ]
+then
+  REPL_PW=${3}
+  echo "ARGS(3) = replication password = ${REPL_PW}"
+fi
+
 MYSQL_HOME=/usr/local/mysql
 MY_CNF=${MYSQL_HOME}/my.cnf
 
@@ -27,7 +50,6 @@ IFS_BK=${IFS}
 IFS=$'\n'
 # add slave settings into my.cnf
 ## See: "High Performance MySQL. Chapter10 - Recommended Replication Configuration"
-SERVER_ID=2
 SLAVE_CNFS=(
   '# replication settings (slave)'
   "server_id = ${SERVER_ID}"
@@ -52,9 +74,7 @@ IFS=${IFS_BK}
 
 # get master info
 MYSQL_CMD=${MYSQL_HOME}/bin/mysql
-MASTER_HOST="192.168.56.150"
 REPL_USER="repl"
-REPL_PW="p4ssword"
 
 MAS_INFO=$(echo 'SHOW MASTER STATUS' | ${MYSQL_CMD} -u ${REPL_USER} -p${REPL_PW} -h ${MASTER_HOST})
 LOG_FILE=$(echo ${MAS_INFO} | awk '{print $6}')

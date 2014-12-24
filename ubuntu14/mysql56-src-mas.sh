@@ -12,6 +12,22 @@ source ${MYDIR}/envs
 # prepare dependency
 bash ${MYDIR}/mysql56-src.sh
 
+# args
+## 1 = replication ip address
+## 2 = replication password
+REPL_IP="192.168.56.%"
+REPL_PW="p4ssword"
+if [ $# -ge 1 ]
+then
+  REPL_IP=${1}
+  echo "ARGS(1) = replication ip address = ${REPL_IP}"
+fi
+if [ $# -ge 2 ]
+then
+  REPL_PW=${2}
+  echo "ARGS(2) = replication password = ${REPL_PW}"
+fi
+
 MYSQL_HOME=/usr/local/mysql
 MY_CNF=${MYSQL_HOME}/my.cnf
 
@@ -25,8 +41,6 @@ addToMycnf() {
 
 # create replication account
 MYSQL_CMD=${MYSQL_HOME}/bin/mysql
-REPL_IP="192.168.56.%"
-REPL_PW="p4ssword"
 
 ${MYSQL_CMD} -u root -e "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'${REPL_IP}' IDENTIFIED BY '${REPL_PW}'"
 
