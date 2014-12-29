@@ -13,7 +13,6 @@ source ${MYDIR}/envs
 ${PRVENV_CMD_PKG_UPD}
 ${PREENV_CMD_PKG_INS} net-tools nmap-ncat strace bind-utils traceroute tcpdump jwhois sysstat lsof wget epel-release
 ${PRVENV_CMD_PKG} groupinstall "Development Tools"
-${PREENV_CMD_PKG_INS} kernel-devel kernel-headers
 
 # copy files
 COPY_TARGETS=("/etc/locale.conf")
