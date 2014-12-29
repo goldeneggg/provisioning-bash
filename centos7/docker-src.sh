@@ -23,7 +23,7 @@ fi
 
 # install latest docker
 cd /usr/bin
-${WGETCMD} https://get.docker.io/builds/Linux/x86_64/docker-latest -O docker
+${PRVENV_WGETCMD} https://get.docker.io/builds/Linux/x86_64/docker-latest -O docker
 chmod +x docker
 
 # copy files

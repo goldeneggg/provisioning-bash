@@ -23,7 +23,7 @@ then
   rm -fr lv${LVVER}
   rm -f lv{$LVVER}.tar.gz
 fi
-${WGETCMD} http://www.ff.iij4u.or.jp/~nrt/freeware/lv${LVVER}.tar.gz
+${PRVENV_WGETCMD} http://www.ff.iij4u.or.jp/~nrt/freeware/lv${LVVER}.tar.gz
 tar xzf lv${LVVER}.tar.gz
 cd lv${LVVER}/build
 ../src/configure --prefix=/usr/local
