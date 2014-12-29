@@ -30,7 +30,7 @@ chmod +x docker
 SERVICE_DOCKER=/etc/systemd/system/docker.service
 SOCKET_DOCKER=/etc/systemd/system/docker.socket
 
-${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/systemd/docker.service-O ${SERVICE_DOCKER}
+${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/systemd/docker.service -O ${SERVICE_DOCKER}
 ${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/systemd/docker.socket -O ${SOCKET_DOCKER}
 
 # add env value
