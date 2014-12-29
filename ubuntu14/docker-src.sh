@@ -43,7 +43,7 @@ export DOCKER_HOST=tcp://0.0.0.0:${DOCKER_PORT}
 echo "DOCKER_OPTS=\"-D -H $DOCKER_HOST\"" >> ${DEFAULT_DOCKER}
 
 # add env value
-echo "export DOCKER_HOST=${DOCKER_HOST}" >> /etc/bash.bashrc
+echo "export DOCKER_HOST=${DOCKER_HOST}" >> ${PRVENV_DEFAULT_BASHRC}
 
 # reload upstart config
 ${PRVENV_CMD_INIT_RELOAD}

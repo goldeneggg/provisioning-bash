@@ -1,19 +1,19 @@
 #!/bin/bash
 
-usage() {
-    cat << __EOT__
-Usage: $0
-
-Install initial packages and set config files
-__EOT__
-}
-
-MYDIR=$(cd $(dirname $0) && pwd)
+#>>>>>>>>>> prepare
 MYNAME=`basename $0`
+MYDIR=$(cd $(dirname $0) && pwd)
+
+# load environments
+source ${MYDIR}/envs
+#<<<<<<<<<<
+
 
 # install default packages
-yum -y update
-yum -y install net-tools nmap-ncat strace bind-utils traceroute tcpdump jwhois sysstat lsof wget epel-release
+${PRVENV_CMD_PKG_UPD}
+${PREENV_CMD_PKG_INS} net-tools nmap-ncat strace bind-utils traceroute tcpdump jwhois sysstat lsof wget epel-release
+${PRVENV_CMD_PKG} groupinstall "Development Tools"
+${PREENV_CMD_PKG_INS} kernel-devel kernel-headers
 
 # copy files
 COPY_TARGETS=("/etc/locale.conf")

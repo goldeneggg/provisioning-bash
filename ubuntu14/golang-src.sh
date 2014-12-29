@@ -39,6 +39,6 @@ if [ ! -d ${GOPATH} ]
 then
   mkdir -p ${GOPATH}
 fi
-echo "export GOROOT=${GOROOT}" >> /etc/bash.bashrc
-echo "export GOPATH=${GOPATH}" >> /etc/bash.bashrc
-echo 'export PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH' >> /etc/bash.bashrc
+echo "export GOROOT=${GOROOT}" >> ${PRVENV_DEFAULT_BASHRC}
+echo "export GOPATH=${GOPATH}" >> ${PRVENV_DEFAULT_BASHRC}
+echo 'export PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH' >> ${PRVENV_DEFAULT_BASHRC}
