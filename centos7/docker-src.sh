@@ -40,10 +40,8 @@ echo "export DOCKER_HOST=tcp://0.0.0.0:${DOCKER_PORT}" >> ${PRVENV_DEFAULT_BASHR
 ${PRVENV_CMD_INIT_RELOAD}
 
 ## port open for docker remote api
-firewall-cmd --add-port=${DOCKER_PORT}/tcp --zone=public
-firewall-cmd --add-port=${DOCKER_PORT}/tcp --zone=public --permanent
-${PRVENV_CMD_INIT_STOP} firewalld
-${PRVENV_CMD_INIT_START} firewalld
+firewall-cmd --permanent --zone=public --add-port=${DOCKER_PORT}/tcp
+firewall-cmd --reload
 
 ## start docker
 ${PRVENV_CMD_INIT_ENABLE} docker
