@@ -33,12 +33,15 @@ SOCKET_DOCKER=/etc/systemd/system/docker.socket
 ${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/systemd/docker.service -O ${SERVICE_DOCKER}
 ${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/systemd/docker.socket -O ${SOCKET_DOCKER}
 
-# add env value
+# add env value for tcp docker host
 TCP_DOCKER_HOST="tcp://0.0.0.0:${DOCKER_PORT}"
 ENV_DOCKER_HOST="DOCKER_HOST=${TCP_DOCKER_HOST}"
 echo "export ${ENV_DOCKER_HOST}" >> ${PRVENV_DEFAULT_BASHRC}
 ## TCP_DOCKER_HOSTに / を含んでいるので変数が展開されるとsedの構文エラーとなる。この場合sedの置換区切り文字を / から | に変更すると良い
 sed -i "/ExecStart/ s|$| -H ${TCP_DOCKER_HOST}|g" ${SERVICE_DOCKER}
+
+# add "docker" group
+groupadd docker
 
 # systemd reload
 ${PRVENV_CMD_INIT_RELOAD}
