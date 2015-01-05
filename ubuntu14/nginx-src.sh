@@ -33,7 +33,7 @@ then
 fi
 
 # install dependencies
-bash ${MYDIR}/nginx-src-dep.sh
+bash ${MYDIR}/_nginx-src-dep.sh
 
 # un-archive
 if [ -d nginx-${VER} ]
@@ -51,4 +51,4 @@ make
 make install
 
 # init script
-bash ${MYDIR}/nginx-src-initscript.sh
+bash ${MYDIR}/_nginx-src-initscript.sh
