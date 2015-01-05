@@ -41,7 +41,7 @@ do
 done
 
 ## replace fastcgi_pass by argument content
-sed -i "s/@@FCGI_PASS@@/${FCGI_PASS}/g" ${VHOST_PHP5_FPM_SAV}
+sed -i "s|@@FCGI_PASS@@|${FCGI_PASS}|g" ${VHOST_PHP5_FPM_SAV}
 
 ## symlink vhost conf to sites-enabled
 VHOST_PHP5_FPM_ENB=/etc/nginx/sites-enabled/${VHOST_PHP5_FPM_CONF}
