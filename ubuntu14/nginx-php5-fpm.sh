@@ -12,8 +12,14 @@ source ${MYDIR}/envs
 # initial setup
 bash ${MYDIR}/init_ja.sh
 
-# install & initial setup php5-fpm
-bash ${MYDIR}/php5-fpm.sh
+# args
+## 1 = fastcgi_pass (= "IP:PORT")
+FCGI_PASS="unix:/var/run/php5-fpm.sock"
+if [ $# -eq 1 ]
+then
+  FCGI_PASS=${1}
+  echo "ARGS(1) = fastcgi_pass = ${FCGI_PASS}"
+fi
 
 # reconfigure nginx to use php processor
 VHOST_PHP5_FPM=hogefpm.localdomain
@@ -33,6 +39,9 @@ for target in ${COPY_TARGETS[@]}
 do
   cp ${MYDIR}/files/${MYNAME}${target} ${target}
 done
+
+## replace fastcgi_pass by argument content
+sed -i "s/@@FCGI_PASS@@/${FCGI_PASS}/g" ${VHOST_PHP5_FPM_SAV}
 
 ## symlink vhost conf to sites-enabled
 VHOST_PHP5_FPM_ENB=/etc/nginx/sites-enabled/${VHOST_PHP5_FPM_CONF}
