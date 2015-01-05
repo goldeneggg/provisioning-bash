@@ -13,7 +13,7 @@ source ${MYDIR}/envs
 bash ${MYDIR}/init_ja.sh
 
 # install
-${PRVENV_CMD_PKG_INS} php5 php5-fpm
+${PRVENV_CMD_PKG_INS} php5-fpm
 
 # modify php.ini
 PHP_INI_FILE=/etc/php5/fpm/php.ini
