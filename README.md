@@ -45,7 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # specify "shell" provisioner
   $provisioners.each do |prv|
-    d.vm.provision :shell do |s|
+    config.vm.provision :shell do |s|
       s.path = "https://raw.githubusercontent.com/goldeneggg/provisioning-bash/master/facade.sh"
       s.args = [$pf, prv["name"], server_id] + prv["args"]
       s.privileged = prv["root"]
