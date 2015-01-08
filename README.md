@@ -16,7 +16,7 @@ All scripts are written by `bash` so they are easy and useful for your server pr
 # git clone https://github.com/goldeneggg/provisioning-bash.git
 
 # cd provisioning-bash/ubuntu14
-# ./<YOUR_TARGET_SCRIPT>.sh [ARGS]
+# bash <YOUR_TARGET_SCRIPT>.sh [ARGS]
 ```
 
 ### Vagrant
@@ -24,22 +24,38 @@ All scripts are written by `bash` so they are easy and useful for your server pr
 * If you'd like to run virtual machine using vagrant and provision by scripts, example of your `Vagrantfile` is as follows.
 
 ```ruby
-pf = "ubuntu14"
-scripts = ["cui.sh", "docker.sh"]
+# $pf is your target distribution platform
+$pf = "ubuntu14"
 
-scripts.each do |sc|
+$master_host = "192.168.56.10"
+$repl_pw = "password"
+
+# $provisoners is sample hash object which are target provisioning scripts you'd like to run on your machine
+#   "name" key is script name
+#   "root" key indicate that this script should be executed by root(privilledged) user
+#   "args" key is args array
+$provisioners = [
+  {"name" => "mysql56-src-sla.sh", "root" => true, "args" => [$master_host, $repl_pw]}
+]
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # :
+  # :
 
   # specify "shell" provisioner
-  # "path" config is raw file path of script "facade.sh" in this repository
-  # "args" config is script arguments
-  #   1st: platform
-  #   2nd: script name
-  config.vm.provision :shell, path: "https://raw.githubusercontent.com/goldeneggg/provisioning-bash/master/facade.sh", args: [pf, sc]
+  $provisioners.each do |prv|
+    d.vm.provision :shell do |s|
+      s.path = "https://raw.githubusercontent.com/goldeneggg/provisioning-bash/master/facade.sh"
+      s.args = [$pf, prv["name"], server_id] + prv["args"]
+      s.privileged = prv["root"]
+    end
+  end
 
 end
 ```
 
-* This repository will be cloned on `/home/vagrant` directory.
+* This repository will be cloned on `/root/work` directory.
 * Show more information -> [Shell Scripts - Provisioning - Vagrant Documentation](https://docs.vagrantup.com/v2/provisioning/shell.html)
 
 ### Docker
