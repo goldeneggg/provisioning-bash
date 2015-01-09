@@ -26,7 +26,6 @@ fi
 
 # clone
 RBENV_ROOT=$HOME/.rbenv
-
 git clone https://github.com/sstephenson/rbenv.git ${RBENV_ROOT}
 
 # plugins
@@ -36,10 +35,14 @@ cd plugins
 git clone https://github.com/sstephenson/ruby-build.git
 
 # set environments
-echo "export PATH=${RBENV_ROOT}/bin"':$PATH' >> ${ENV_RC}
-#[[ -s "${RBENV_ROOT}/bin/rbenv" ]] && eval "$(rbenv init -)"
-echo 'eval "$(rbenv init -)"' >> ${ENV_RC}
-source ${ENV_RC}
+grep "${RBENV_ROOT}" ${ENV_RC}
+if [ $? -ne 0 ]
+then
+  echo "export PATH=${RBENV_ROOT}/bin"':$PATH' >> ${ENV_RC}
+  #[[ -s "${RBENV_ROOT}/bin/rbenv" ]] && eval "$(rbenv init -)"
+  echo 'eval "$(rbenv init -)"' >> ${ENV_RC}
+  source ${ENV_RC}
+fi
 
 # confirm rbenv version
 rbenv --version
