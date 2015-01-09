@@ -43,3 +43,5 @@ for g in ${OPT_GEMS[@]}
 do
   gem_ins ${g}
 done
+
+rbenv rehash
