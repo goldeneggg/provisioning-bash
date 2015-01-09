@@ -37,7 +37,7 @@ then
 fi
 
 # install dependencies
-bash ${MYDIR}/mysql56-src-dep.sh
+bash ${MYDIR}/_mysql56-src-dep.sh
 
 # un-archive
 if [ -d mysql-${VER} ]
