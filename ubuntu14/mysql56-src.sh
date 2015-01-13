@@ -121,4 +121,4 @@ chmod +x ${INIT_SCRIPT}
 ${INIT_SCRIPT} start
 
 # set environments
-echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> /etc/bash.bashrc
+echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> ${PRVENV_DEFAULT_BASHRC}
