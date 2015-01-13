@@ -44,4 +44,5 @@ do
   gem_ins ${g}
 done
 
-rbenv rehash
+RBENV_BIN=$HOME/.rbenv/bin/rbenv
+${RBENV_BIN} rehash

@@ -23,7 +23,8 @@ fi
 bash ${MYDIR}/rbenv.sh
 
 # check already installed
-rbenv versions | grep ${RUBY_VER}
+RBENV_BIN=$HOME/.rbenv/bin/rbenv
+${RBENV_BIN} versions | grep ${RUBY_VER}
 if [ $? -ne 0 ]
 then
   echo "Ruby version ${RUBY_VER} is not installed yet. Start install."
@@ -32,11 +33,11 @@ then
   sudo bash ${MYDIR}/_ruby-rbenv-dep.sh
 
   # install
-  rbenv install ${RUBY_VER}
+  ${RBENV_BIN} install ${RUBY_VER}
 
   # post process
-  rbenv rehash
-  rbenv global ${RUBY_VER}
+  ${RBENV_BIN} rehash
+  ${RBENV_BIN} global ${RUBY_VER}
 fi
 
 # confirm
