@@ -3,14 +3,19 @@
 #>>>>>>>>>> prepare
 MYNAME=`basename $0`
 MYDIR=$(cd $(dirname $0) && pwd)
+MYUSER=$(whoami)
 
 # load environments
 source ${MYDIR}/envs
 #<<<<<<<<<<
 
 
-# initial setup
-bash ${MYDIR}/init_ja.sh
+# root only
+if [ ${MYUSER} != "root" ]
+then
+  echo "${MYUSER} can not run ${MYNAME}"
+  exit 1
+fi
 
 # add nginx repository
 ${PRVENV_CMD_LOCAL_PKG_INS} http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm

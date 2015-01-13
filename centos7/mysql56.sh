@@ -1,19 +1,21 @@
 #!/bin/bash
 
-usage() {
-    cat << __EOT__
-Usage: $0
-
-Setup mysql 5.6 community server environment
-__EOT__
-}
-
-MYDIR=$(cd $(dirname $0) && pwd)
+#>>>>>>>>>> prepare
 MYNAME=`basename $0`
-WGETCMD="wget --no-check-certificate --no-cache"
+MYDIR=$(cd $(dirname $0) && pwd)
+MYUSER=$(whoami)
 
-# prepare dependency
-bash ${MYDIR}/init_ja.sh
+# load environments
+source ${MYDIR}/envs
+#<<<<<<<<<<
+
+
+# root only
+if [ ${MYUSER} != "root" ]
+then
+  echo "${MYUSER} can not run ${MYNAME}"
+  exit 1
+fi
 
 # repository package
 REPO_RPM=mysql-community-release-el7-5.noarch.rpm
@@ -35,4 +37,4 @@ systemctl start mysqld
 
 # security
 ## drop noname user
-mysql -u root -e "DROP USER ''@'localhost';"
+#mysql -u root -e "DROP USER ''@'localhost';"
