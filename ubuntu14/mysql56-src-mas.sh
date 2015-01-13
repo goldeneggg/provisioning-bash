@@ -10,8 +10,12 @@ source ${MYDIR}/envs
 #<<<<<<<<<<
 
 
-# prepare dependency
-bash ${MYDIR}/mysql56-src.sh
+# root only
+if [ ${MYUSER} != "root" ]
+then
+  echo "${MYUSER} can not run ${MYNAME}"
+  exit 1
+fi
 
 # args
 ## 1 = replication ip address

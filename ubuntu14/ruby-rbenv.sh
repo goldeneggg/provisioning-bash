@@ -22,7 +22,7 @@ fi
 # prepare dependency
 bash ${MYDIR}/rbenv.sh
 
-# rbenv install
+# check already installed
 rbenv versions | grep ${RUBY_VER}
 if [ $? -ne 0 ]
 then

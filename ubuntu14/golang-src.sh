@@ -10,8 +10,12 @@ source ${MYDIR}/envs
 #<<<<<<<<<<
 
 
-# prepare dependency
-bash ${MYDIR}/init_ja.sh
+# root only
+if [ ${MYUSER} != "root" ]
+then
+  echo "${MYUSER} can not run ${MYNAME}"
+  exit 1
+fi
 
 # args
 ## 1 = go version
@@ -27,6 +31,7 @@ GO_PREFIX=/usr/local
 GOROOT=${GO_PREFIX}/go
 if [ -d ${GOROOT} ]
 then
+  # if already installed, remove it and re-install
   rm -fr ${GOROOT}
 fi
 
@@ -34,12 +39,14 @@ ${PRVENV_WGETCMD} https://storage.googleapis.com/golang/go${GO_VERSION}.linux-am
 tar -C ${GO_PREFIX} -zxf go${GO_VERSION}.linux-amd64.tar.gz
 rm go${GO_VERSION}.linux-amd64.tar.gz
 
+# set common environments
+echo "export GOROOT=${GOROOT}" >> ${PRVENV_DEFAULT_BASHRC}
+
 # set environments
 GOPATH=~/gopath
 if [ ! -d ${GOPATH} ]
 then
   mkdir -p ${GOPATH}
+  echo "export GOPATH=${GOPATH}" >> ${PRVENV_DEFAULT_BASHRC}
+  echo 'export PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH' >> ${PRVENV_DEFAULT_BASHRC}
 fi
-echo "export GOROOT=${GOROOT}" >> ${PRVENV_DEFAULT_BASHRC}
-echo "export GOPATH=${GOPATH}" >> ${PRVENV_DEFAULT_BASHRC}
-echo 'export PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH' >> ${PRVENV_DEFAULT_BASHRC}

@@ -10,8 +10,12 @@ source ${MYDIR}/envs
 #<<<<<<<<<<
 
 
-# prepare dependency
-bash ${MYDIR}/init_ja.sh
+# root only
+if [ ${MYUSER} != "root" ]
+then
+  echo "${MYUSER} can not run ${MYNAME}"
+  exit 1
+fi
 
 # download mysql
 # http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.22.tar.gz

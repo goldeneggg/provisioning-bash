@@ -10,8 +10,12 @@ source ${MYDIR}/envs
 #<<<<<<<<<<
 
 
-# prepare dependency
-bash ${MYDIR}/init_ja.sh
+# root only
+if [ ${MYUSER} != "root" ]
+then
+  echo "${MYUSER} can not run ${MYNAME}"
+  exit 1
+fi
 
 # install
 ${PRVENV_CMD_PKG_INS} spawn-fcgi

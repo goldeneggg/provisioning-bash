@@ -10,8 +10,12 @@ source ${MYDIR}/envs
 #<<<<<<<<<<
 
 
-# initial setup
-bash ${MYDIR}/init_ja.sh
+# root only
+if [ ${MYUSER} != "root" ]
+then
+  echo "${MYUSER} can not run ${MYNAME}"
+  exit 1
+fi
 
 # args
 ## 1 = fastcgi_pass (= "IP:PORT")

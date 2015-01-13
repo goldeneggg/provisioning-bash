@@ -10,8 +10,12 @@ source ${MYDIR}/envs
 #<<<<<<<<<<
 
 
-# prepare dependency
-bash ${MYDIR}/init_ja.sh
+# root only
+if [ ${MYUSER} != "root" ]
+then
+  echo "${MYUSER} can not run ${MYNAME}"
+  exit 1
+fi
 
 # download mysql apt repository
 # http://dev.mysql.com/get/mysql-apt-config_0.3.2-1ubuntu14.04_all.deb

@@ -24,20 +24,21 @@ then
   fi
 fi
 
-# clone
+# check already installed
 RBENV_ROOT=$HOME/.rbenv
-git clone https://github.com/sstephenson/rbenv.git ${RBENV_ROOT}
-
-# plugins
-cd ${RBENV_ROOT}
-mkdir plugins
-cd plugins
-git clone https://github.com/sstephenson/ruby-build.git
-
-# set environments
 grep "${RBENV_ROOT}" ${ENV_RC}
 if [ $? -ne 0 ]
 then
+  # clone
+  git clone https://github.com/sstephenson/rbenv.git ${RBENV_ROOT}
+
+  # plugins
+  cd ${RBENV_ROOT}
+  mkdir plugins
+  cd plugins
+  git clone https://github.com/sstephenson/ruby-build.git
+
+  # set environments
   echo "export PATH=${RBENV_ROOT}/bin"':$PATH' >> ${ENV_RC}
   #[[ -s "${RBENV_ROOT}/bin/rbenv" ]] && eval "$(rbenv init -)"
   echo 'eval "$(rbenv init -)"' >> ${ENV_RC}
