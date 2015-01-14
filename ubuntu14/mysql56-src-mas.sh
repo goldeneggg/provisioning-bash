@@ -17,6 +17,9 @@ then
   exit 1
 fi
 
+# prepare dependency
+bash ${MYDIR}/mysql56-src.sh
+
 # args
 ## 1 = replication ip address
 ## 2 = replication password
