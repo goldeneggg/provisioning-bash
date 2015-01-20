@@ -14,4 +14,6 @@ export PRVENV_CMD_INIT_STATUS="${PRVENV_CMD_INIT} status"
 export PRVENV_CMD_INIT_RELOAD="${PRVENV_CMD_INIT} daemon-reload"
 export PRVENV_CMD_INIT_ENABLE="${PRVENV_CMD_INIT} enable"
 
+export PRVENV_CMD_SERVICE="chkconfig"
+
 export PRVENV_DEFAULT_BASHRC=/etc/bashrc

@@ -13,4 +13,6 @@ export PRVENV_CMD_INIT_STOP="${PRVENV_CMD_INIT} stop"
 export PRVENV_CMD_INIT_STATUS="${PRVENV_CMD_INIT} status"
 export PRVENV_CMD_INIT_RELOAD="${PRVENV_CMD_INIT} reload-configuration"
 
+export PRVENV_CMD_SERVICE="sysv-rc-conf"
+
 export PRVENV_DEFAULT_BASHRC=/etc/bash.bashrc

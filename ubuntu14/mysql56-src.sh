@@ -120,5 +120,8 @@ chmod +x ${INIT_SCRIPT}
 # start
 ${INIT_SCRIPT} start
 
+# auto start
+${PRVENV_CMD_SERVICE} ${SERVICE_FILE} on
+
 # set environments
 echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> ${PRVENV_DEFAULT_BASHRC}
