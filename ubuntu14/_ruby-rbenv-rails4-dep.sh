@@ -10,8 +10,5 @@ source ${MYDIR}/envs
 #<<<<<<<<<<
 
 
-# install dependencies  *Note: required root priv
-sudo bash ${MYDIR}/_ruby-rbenv-rails4-dep.sh
-
-# install rails
-bash ruby-rbenv-gems.sh rails
+# install dependencies
+${PRVENV_CMD_PKG_INS} sqlite3 libsqlite3-dev
