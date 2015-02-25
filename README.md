@@ -21,20 +21,34 @@ All scripts are written by `bash` so they are easy and useful for your server pr
 
 ### Vagrant
 
-* If you'd like to run virtual machine using vagrant and provision by scripts, example of your `Vagrantfile` is as follows.
+* If you'd like to run virtual machine using vagrant and provision by scripts, example(for MySQL slave machine) of your `Vagrantfile` is as follows.
 
 ```ruby
-# $pf is your target distribution platform
+$master_host = "192.168.56.110"
+$repl_pw = "p4ssword"
+
+$vmconfs = [
+  {
+    "name" => "vmslave1",
+    "ip" => "192.168.56.111",
+    "memory" => 1024,
+    "cpus" => 1,
+    "forwarded_ports" => {
+    }
+  }
+#  {
+#    "name" => "vmslave2",
+#    "ip" => "192.168.56.122",
+#    "memory" => 1024,
+#    "cpus" => 1,
+#    "forwarded_ports" => {
+#    }
+#  }
+]
+
 $pf = "ubuntu14"
-
-$master_host = "192.168.56.10"
-$repl_pw = "password"
-
-# $provisoners is sample hash object which are target provisioning scripts you'd like to run on your machine
-#   "name" key is script name
-#   "root" key indicate that this script should be executed by root(privilledged) user
-#   "args" key is args array
 $provisioners = [
+  {"name" => "init_ja.sh", "root" => true, "args" => []},
   {"name" => "mysql56-src-sla.sh", "root" => true, "args" => [$master_host, $repl_pw]}
 ]
 
@@ -43,15 +57,31 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # :
   # :
 
-  # specify "shell" provisioner
-  $provisioners.each do |prv|
-    config.vm.provision :shell do |s|
-      s.path = "https://raw.githubusercontent.com/goldeneggg/provisioning-bash/master/facade.sh"
-      s.args = [$pf, prv["name"], server_id] + prv["args"]
-      s.privileged = prv["root"]
-    end
-  end
+  server_id = 2
+  $vmconfs.each do |vmconf|
+    config.vm.define vmconf["name"] do |d|
+      d.vm.hostname = vmconf["name"]
+      d.vm.network :private_network, ip: vmconf["ip"]
+      d.vm.provider :virtualbox do |vb|
+        vb.memory = vmconf["memory"]
+        vb.cpus = vmconf["cpus"]
+      end
+      vmconf["forwarded_ports"].each do |host_port, guest_port|
+        d.vm.network :forwarded_port, host: host_port, guest: guest_port
+      end
 
+      # provisioning shells
+      $provisioners.each do |prv|
+        d.vm.provision :shell do |s|
+          s.path = "https://raw.githubusercontent.com/goldeneggg/provisioning-bash/master/facade.sh"
+          s.args = [$pf, prv["name"], server_id] + prv["args"]
+          s.privileged = prv["root"]
+        end
+      end
+
+    end
+    server_id += 1
+  end
 end
 ```
 
