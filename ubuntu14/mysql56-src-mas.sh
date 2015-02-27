@@ -118,3 +118,7 @@ ${MYSQL_CMD} -u root -e "INSERT INTO dummy_work (
 # create app account
 APPUSER_IP="localhost"
 ${MYSQL_CMD} -u root -e "GRANT SELECT,INSERT,UPDATE,DELETE ON *.* TO app@'${APPUSER_IP}'"
+
+# create remote root account
+REM_ROOTUSER_IP="192.168.56.%"
+${MYSQL_CMD} -u root -e "GRANT CREATE,DROP,SELECT,INSERT,UPDATE,DELETE ON *.* TO root@'${REM_ROOTUSER_IP}'"
