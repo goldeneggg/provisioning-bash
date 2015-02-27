@@ -103,7 +103,7 @@ ${MYSQL_CMD} -u root -e "CREATE TABLE dummy_work (
   age int(11) DEFAULT NULL,
   etc varchar(128) DEFAULT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" dummy
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC DEFAULT CHARSET=utf8mb4" dummy
 
 ${MYSQL_CMD} -u root -e "INSERT INTO dummy_work (
   name,
