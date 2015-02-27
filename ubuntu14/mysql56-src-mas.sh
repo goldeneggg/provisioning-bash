@@ -75,6 +75,9 @@ INNO_CNFS=(
   '# additional innodb settings for master'
   'innodb_flush_log_at_trx_commit = 1'
   'innodb_support_xa = 1'
+  'innodb_file_per_table'
+  'innodb_file_format = Barracuda' # for utf8mb4
+  'innodb_large_prefix' # for utf8mb4
 )
 grep "${INNO_CNFS[0]}" ${MY_CNF} > /dev/null
 if [ $? -ne 0 ]
@@ -100,7 +103,7 @@ ${MYSQL_CMD} -u root -e "CREATE TABLE dummy_work (
   age int(11) DEFAULT NULL,
   etc varchar(128) DEFAULT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8" dummy
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" dummy
 
 ${MYSQL_CMD} -u root -e "INSERT INTO dummy_work (
   name,
