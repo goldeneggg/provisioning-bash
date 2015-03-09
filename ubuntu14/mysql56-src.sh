@@ -20,7 +20,7 @@ fi
 # download mysql
 # http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.22.tar.gz
 MAJOR_VER="5.6"
-MINOR_VER="22"
+MINOR_VER="23"
 VER=${MAJOR_VER}.${MINOR_VER}
 TAR=mysql-${VER}.tar.gz
 

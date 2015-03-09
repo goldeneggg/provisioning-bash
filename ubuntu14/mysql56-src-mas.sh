@@ -110,7 +110,7 @@ ${MYSQL_CMD} -u root -e "INSERT INTO dummy_work (
   age,
   etc
   ) VALUES (
-  'name1',
+  'パパ',
   15,
   'etc1111111111111111111111111111111'
 )" dummy
