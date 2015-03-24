@@ -19,6 +19,10 @@ then
   echo "ARGS(@) = optional install target gems = ${OPT_GEMS}"
 fi
 
+# prepare
+RBENV_BIN=$HOME/.rbenv/bin/rbenv
+${RBENV_BIN} rehash
+
 # function for install
 ## *"--no-document" option is only ">=2.0" version
 GEM_INS_CMD="gem install --no-document"
@@ -44,5 +48,4 @@ do
   gem_ins ${g}
 done
 
-RBENV_BIN=$HOME/.rbenv/bin/rbenv
 ${RBENV_BIN} rehash

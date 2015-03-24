@@ -24,6 +24,8 @@ bash ${MYDIR}/rbenv.sh
 
 # check already installed
 RBENV_BIN=$HOME/.rbenv/bin/rbenv
+${RBENV_BIN} rehash
+
 ${RBENV_BIN} versions | grep ${RUBY_VER}
 if [ $? -ne 0 ]
 then
