@@ -20,7 +20,7 @@ curl -L git.io/nodebrew | perl - setup
 
 # nodebrew install binary
 NBBIN=${HOME}/.nodebrew/current/bin
-echo "export PATH=${NBBIN}:${PATH}" >> ${PRVENV_DEFAULT_BASHRC}
+echo "export PATH=${NBBIN}:${PATH}" >> ${PRVENV_USER_BASHRC}
 
 ${NBBIN}/nodebrew install-binary v${VER}
 ${NBBIN}/nodebrew use v${VER}

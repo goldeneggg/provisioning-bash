@@ -17,3 +17,4 @@ export PRVENV_CMD_INIT_ENABLE="${PRVENV_CMD_INIT} enable"
 export PRVENV_CMD_SERVICE="chkconfig"
 
 export PRVENV_DEFAULT_BASHRC=/etc/bashrc
+export PRVENV_UESR_BASHRC=/home/$(whoami)/.bashrc
