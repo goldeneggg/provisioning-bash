@@ -34,3 +34,12 @@ cd lv${LVVER}/build
 ../src/configure --prefix=/usr/local
 make
 make install
+
+# install stow
+STOW_VER="2.2.0"
+${PRVENV_WGETCMD} http://ftp.gnu.org/gnu/stow/stow-${STOW_VER}.tar.gz
+tar xzf stow-${STOW_VER}.tar.gz
+cd stow-${STOW_VER}
+./configure --prefix=/usr/local
+make
+make install
