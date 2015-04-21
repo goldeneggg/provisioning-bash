@@ -19,5 +19,8 @@ VER=${MAJOR_VER}.${MINOR_VER}
 curl -L git.io/nodebrew | perl - setup
 
 # nodebrew install binary
-nodebrew install-binary v${VER}
-nodebrew use v${VER}
+NBBIN=${HOME}/.nodebrew/current/bin
+echo "export PATH=${NBBIN}:${PATH}" >> ${PRVENV_DEFAULT_BASHRC}
+
+${NBBIN}/nodebrew install-binary v${VER}
+${NBBIN}/nodebrew use v${VER}
