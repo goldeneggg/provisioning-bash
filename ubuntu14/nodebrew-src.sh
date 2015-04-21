@@ -10,13 +10,6 @@ source ${MYDIR}/envs
 #<<<<<<<<<<
 
 
-# root only
-if [ ${MYUSER} != "root" ]
-then
-  echo "${MYUSER} can not run ${MYNAME}"
-  exit 1
-fi
-
 # download node
 MAJOR_VER="0.10"
 MINOR_VER="38"
