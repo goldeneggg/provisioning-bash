@@ -31,7 +31,7 @@ mkdir -p ${HOME_BIN}
 # install stow
 declare -r STOW_VER="2.2.0"
 declare -r STOW_TAR=stow-${STOW_VER}.tar.gz
-curl -L http://ftp.gnu.org/gnu/stow/${STOW_TAR} ${STOW_TAR}
+curl -L http://ftp.gnu.org/gnu/stow/${STOW_TAR} -o ${STOW_TAR}
 tar zxf ${STOW_TAR}
 cd stow-${STOW_VER}
 ./configure --prefix=${HOME_BIN}
@@ -41,7 +41,7 @@ make install
 # install keychain
 declare -r KEYCHAIN_VER="2.8.0"
 declare -r KEYCHAIN_TAR=keychain-${KEYCHAIN_VER}.tar.bz2
-curl -L http://www.funtoo.org/distfiles/keychain/${KEYCHAIN_TAR}
+curl -L http://www.funtoo.org/distfiles/keychain/${KEYCHAIN_TAR} -o ${KEYCHAIN_TAR}
 tar xjf ${KEYCHAIN_TAR}
 cd keychain-${KEYCHAIN_VER}
 cp keychain keychain.pod ${HOME_BIN}/
