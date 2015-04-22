@@ -1,9 +1,11 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
+set -eu
+
+declare -r MYNAME=`basename $0`
+declare -r MYDIR=$(cd $(dirname $0) && pwd)
+declare -r MYUSER=$(whoami)
 
 # load environments
 source ${MYDIR}/envs
@@ -19,7 +21,7 @@ fi
 
 # args
 ## 1 = go version
-GO_VERSION="1.4"
+declare GO_VERSION="1.4"
 if [ $# -eq 1 ]
 then
   GO_VERSION=${1}
@@ -27,8 +29,8 @@ then
 fi
 
 # install golang
-GO_PREFIX=/usr/local
-GOROOT=${GO_PREFIX}/go
+declare -r GO_PREFIX=/usr/local
+declare -r GOROOT=${GO_PREFIX}/go
 if [ -d ${GOROOT} ]
 then
   # if already installed, remove it and re-install
@@ -43,7 +45,7 @@ rm go${GO_VERSION}.linux-amd64.tar.gz
 echo "export GOROOT=${GOROOT}" >> ${PRVENV_DEFAULT_BASHRC}
 
 # set environments
-GOPATH=~/gopath
+declare -r GOPATH=~/gopath
 if [ ! -d ${GOPATH} ]
 then
   mkdir -p ${GOPATH}
