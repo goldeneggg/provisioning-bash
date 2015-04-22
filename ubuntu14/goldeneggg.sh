@@ -1,9 +1,11 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
+set -eu
+
+declare -r MYNAME=`basename $0`
+declare -r MYDIR=$(cd $(dirname $0) && pwd)
+declare -r MYUSER=$(whoami)
 
 # load environments
 source ${MYDIR}/envs
@@ -13,8 +15,8 @@ source ${MYDIR}/envs
 # args
 ## 1 = github user
 ## 2 = github mail
-GITHUB_USER=""
-GITHUB_MAIL=""
+declare GITHUB_USER
+declare GITHUB_MAIL
 if [ $# -eq 2 ]
 then
   GITHUB_USER=$1
@@ -22,6 +24,27 @@ then
   GITHUB_MAIL=$2
   echo "ARGS(2) = github mail = ${GITHUB_MAIL}"
 fi
+
+declare -r HOME_BIN=${HOME}/bin
+mkdir -p ${HOME_BIN}
+
+# install stow
+declare -r STOW_VER="2.2.0"
+declare -r STOW_TAR=stow-${STOW_VER}.tar.gz
+curl -L http://ftp.gnu.org/gnu/stow/${STOW_TAR} ${STOW_TAR}
+tar zxf ${STOW_TAR}
+cd stow-${STOW_VER}
+./configure --prefix=${HOME_BIN}
+make
+make install
+
+# install keychain
+declare -r KEYCHAIN_VER="2.8.0"
+declare -r KEYCHAIN_TAR=keychain-${KEYCHAIN_VER}.tar.bz2
+curl -L http://www.funtoo.org/distfiles/keychain/${KEYCHAIN_TAR}
+tar xjf ${KEYCHAIN_TAR}
+cd keychain-${KEYCHAIN_VER}
+cp keychain keychain.pod ${HOME_BIN}/
 
 # setup dotfiles
 cd ~
