@@ -13,8 +13,8 @@ then
   echo "2 arguements is required."
   exit 1
 fi
-PLATFORM=${1}
-SCRIPT=${2}
+declare -r PLATFORM=${1}
+declare -r SCRIPT=${2}
 shift 2
 
 case ${PLATFORM} in
@@ -38,14 +38,14 @@ case ${PLATFORM} in
     ;;
 esac
 
-WORKDIR=~/work
+declare -r WORKDIR=~/work
 if [ ! -d ${WORKDIR} ]
 then
   mkdir ${WORKDIR}
 fi
 cd ${WORKDIR}
 
-REPOS_NAME=provisioning-bash
+declare -r REPOS_NAME=provisioning-bash
 if [ ! -d ${REPOS_NAME} ]
 then
   git clone https://github.com/goldeneggg/${REPOS_NAME}.git
@@ -54,9 +54,11 @@ cd ${REPOS_NAME}
 git pull --rebase origin master
 cd ${PLATFORM}
 
-LOGDIR=logs
+declare -r LOGDIR=logs
 if [ ! -d ${LOGDIR} ]
 then
   mkdir ${LOGDIR}
 fi
+
+# execute provisioning
 bash ${SCRIPT} $@ 2>&1 | tee ${LOGDIR}/${SCRIPT}.log
