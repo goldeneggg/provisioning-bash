@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
@@ -24,7 +19,7 @@ ${PRVENV_CMD_PKG_INS} php5-fpm
 ${PRVENV_CMD_PKG_INS} php5-cli php5-curl php5-gd php5-memcache php5-memcached php5-mysql php5-xmlrpc
 
 # modify php.ini
-PHP_INI_FILE=/etc/php5/fpm/php.ini
+declare -r PHP_INI_FILE=/etc/php5/fpm/php.ini
 if [ ! -f ${PHP_INI_FILE}.org ]
 then
   cp ${PHP_INI_FILE} ${PHP_INI_FILE}.org

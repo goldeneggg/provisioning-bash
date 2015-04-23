@@ -1,17 +1,12 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
 # create upstart config
-COPY_TARGETS=("/etc/init/nginx.conf")
+declare -r COPY_TARGETS=("/etc/init/nginx.conf")
 for target in ${COPY_TARGETS[@]}
 do
   cp ${MYDIR}/files/${MYNAME}${target} ${target}

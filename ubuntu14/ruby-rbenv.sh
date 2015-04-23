@@ -1,18 +1,13 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
 # args
 ## 1 = ruby version
-RUBY_VER="2.2.0"
+declare RUBY_VER="2.2.2"
 if [ $# -eq 1 ]
 then
   RUBY_VER=${1}
@@ -23,7 +18,7 @@ fi
 bash ${MYDIR}/rbenv.sh
 
 # check already installed
-RBENV_BIN=$HOME/.rbenv/bin/rbenv
+declare -r RBENV_BIN=$HOME/.rbenv/bin/rbenv
 ${RBENV_BIN} rehash
 
 ${RBENV_BIN} versions | grep ${RUBY_VER}

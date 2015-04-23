@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
@@ -19,7 +14,7 @@ fi
 
 # args
 ## 1 = docker port
-DOCKER_PORT=4243
+declare DOCKER_PORT=4243
 if [ $# -eq 1 ]
 then
   DOCKER_PORT=${1}
@@ -32,9 +27,9 @@ ${PRVENV_WGETCMD} https://get.docker.io/builds/Linux/x86_64/docker-latest -O doc
 chmod +x docker
 
 # setup upstart for docker
-INIT_DOCKER=/etc/init.d/docker
-DEFAULT_DOCKER=/etc/default/docker
-CONF_DOCKER=/etc/init/docker.conf
+declare -r INIT_DOCKER=/etc/init.d/docker
+declare -r DEFAULT_DOCKER=/etc/default/docker
+declare -r CONF_DOCKER=/etc/init/docker.conf
 
 ${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/sysvinit-debian/docker -O ${INIT_DOCKER}
 chmod +x ${INIT_DOCKER}

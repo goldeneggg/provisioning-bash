@@ -1,18 +1,13 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
 # args
 ## @ = install target gems
-OPT_GEMS=()
+declare -a OPT_GEMS
 if [ $# -ge 1 ]
 then
   OPT_GEMS="$@"
@@ -20,15 +15,15 @@ then
 fi
 
 # prepare
-RBENV_BIN=$HOME/.rbenv/bin/rbenv
+declare -r RBENV_BIN=$HOME/.rbenv/bin/rbenv
 ${RBENV_BIN} rehash
 
 # function for install
 ## *"--no-document" option is only ">=2.0" version
-GEM_INS_CMD="gem install --no-document"
+declare -r GEM_INS_CMD="gem install --no-document"
 
 gem_ins(){
-  g=${1}
+  local g=${1}
   gem list | egrep "^${g} \(" > /dev/null
   if [ $? -ne 0 ]
   then

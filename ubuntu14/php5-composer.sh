@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
@@ -18,8 +13,8 @@ then
 fi
 
 # install (globally)
-INSTALLER_URL="https://getcomposer.org/installer"
-PREFIX=/usr/local
+declare -r INSTALLER_URL="https://getcomposer.org/installer"
+declare -r PREFIX=/usr/local
 
 curl -sS ${INSTALLER_URL} | php
 mv composer.phar ${PREFIX}/bin/composer

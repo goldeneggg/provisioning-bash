@@ -1,18 +1,13 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
 # args
 ## 1 = dotfile path for go environments
-ENV_RC=${PRVENV_DEFAULT_BASHRC}
+declare ENV_RC=${PRVENV_DEFAULT_BASHRC}
 if [ $# -eq 1 ]
 then
   ENV_RC=${1}
@@ -20,7 +15,7 @@ then
 fi
 
 # set GOPATH
-GOPATH=~/gopath
+declare -r GOPATH=~/gopath
 if [ ! -d ${GOPATH} ]
 then
   mkdir -p ${GOPATH}

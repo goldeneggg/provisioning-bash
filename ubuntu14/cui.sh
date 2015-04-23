@@ -1,14 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-set -eu
-
-declare -r MYNAME=`basename $0`
-declare -r MYDIR=$(cd $(dirname $0) && pwd)
-declare -r MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 

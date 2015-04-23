@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
@@ -19,10 +14,10 @@ fi
 
 # download mysql
 # http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.22.tar.gz
-MAJOR_VER="5.6"
-MINOR_VER="23"
-VER=${MAJOR_VER}.${MINOR_VER}
-TAR=mysql-${VER}.tar.gz
+declare -r MAJOR_VER="5.6"
+declare -r MINOR_VER="24"
+declare -r VER=${MAJOR_VER}.${MINOR_VER}
+declare -r TAR=mysql-${VER}.tar.gz
 
 cd ~
 if [ -f ${TAR} ]
@@ -32,8 +27,8 @@ fi
 ${PRVENV_WGETCMD} http://dev.mysql.com/get/Downloads/MySQL-${MAJOR_VER}/${TAR}
 
 # check already executing mysql
-SERVICE_FILE=mysql.server
-INIT_SCRIPT=/etc/init.d/${SERVICE_FILE}
+declare -r SERVICE_FILE=mysql.server
+declare -r INIT_SCRIPT=/etc/init.d/${SERVICE_FILE}
 
 if [ -x ${INIT_SCRIPT} ]
 then
@@ -55,7 +50,7 @@ tar zxf ${TAR}
 ## http://dev.mysql.com/doc/refman/5.6/en/source-installation-layout.html
 ## http://dev.mysql.com/doc/refman/5.6/en/installing-source-distribution.html
 ## http://dev.mysql.com/doc/refman/5.6/en/compilation-problems.html
-PREFIX=/usr/local/mysql-${VER}
+declare -r PREFIX=/usr/local/mysql-${VER}
 
 cd mysql-${VER}
 mkdir bld
@@ -76,7 +71,7 @@ make
 make install
 
 # symlink
-MYSQL_HOME=/usr/local/mysql
+declare -r MYSQL_HOME=/usr/local/mysql
 if [ -d ${MYSQL_HOME} -o -L ${MYSQL_HOME} ]
 then
   rm -fr ${MYSQL_HOME}
@@ -85,8 +80,8 @@ ln -s /usr/local/mysql-${VER} ${MYSQL_HOME}
 
 # initial setup
 ## http://dev.mysql.com/doc/refman/5.6/en/installing-source-distribution.html
-GRP_MYSQL=mysql
-USER_MYSQL=mysql
+declare -r GRP_MYSQL=mysql
+declare -r USER_MYSQL=mysql
 groupadd ${GRP_MYSQL}
 useradd -r -g ${GRP_MYSQL} ${USER_MYSQL}
 cd /usr/local/mysql
@@ -107,7 +102,7 @@ chown -R ${USER_MYSQL}:${GRP_MYSQL} log
 ## XXX: Does not this operation need to execute?
 ### http://dev.mysql.com/doc/refman/5.6/en/server-default-configuration-file.html
 ### http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html
-COPY_TARGETS=("/usr/local/mysql/my.cnf")
+declare -r COPY_TARGETS=("/usr/local/mysql/my.cnf")
 for target in ${COPY_TARGETS[@]}
 do
   cp ${MYDIR}/files/${MYNAME}${target} ${target}

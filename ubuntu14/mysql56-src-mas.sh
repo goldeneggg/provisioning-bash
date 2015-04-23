@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
@@ -23,8 +18,8 @@ bash ${MYDIR}/mysql56-src.sh
 # args
 ## 1 = replication ip address
 ## 2 = replication password
-REPL_IP="192.168.56.%"
-REPL_PW="p4ssword"
+declare REPL_IP="192.168.56.%"
+declare REPL_PW="p4ssword"
 if [ $# -ge 1 ]
 then
   REPL_IP=${1}
@@ -36,8 +31,8 @@ then
   echo "ARGS(2) = replication password = ${REPL_PW}"
 fi
 
-MYSQL_HOME=/usr/local/mysql
-MY_CNF=${MYSQL_HOME}/my.cnf
+declare -r MYSQL_HOME=/usr/local/mysql
+declare -r MY_CNF=${MYSQL_HOME}/my.cnf
 
 addToMycnf() {
   for s in ${@}
@@ -48,15 +43,15 @@ addToMycnf() {
 }
 
 # create replication account
-MYSQL_CMD=${MYSQL_HOME}/bin/mysql
+declare -r MYSQL_CMD=${MYSQL_HOME}/bin/mysql
 
 ${MYSQL_CMD} -u root -e "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'${REPL_IP}' IDENTIFIED BY '${REPL_PW}'"
 
-IFS_BK=${IFS}
+declare -r IFS_BK=${IFS}
 IFS=$'\n'
 # add replication settings into my.cnf
 ## See: "High Performance MySQL. Chapter10 - Recommended Replication Configuration"
-REPL_CNFS=(
+declare -ar REPL_CNFS=(
   '# replication settings (master)'
   'server_id = 1'
   'sync_binlog = 1'
@@ -71,7 +66,7 @@ fi
 # http://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit
 # http://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html#sysvar_innodb_support_xa
 # See: "High Performance MySQL. Chapter10 - Recommended Replication Configuration"
-INNO_CNFS=(
+declare -ar INNO_CNFS=(
   '# additional innodb settings for master'
   'innodb_flush_log_at_trx_commit = 1'
   'innodb_support_xa = 1'
@@ -116,9 +111,9 @@ ${MYSQL_CMD} -u root -e "INSERT INTO dummy_work (
 )" dummy
 
 # create app account
-APPUSER_IP="localhost"
+declare -r APPUSER_IP="localhost"
 ${MYSQL_CMD} -u root -e "GRANT SELECT,INSERT,UPDATE,DELETE ON *.* TO app@'${APPUSER_IP}'"
 
 # create remote root account
-REM_ROOTUSER_IP="192.168.56.%"
+declare -r REM_ROOTUSER_IP="192.168.56.%"
 ${MYSQL_CMD} -u root -e "GRANT CREATE,DROP,INDEX,ALTER,SELECT,INSERT,UPDATE,DELETE ON *.* TO root@'${REM_ROOTUSER_IP}'"

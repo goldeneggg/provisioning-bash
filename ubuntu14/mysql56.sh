@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
@@ -19,8 +14,8 @@ fi
 
 # download mysql apt repository
 # http://dev.mysql.com/get/mysql-apt-config_0.3.2-1ubuntu14.04_all.deb
-APTCONF_VER="0.3.2-1"
-APT_DEB=mysql-apt-config_${APTCONF_VER}ubuntu14.04_all.deb
+declare -r APTCONF_VER="0.3.2-1"
+declare -r APT_DEB=mysql-apt-config_${APTCONF_VER}ubuntu14.04_all.deb
 
 cd /tmp
 if [ -f ${APT_DEB} ]

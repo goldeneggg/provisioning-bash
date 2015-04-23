@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
@@ -18,8 +13,8 @@ then
 fi
 
 # download nginx
-MAJOR_VER="1.6"
-MINOR_VER="2"
+MAJOR_VER="1.8"
+MINOR_VER="0"
 VER=${MAJOR_VER}.${MINOR_VER}
 TAR=nginx-${VER}.tar.gz
 

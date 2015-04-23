@@ -1,22 +1,17 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
 # args
 ## 1 = envfile path(default: "~/.bashrc", if only non-privilledged user)
-ENV_RC=${PRVENV_DEFAULT_BASHRC}
+declare ENV_RC=${PRVENV_DEFAULT_BASHRC}
 if [ ${MYUSER} != "root" ]
 then
   echo "Executed by non-root user = ${MYUSER}"
-  ENV_RC=$HOME/.bashrc
+  ENV_RC=${PRVENV_USER_BASHRC}
   if [ $# -eq 1 ]
   then
     ENV_RC=${1}
@@ -25,18 +20,24 @@ then
 fi
 
 # check already installed
-RBENV_ROOT=$HOME/.rbenv
+declare -r RBENV_ROOT=$HOME/.rbenv
 grep "${RBENV_ROOT}" ${ENV_RC}
 if [ $? -ne 0 ]
 then
   # clone
   git clone https://github.com/sstephenson/rbenv.git ${RBENV_ROOT}
 
-  # plugins
+  # ruby-build plugin
   cd ${RBENV_ROOT}
   mkdir plugins
   cd plugins
   git clone https://github.com/sstephenson/ruby-build.git
+
+  # rbenv-default-gems plugin
+  git clone https://github.com/sstephenson/rbenv-default-gems.git
+
+  # rbenv-gem-rehash plugin
+  git clone https://github.com/sstephenson/rbenv-gem-rehash.git
 
   # set environments
   echo "export PATH=${RBENV_ROOT}/bin"':$PATH' >> ${ENV_RC}
