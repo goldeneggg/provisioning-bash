@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
@@ -18,10 +13,10 @@ then
 fi
 
 # install packages for cui environment
-${PRVENV_CMD_PKG_INS} ncurses-term ncurses-devel screen tmux git svn zsh vim stow ctags
+${PRVENV_CMD_PKG_INS} ncurses-term ncurses-devel screen tmux git svn zsh vim stow ctags gcc-c++
 
 # install lv
-LVVER=451
+declare -r LVVER=451
 cd /tmp
 if [ -d lv${LVVER} ]
 then
@@ -36,7 +31,7 @@ make
 make install
 
 # install stow
-STOW_VER="2.2.0"
+declare -r STOW_VER="2.2.0"
 ${PRVENV_WGETCMD} http://ftp.gnu.org/gnu/stow/stow-${STOW_VER}.tar.gz
 tar xzf stow-${STOW_VER}.tar.gz
 cd stow-${STOW_VER}

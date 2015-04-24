@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
@@ -18,7 +13,7 @@ then
 fi
 
 # repository package
-REPO_RPM=mysql-community-release-el7-5.noarch.rpm
+declare -r REPO_RPM=mysql-community-release-el7-5.noarch.rpm
 cd /tmp
 if [ -f ${REPO_RPM} ]
 then

@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #>>>>>>>>>> prepare
-MYNAME=`basename $0`
-MYDIR=$(cd $(dirname $0) && pwd)
-MYUSER=$(whoami)
-
-# load environments
-source ${MYDIR}/envs
+source prepare.sh
 #<<<<<<<<<<
 
 
@@ -18,7 +13,7 @@ ${PREENV_CMD_PKG_INS} nmap-ncat strace bind-utils traceroute tcpdump jwhois syss
 ${PRVENV_CMD_PKG} groupinstall "Development Tools"
 
 # copy files
-COPY_TARGETS=("/etc/locale.conf")
+declare -ar COPY_TARGETS=("/etc/locale.conf")
 for target in ${COPY_TARGETS[@]}
 do
   cp ${MYDIR}/files/${MYNAME}${target} ${target}
