@@ -16,4 +16,4 @@ export PRVENV_CMD_INIT_RELOAD="${PRVENV_CMD_INIT} reload-configuration"
 export PRVENV_CMD_SERVICE="sysv-rc-conf"
 
 export PRVENV_DEFAULT_BASHRC=/etc/bash.bashrc
-export PRVENV_UESR_BASHRC=/home/$(whoami)/.bashrc
+export PRVENV_USER_BASHRC=/home/$(whoami)/.bashrc

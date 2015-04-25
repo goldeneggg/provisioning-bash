@@ -7,8 +7,12 @@ source prepare.sh
 
 # args
 ## 1 = dotfile path for go environments
-declare ENV_RC=${1:-${PRVENV_DEFAULT_BASHRC}}
-echo "go env dotfile path = ${ENV_RC}"
+declare ENV_RC=${PRVENV_DEFAULT_BASHRC}
+if [ ${MYUSER} != "root" ]
+then
+  ENV_RC=${PRVENV_USER_BASHRC}
+fi
+echo "envfile path = ${ENV_RC}"
 
 # set GOPATH
 declare -r GOPATH=~/gopath

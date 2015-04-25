@@ -10,10 +10,9 @@ source prepare.sh
 declare ENV_RC=${PRVENV_DEFAULT_BASHRC}
 if [ ${MYUSER} != "root" ]
 then
-  echo "Executed by non-root user = ${MYUSER}"
-  ENV_RC=${1:-${PRVENV_USER_BASHRC}}
-  echo "envfile path = ${ENV_RC}"
+  ENV_RC=${PRVENV_USER_BASHRC}
 fi
+echo "envfile path = ${ENV_RC}"
 
 # check already installed
 declare -r RBENV_ROOT=$HOME/.rbenv
