@@ -5,11 +5,7 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-if [ ${MYUSER} != "root" ]
-then
-  echo "${MYUSER} can not run ${MYNAME}"
-  exit 1
-fi
+[ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
 
 : "----- download mysql"
 declare -r MAJOR_VER="5.6"
@@ -17,7 +13,7 @@ declare -r MINOR_VER="24"
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
 declare -r TAR=mysql-${VER}.tar.gz
 
-cd ~
+pushd ${PRVENV_INSTALL_WORK_DIR}
 if [ -f ${TAR} ]
 then
   rm -f ${TAR}
@@ -51,9 +47,9 @@ declare -r PREFIX=/usr/local/mysql-${VER}
 ## http://dev.mysql.com/doc/refman/5.6/en/source-installation-layout.html
 ## http://dev.mysql.com/doc/refman/5.6/en/installing-source-distribution.html
 ## http://dev.mysql.com/doc/refman/5.6/en/compilation-problems.html
-cd mysql-${VER}
+pushd mysql-${VER}
 mkdir bld
-cd bld
+pushd bld
 cmake .. \
 -DCMAKE_INSTALL_PREFIX=${PREFIX} \
 -DDEFAULT_CHARSET=utf8 \
@@ -82,7 +78,8 @@ declare -r GRP_MYSQL=mysql
 declare -r USER_MYSQL=mysql
 groupadd ${GRP_MYSQL}
 useradd -r -g ${GRP_MYSQL} ${USER_MYSQL}
-cd /usr/local/mysql
+
+pushd /usr/local/mysql
 chown -R ${USER_MYSQL}:${GRP_MYSQL} .
 
 : "----- mysql initial setup"

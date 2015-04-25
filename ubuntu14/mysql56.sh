@@ -5,18 +5,14 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-if [ ${MYUSER} != "root" ]
-then
-  echo "${MYUSER} can not run ${MYNAME}"
-  exit 1
-fi
+[ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
 
 : "----- download mysql apt repository"
 # http://dev.mysql.com/get/mysql-apt-config_0.3.2-1ubuntu14.04_all.deb
 declare -r APTCONF_VER="0.3.2-1"
 declare -r APT_DEB=mysql-apt-config_${APTCONF_VER}ubuntu14.04_all.deb
 
-cd /tmp
+pushd ${PRVENV_INSTALL_WORK_DIR}
 if [ -f ${APT_DEB} ]
 then
   rm -f ${APT_DEB}

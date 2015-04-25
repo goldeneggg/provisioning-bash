@@ -5,11 +5,7 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-if [ ${MYUSER} != "root" ]
-then
-  echo "${MYUSER} can not run ${MYNAME}"
-  exit 1
-fi
+[ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
 
 bash ${MYDIR}/mysql56-src.sh
 
@@ -23,7 +19,6 @@ echo "replication ip address = ${REPL_IP}"
 echo "replication password = ${REPL_PW}"
 
 declare -r MYSQL_HOME=/usr/local/mysql
-
 declare -r MYSQL_CMD=${MYSQL_HOME}/bin/mysql
 
 ${MYSQL_CMD} -u root -e "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'${REPL_IP}' IDENTIFIED BY '${REPL_PW}'"

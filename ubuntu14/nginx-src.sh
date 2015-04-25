@@ -5,11 +5,7 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-if [ ${MYUSER} != "root" ]
-then
-  echo "${MYUSER} can not run ${MYNAME}"
-  exit 1
-fi
+[ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
 
 : "----- download nginx"
 declare -r MAJOR_VER="1.8"
@@ -17,7 +13,7 @@ declare -r MINOR_VER="0"
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
 declare -r TAR=nginx-${VER}.tar.gz
 
-cd ~
+pushd ${PRVENV_INSTALL_WORK_DIR}
 if [ -f ${TAR} ]
 then
   rm -f ${TAR}
@@ -41,7 +37,7 @@ tar zxf ${TAR}
 
 : "----- make, install"
 # http://wiki.nginx.org/InstallOptions
-cd nginx-${VER}
+pushd nginx-${VER}
 ./configure \
 --with-http_ssl_module
 make

@@ -12,7 +12,7 @@ declare -r MYUSER=$(whoami)
 source ${MYDIR}/envs
 
 function isroot {
-  [ ${MYUSER} = "root" ] && echo "ok"
+  [ ${MYUSER} = "root" ] && echo "yes"
 }
 
 [ $(isroot) ] \

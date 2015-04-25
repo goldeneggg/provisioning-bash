@@ -5,11 +5,7 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-if [ ${MYUSER} != "root" ]
-then
-  echo "${MYUSER} can not run ${MYNAME}"
-  exit 1
-fi
+[ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
 
 # args
 ## 1 = docker port
@@ -17,7 +13,7 @@ declare DOCKER_PORT=${1:-4243}
 echo "docker port = ${DOCKER_PORT}"
 
 : "----- install latest docker"
-cd /usr/bin
+pushd /usr/bin
 ${PRVENV_WGETCMD} https://get.docker.io/builds/Linux/x86_64/docker-latest -O docker
 chmod +x docker
 

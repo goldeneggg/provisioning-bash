@@ -49,7 +49,7 @@ if [ ! -d ${WORKDIR} ]
 then
   mkdir ${WORKDIR}
 fi
-cd ${WORKDIR}
+pushd ${WORKDIR}
 
 declare -r REPOS_NAME=provisioning-bash
 if [ ! -d ${REPOS_NAME} ]
@@ -57,9 +57,9 @@ then
   git clone https://github.com/goldeneggg/${REPOS_NAME}.git
 fi
 
-cd ${REPOS_NAME}
+pushd ${REPOS_NAME}
 git pull --rebase origin master
-cd ${PLATFORM}
+pushd ${PLATFORM}
 
 declare -r LOGDIR=logs
 if [ ! -d ${LOGDIR} ]
