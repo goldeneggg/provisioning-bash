@@ -41,10 +41,7 @@ popd
 
 : "----- setup my dotfiles"
 pushd ~
-if [ ! -d dotfiles ]
-then
-  git clone https://github.com/goldeneggg/dotfiles.git
-fi
+[ -d dotfiles ] || git clone https://github.com/goldeneggg/dotfiles.git
 
 pushd dotfiles
 git pull --rebase origin master

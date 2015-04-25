@@ -13,10 +13,7 @@ declare -r APTCONF_VER="0.3.2-1"
 declare -r APT_DEB=mysql-apt-config_${APTCONF_VER}ubuntu14.04_all.deb
 
 pushd ${PRVENV_INSTALL_WORK_DIR}
-if [ -f ${APT_DEB} ]
-then
-  rm -f ${APT_DEB}
-fi
+[ -f ${APT_DEB} ] && rm -f ${APT_DEB}
 ${PRVENV_WGETCMD} http://dev.mysql.com/get/${APT_DEB}
 
 : "----- install mysql from local apt repository"

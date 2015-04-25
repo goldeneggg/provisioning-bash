@@ -14,10 +14,7 @@ declare -r VER=${MAJOR_VER}.${MINOR_VER}
 declare -r TAR=mysql-${VER}.tar.gz
 
 pushd ${PRVENV_INSTALL_WORK_DIR}
-if [ -f ${TAR} ]
-then
-  rm -f ${TAR}
-fi
+[ -f ${TAR} ] && rm -f ${TAR}
 
 # http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.24.tar.gz
 ${PRVENV_WGETCMD} http://dev.mysql.com/get/Downloads/MySQL-${MAJOR_VER}/${TAR}
@@ -26,17 +23,11 @@ ${PRVENV_WGETCMD} http://dev.mysql.com/get/Downloads/MySQL-${MAJOR_VER}/${TAR}
 declare -r SERVICE_FILE=mysql.server
 declare -r INIT_SCRIPT=/etc/init.d/${SERVICE_FILE}
 
-if [ -x ${INIT_SCRIPT} ]
-then
-  ${INIT_SCRIPT} stop
-fi
+[ -x ${INIT_SCRIPT} ] && ${INIT_SCRIPT} stop
 
 bash ${MYDIR}/_mysql56-src-dep.sh
 
-if [ -d mysql-${VER} ]
-then
-  rm -fr mysql-${VER}
-fi
+[ -d mysql-${VER} ] && rm -fr mysql-${VER}
 tar zxf ${TAR}
 
 : "----- make and install mysql using cmake"
@@ -66,10 +57,7 @@ make install
 
 : "----- symlink versioning mysql to non-versioning mysql"
 declare -r MYSQL_HOME=/usr/local/mysql
-if [ -d ${MYSQL_HOME} -o -L ${MYSQL_HOME} ]
-then
-  rm -fr ${MYSQL_HOME}
-fi
+[ -d ${MYSQL_HOME} -o -L ${MYSQL_HOME} ] && rm -fr ${MYSQL_HOME}
 ln -s /usr/local/mysql-${VER} ${MYSQL_HOME}
 
 : "----- add user and group for mysql"

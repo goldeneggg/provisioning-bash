@@ -15,11 +15,7 @@ echo "go version = ${GO_VERSION}"
 : "----- install golang"
 declare -r GO_PREFIX=/usr/local
 declare -r GOROOT=${GO_PREFIX}/go
-if [ -d ${GOROOT} ]
-then
-  : "----- if already installed, remove it and re-install"
-  rm -fr ${GOROOT}
-fi
+[ -d ${GOROOT} ] && rm -fr ${GOROOT}
 
 ${PRVENV_WGETCMD} https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz
 tar -C ${GO_PREFIX} -zxf go${GO_VERSION}.linux-amd64.tar.gz

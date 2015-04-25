@@ -14,25 +14,16 @@ declare -r VER=${MAJOR_VER}.${MINOR_VER}
 declare -r TAR=nginx-${VER}.tar.gz
 
 pushd ${PRVENV_INSTALL_WORK_DIR}
-if [ -f ${TAR} ]
-then
-  rm -f ${TAR}
-fi
+[ -f ${TAR} ] && rm -f ${TAR}
 ${PRVENV_WGETCMD} http://nginx.org/download/${TAR}
 
 : "----- check already executing nginx"
 pgrep nginx >/dev/null
-if (( $? == 0 ))
-then
-  ${PRVENV_CMD_INIT_STOP} nginx
-fi
+(( $? == 0 )) && ${PRVENV_CMD_INIT_STOP} nginx
 
 bash ${MYDIR}/_nginx-src-dep.sh
 
-if [ -d nginx-${VER} ]
-then
-  rm -fr nginx-${VER}
-fi
+[ -d nginx-${VER} ] && rm -fr nginx-${VER}
 tar zxf ${TAR}
 
 : "----- make, install"
