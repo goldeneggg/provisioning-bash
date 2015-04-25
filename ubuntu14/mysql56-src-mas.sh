@@ -18,23 +18,15 @@ bash ${MYDIR}/mysql56-src.sh
 # args
 ## 1 = replication ip address
 ## 2 = replication password
-declare REPL_IP="192.168.56.%"
-declare REPL_PW="p4ssword"
-if [ $# -ge 1 ]
-then
-  REPL_IP=${1}
-  echo "ARGS(1) = replication ip address = ${REPL_IP}"
-fi
-if [ $# -ge 2 ]
-then
-  REPL_PW=${2}
-  echo "ARGS(2) = replication password = ${REPL_PW}"
-fi
+declare -r REPL_IP=${1:-"192.168.56.%"}
+declare -r REPL_PW=${2:-"p4ssword"}
+echo "replication ip address = ${REPL_IP}"
+echo "replication password = ${REPL_PW}"
 
 declare -r MYSQL_HOME=/usr/local/mysql
 declare -r MY_CNF=${MYSQL_HOME}/my.cnf
 
-addToMycnf() {
+function addToMycnf {
   for s in ${@}
   do
     echo ${s} >> ${MY_CNF}
@@ -49,6 +41,7 @@ ${MYSQL_CMD} -u root -e "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO r
 
 declare -r IFS_BK=${IFS}
 IFS=$'\n'
+
 # add replication settings into my.cnf
 ## See: "High Performance MySQL. Chapter10 - Recommended Replication Configuration"
 declare -ar REPL_CNFS=(
@@ -56,8 +49,9 @@ declare -ar REPL_CNFS=(
   'server_id = 1'
   'sync_binlog = 1'
   )
+
 grep "${REPL_CNFS[0]}" ${MY_CNF} > /dev/null
-if [ $? -ne 0 ]
+if (( $? ))
 then
   addToMycnf "${REPL_CNFS[@]}"
   echo "Add replication settings into ${MY_CNF}"
@@ -74,8 +68,9 @@ declare -ar INNO_CNFS=(
   'innodb_file_format = Barracuda' # for utf8mb4
   'innodb_large_prefix' # for utf8mb4
 )
+
 grep "${INNO_CNFS[0]}" ${MY_CNF} > /dev/null
-if [ $? -ne 0 ]
+if (( $? ))
 then
   addToMycnf "${INNO_CNFS[@]}"
   echo "Add InnoDB settings into ${MY_CNF}"
@@ -85,22 +80,27 @@ IFS=${IFS_BK}
 # restart
 /etc/init.d/mysql.server restart
 
+declare -r MYSQL_USER=root
+
 # confirm master status
-${MYSQL_CMD} -u root -e "SHOW MASTER STATUS \G"
+${MYSQL_CMD} -u ${MYSQL_USER} -e "SHOW MASTER STATUS \G"
 
 # create dummy database
-${MYSQL_CMD} -u root -e "CREATE DATABASE dummy"
+${MYSQL_CMD} -u ${MYSQL_USER} -e "CREATE DATABASE dummy"
 
 # create dummy table
-${MYSQL_CMD} -u root -e "CREATE TABLE dummy_work (
+${MYSQL_CMD} -u ${MYSQL_USER} -e \
+"CREATE TABLE dummy_work (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(20) DEFAULT NULL,
   age int(11) DEFAULT NULL,
   etc varchar(128) DEFAULT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB ROW_FORMAT=DYNAMIC DEFAULT CHARSET=utf8mb4" dummy
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC DEFAULT CHARSET=utf8mb4" \
+dummy
 
-${MYSQL_CMD} -u root -e "INSERT INTO dummy_work (
+${MYSQL_CMD} -u ${MYSQL_USER} -e \
+"INSERT INTO dummy_work (
   name,
   age,
   etc
@@ -108,12 +108,19 @@ ${MYSQL_CMD} -u root -e "INSERT INTO dummy_work (
   'パパ',
   15,
   'etc1111111111111111111111111111111'
-)" dummy
+)" \
+dummy
 
 # create app account
 declare -r APPUSER_IP="localhost"
-${MYSQL_CMD} -u root -e "GRANT SELECT,INSERT,UPDATE,DELETE ON *.* TO app@'${APPUSER_IP}'"
+${MYSQL_CMD} -u ${MYSQL_USER} -e \
+"GRANT SELECT,INSERT,UPDATE,DELETE
+ON *.*
+TO app@'${APPUSER_IP}'"
 
-# create remote root account
+# create remote ${MYSQL_USER} account
 declare -r REM_ROOTUSER_IP="192.168.56.%"
-${MYSQL_CMD} -u root -e "GRANT CREATE,DROP,INDEX,ALTER,SELECT,INSERT,UPDATE,DELETE ON *.* TO root@'${REM_ROOTUSER_IP}'"
+${MYSQL_CMD} -u ${MYSQL_USER} -e \
+"GRANT CREATE,DROP,INDEX,ALTER,SELECT,INSERT,UPDATE,DELETE
+ON *.*
+TO ${MYSQL_USER}@'${REM_ROOTUSER_IP}'"

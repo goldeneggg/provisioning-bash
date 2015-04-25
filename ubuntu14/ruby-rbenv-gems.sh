@@ -22,10 +22,10 @@ ${RBENV_BIN} rehash
 ## *"--no-document" option is only ">=2.0" version
 declare -r GEM_INS_CMD="gem install --no-document"
 
-gem_ins(){
+function gem_ins {
   local g=${1}
   gem list | egrep "^${g} \(" > /dev/null
-  if [ $? -ne 0 ]
+  if (( $? ))
   then
     ${GEM_INS_CMD} ${g}
   else

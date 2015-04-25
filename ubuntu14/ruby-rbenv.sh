@@ -7,12 +7,8 @@ source prepare.sh
 
 # args
 ## 1 = ruby version
-declare RUBY_VER="2.2.2"
-if [ $# -eq 1 ]
-then
-  RUBY_VER=${1}
-  echo "ARGS(1) = ruby version = ${RUBY_VER}"
-fi
+declare RUBY_VER=${1:-"2.2.2"}
+echo "ruby version = ${RUBY_VER}"
 
 # prepare dependency
 bash ${MYDIR}/rbenv.sh
@@ -22,7 +18,7 @@ declare -r RBENV_BIN=$HOME/.rbenv/bin/rbenv
 ${RBENV_BIN} rehash
 
 ${RBENV_BIN} versions | grep ${RUBY_VER}
-if [ $? -ne 0 ]
+if (( $? ))
 then
   echo "Ruby version ${RUBY_VER} is not installed yet. Start install."
 

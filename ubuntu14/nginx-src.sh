@@ -13,10 +13,10 @@ then
 fi
 
 # download nginx
-MAJOR_VER="1.8"
-MINOR_VER="0"
-VER=${MAJOR_VER}.${MINOR_VER}
-TAR=nginx-${VER}.tar.gz
+declare -r MAJOR_VER="1.8"
+declare -r MINOR_VER="0"
+declare -r VER=${MAJOR_VER}.${MINOR_VER}
+declare -r TAR=nginx-${VER}.tar.gz
 
 cd ~
 if [ -f ${TAR} ]
@@ -27,7 +27,7 @@ ${PRVENV_WGETCMD} http://nginx.org/download/${TAR}
 
 # check already executing nginx
 pgrep nginx >/dev/null
-if [ $? -eq 0 ]
+if (( $? == 0 ))
 then
   ${PRVENV_CMD_INIT_STOP} nginx
 fi

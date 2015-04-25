@@ -6,7 +6,7 @@ source prepare.sh
 
 
 # create upstart config
-declare -r COPY_TARGETS=("/etc/init/nginx.conf")
+declare -ar COPY_TARGETS=("/etc/init/nginx.conf")
 for target in ${COPY_TARGETS[@]}
 do
   cp ${MYDIR}/files/${MYNAME}${target} ${target}

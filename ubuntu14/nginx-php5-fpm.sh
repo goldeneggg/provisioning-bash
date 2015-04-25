@@ -14,12 +14,8 @@ fi
 
 # args
 ## 1 = fastcgi_pass (= "IP:PORT")
-declare FCGI_PASS="unix:/var/run/php5-fpm.sock"
-if [ $# -eq 1 ]
-then
-  FCGI_PASS=${1}
-  echo "ARGS(1) = fastcgi_pass = ${FCGI_PASS}"
-fi
+declare -r FCGI_PASS=${1:-"unix:/var/run/php5-fpm.sock"}
+echo "fastcgi_pass = ${FCGI_PASS}"
 
 # reconfigure nginx to use php processor
 declare -r VHOST_PHP5_FPM=hogefpm.localdomain
@@ -48,7 +44,7 @@ declare -r VHOST_PHP5_FPM_ENB=/etc/nginx/sites-enabled/${VHOST_PHP5_FPM_CONF}
 if [ -L ${VHOST_PHP5_FPM_ENB} ]
 then
   rm ${VHOST_PHP5_FPM_ENB}
-fi 
+fi
 ln -s ${VHOST_PHP5_FPM_SAV} ${VHOST_PHP5_FPM_ENB}
 
 # restart nginx

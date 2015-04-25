@@ -13,7 +13,6 @@ then
 fi
 
 # download mysql
-# http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.22.tar.gz
 declare -r MAJOR_VER="5.6"
 declare -r MINOR_VER="24"
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
@@ -24,6 +23,8 @@ if [ -f ${TAR} ]
 then
   rm -f ${TAR}
 fi
+
+# http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.24.tar.gz
 ${PRVENV_WGETCMD} http://dev.mysql.com/get/Downloads/MySQL-${MAJOR_VER}/${TAR}
 
 # check already executing mysql

@@ -14,12 +14,8 @@ fi
 
 # args
 ## 1 = go version
-declare GO_VERSION="1.4"
-if [ $# -eq 1 ]
-then
-  GO_VERSION=${1}
-  echo "ARGS(1) = go version = ${GO_VERSION}"
-fi
+declare GO_VERSION=${1:-"1.4.2"}
+echo "go version = ${GO_VERSION}"
 
 # install golang
 declare -r GO_PREFIX=/usr/local

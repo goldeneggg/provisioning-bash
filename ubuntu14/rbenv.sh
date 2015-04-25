@@ -11,18 +11,14 @@ declare ENV_RC=${PRVENV_DEFAULT_BASHRC}
 if [ ${MYUSER} != "root" ]
 then
   echo "Executed by non-root user = ${MYUSER}"
-  ENV_RC=${PRVENV_USER_BASHRC}
-  if [ $# -eq 1 ]
-  then
-    ENV_RC=${1}
-    echo "ARGS(1) = envfile path = ${ENV_RC}"
-  fi
+  ENV_RC=${1:-${PRVENV_USER_BASHRC}}
+  echo "envfile path = ${ENV_RC}"
 fi
 
 # check already installed
 declare -r RBENV_ROOT=$HOME/.rbenv
 grep "${RBENV_ROOT}" ${ENV_RC}
-if [ $? -ne 0 ]
+if (( $? ))
 then
   # clone
   git clone https://github.com/sstephenson/rbenv.git ${RBENV_ROOT}

@@ -8,15 +8,10 @@ source prepare.sh
 # args
 ## 1 = github user
 ## 2 = github mail
-declare GITHUB_USER
-declare GITHUB_MAIL
-if [ $# -eq 2 ]
-then
-  GITHUB_USER=$1
-  echo "ARGS(1) = github user = ${GITHUB_USER}"
-  GITHUB_MAIL=$2
-  echo "ARGS(2) = github mail = ${GITHUB_MAIL}"
-fi
+declare -r GITHUB_USER=${1:?"must supply GITHUB_USER"}
+declare -r GITHUB_MAIL=${2:?"must supply GITHUB_MAIL"}
+echo "github user = ${GITHUB_USER}"
+echo "github mail = ${GITHUB_MAIL}"
 
 declare -r HOME_BIN=${HOME}/bin
 mkdir -p ${HOME_BIN}
