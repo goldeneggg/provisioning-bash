@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ux
+
 function usage {
     cat << __EOT__
 Usage: $0 <platform> <kick script name>
@@ -18,8 +20,10 @@ declare -r PLATFORM=${1}
 declare -r SCRIPT=${2}
 shift 2
 
+: "----- install git"
 case ${PLATFORM} in
-  centos*|fedora*)
+  centos*|fedora*|amazon*)
+    : "----- platform is rhel family"
     rpm -ql git > /dev/null
     if (( $? ))
     then
@@ -27,6 +31,7 @@ case ${PLATFORM} in
     fi
     ;;
   debian*|ubuntu*)
+    : "----- platform is debian family"
     dpkg -l git > /dev/null
     if (( $? ))
     then
@@ -62,5 +67,5 @@ then
   mkdir ${LOGDIR}
 fi
 
-# execute provisioning
+: "----- execute provisioning script"
 bash ${SCRIPT} $@ 2>&1 | tee ${LOGDIR}/${SCRIPT}.log
