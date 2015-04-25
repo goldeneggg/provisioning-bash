@@ -5,7 +5,6 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-i
 [ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
 
 # repository package

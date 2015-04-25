@@ -7,6 +7,8 @@ source prepare.sh
 
 [ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
 
+bash ${MYDIR}/_mysql56-src-dep.sh
+
 : "----- download mysql"
 declare -r MAJOR_VER="5.6"
 declare -r MINOR_VER="24"
@@ -24,8 +26,6 @@ declare -r SERVICE_FILE=mysql.server
 declare -r INIT_SCRIPT=/etc/init.d/${SERVICE_FILE}
 
 [ -x ${INIT_SCRIPT} ] && ${INIT_SCRIPT} stop
-
-bash ${MYDIR}/_mysql56-src-dep.sh
 
 [ -d mysql-${VER} ] && rm -fr mysql-${VER}
 tar zxf ${TAR}

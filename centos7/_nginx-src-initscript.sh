@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#>>>>>>>>>> prepare
-source prepare.sh
-#<<<<<<<<<<
-
 
 # create upstart config
 #COPY_TARGETS=("/etc/init/nginx.conf")

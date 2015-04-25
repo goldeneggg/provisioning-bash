@@ -7,6 +7,9 @@ source prepare.sh
 
 [ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
 
+bash ${MYDIR}/_nginx-src-dep.sh
+bash ${MYDIR}/_nginx-src-initscript.sh
+
 : "----- download nginx"
 declare -r MAJOR_VER="1.8"
 declare -r MINOR_VER="0"
@@ -21,8 +24,6 @@ ${PRVENV_WGETCMD} http://nginx.org/download/${TAR}
 pgrep nginx >/dev/null
 (( $? == 0 )) && ${PRVENV_CMD_INIT_STOP} nginx
 
-bash ${MYDIR}/_nginx-src-dep.sh
-
 [ -d nginx-${VER} ] && rm -fr nginx-${VER}
 tar zxf ${TAR}
 
@@ -33,5 +34,3 @@ pushd nginx-${VER}
 --with-http_ssl_module
 make
 make install
-
-bash ${MYDIR}/_nginx-src-initscript.sh

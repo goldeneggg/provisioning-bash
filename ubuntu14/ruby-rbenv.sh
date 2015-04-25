@@ -5,12 +5,12 @@ source prepare.sh
 #<<<<<<<<<<
 
 
+bash ${MYDIR}/rbenv.sh
+
 # args
 ## 1 = ruby version
 declare RUBY_VER=${1:-"2.2.2"}
 echo "ruby version = ${RUBY_VER}"
-
-bash ${MYDIR}/rbenv.sh
 
 declare -r RBENV_BIN=$HOME/.rbenv/bin/rbenv
 ${RBENV_BIN} rehash
