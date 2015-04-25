@@ -14,12 +14,8 @@ fi
 
 # args
 ## 1 = docker port
-declare DOCKER_PORT=2375
-if [ $# -eq 1 ]
-then
-  DOCKER_PORT=${1}
-  echo "ARGS(1) = docker port = ${DOCKER_PORT}"
-fi
+declare DOCKER_PORT=${1:-2375}
+echo "docker port = ${DOCKER_PORT}"
 
 # install latest docker
 cd /usr/bin

@@ -8,7 +8,7 @@ source prepare.sh
 # args
 ## @ = install target gems
 declare -a OPT_GEMS
-if [ $# -ge 1 ]
+if (( $# >= 1 ))
 then
   OPT_GEMS="$@"
   echo "ARGS(@) = optional install target gems = ${OPT_GEMS}"
