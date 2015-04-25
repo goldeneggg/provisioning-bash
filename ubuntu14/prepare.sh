@@ -2,7 +2,8 @@
 
 ### common prepare script. expect to be called `source prepare.sh`
 
-set -eux
+#set -eux
+set -ux
 
 declare -r MYNAME=`basename $0`
 declare -r MYDIR=$(cd $(dirname $0) && pwd)
