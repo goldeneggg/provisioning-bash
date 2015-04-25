@@ -14,12 +14,10 @@ then
   echo "ARGS(@) = optional install target gems = ${OPT_GEMS}"
 fi
 
-# prepare
 declare -r RBENV_BIN=${HOME}/.rbenv/bin/rbenv
 ${RBENV_BIN} rehash
 
-# function for install
-## *"--no-document" option is only ">=2.0" version
+# *"--no-document" option is only ">=2.0" version
 declare -r GEM_INS_CMD="gem install --no-document"
 
 function gem_ins {
@@ -33,11 +31,10 @@ function gem_ins {
   fi
 }
 
-# gem install (required)
-## bundler
+: "----- install required gem"
 gem_ins bundler
 
-# gem install (optional)
+: "----- install optional gems"
 for g in ${OPT_GEMS[@]}
 do
   gem_ins ${g}

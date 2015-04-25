@@ -5,7 +5,6 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-# root only
 if [ ${MYUSER} != "root" ]
 then
   echo "${MYUSER} can not run ${MYNAME}"
@@ -17,12 +16,12 @@ fi
 declare GO_VERSION=${1:-"1.4.2"}
 echo "go version = ${GO_VERSION}"
 
-# install golang
+: "----- install golang"
 declare -r GO_PREFIX=/usr/local
 declare -r GOROOT=${GO_PREFIX}/go
 if [ -d ${GOROOT} ]
 then
-  # if already installed, remove it and re-install
+  : "----- if already installed, remove it and re-install"
   rm -fr ${GOROOT}
 fi
 
@@ -30,10 +29,8 @@ ${PRVENV_WGETCMD} https://storage.googleapis.com/golang/go${GO_VERSION}.linux-am
 tar -C ${GO_PREFIX} -zxf go${GO_VERSION}.linux-amd64.tar.gz
 rm go${GO_VERSION}.linux-amd64.tar.gz
 
-# set common environments
+: "----- set golang environments"
 echo "export GOROOT=${GOROOT}" >> ${PRVENV_DEFAULT_BASHRC}
-
-# set environments
 declare -r GOPATH=~/gopath
 if [ ! -d ${GOPATH} ]
 then

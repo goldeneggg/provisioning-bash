@@ -5,14 +5,13 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-# root only
 if [ ${MYUSER} != "root" ]
 then
   echo "${MYUSER} can not run ${MYNAME}"
   exit 1
 fi
 
-# download mysql
+: "----- download mysql"
 declare -r MAJOR_VER="5.6"
 declare -r MINOR_VER="24"
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
@@ -27,7 +26,7 @@ fi
 # http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.24.tar.gz
 ${PRVENV_WGETCMD} http://dev.mysql.com/get/Downloads/MySQL-${MAJOR_VER}/${TAR}
 
-# check already executing mysql
+: "----- check already executing mysql"
 declare -r SERVICE_FILE=mysql.server
 declare -r INIT_SCRIPT=/etc/init.d/${SERVICE_FILE}
 
@@ -36,23 +35,22 @@ then
   ${INIT_SCRIPT} stop
 fi
 
-# install dependencies
 bash ${MYDIR}/_mysql56-src-dep.sh
 
-# un-archive
 if [ -d mysql-${VER} ]
 then
   rm -fr mysql-${VER}
 fi
 tar zxf ${TAR}
 
+: "----- make and install mysql using cmake"
+declare -r PREFIX=/usr/local/mysql-${VER}
+
 # cmake
 ## http://dev.mysql.com/doc/refman/5.6/en/source-configuration-options.html
 ## http://dev.mysql.com/doc/refman/5.6/en/source-installation-layout.html
 ## http://dev.mysql.com/doc/refman/5.6/en/installing-source-distribution.html
 ## http://dev.mysql.com/doc/refman/5.6/en/compilation-problems.html
-declare -r PREFIX=/usr/local/mysql-${VER}
-
 cd mysql-${VER}
 mkdir bld
 cd bld
@@ -67,11 +65,10 @@ cmake .. \
 -DWITH_READLINE=1 \
 -DENABLE_DOWNLOADS=1
 
-# make, install
 make
 make install
 
-# symlink
+: "----- symlink versioning mysql to non-versioning mysql"
 declare -r MYSQL_HOME=/usr/local/mysql
 if [ -d ${MYSQL_HOME} -o -L ${MYSQL_HOME} ]
 then
@@ -79,8 +76,8 @@ then
 fi
 ln -s /usr/local/mysql-${VER} ${MYSQL_HOME}
 
-# initial setup
-## http://dev.mysql.com/doc/refman/5.6/en/installing-source-distribution.html
+: "----- add user and group for mysql"
+# http://dev.mysql.com/doc/refman/5.6/en/installing-source-distribution.html
 declare -r GRP_MYSQL=mysql
 declare -r USER_MYSQL=mysql
 groupadd ${GRP_MYSQL}
@@ -88,36 +85,33 @@ useradd -r -g ${GRP_MYSQL} ${USER_MYSQL}
 cd /usr/local/mysql
 chown -R ${USER_MYSQL}:${GRP_MYSQL} .
 
-## creates a default option file named my.cnf in the base installation directory.
-### http://dev.mysql.com/doc/refman/5.6/en/server-default-configuration-file.html
-### http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html
+: "----- mysql initial setup"
+# creates a default option file named my.cnf in the base installation directory.
+## http://dev.mysql.com/doc/refman/5.6/en/server-default-configuration-file.html
+## http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html
 scripts/mysql_install_db --user=${USER_MYSQL}
 chown -R root:root .
 chown -R ${USER_MYSQL}:${GRP_MYSQL} data
 
-## mk log dir
 mkdir log
 chown -R ${USER_MYSQL}:${GRP_MYSQL} log
 
-# create my.cnf
-## XXX: Does not this operation need to execute?
-### http://dev.mysql.com/doc/refman/5.6/en/server-default-configuration-file.html
-### http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html
+# XXX: Does not this operation need to execute?
+## http://dev.mysql.com/doc/refman/5.6/en/server-default-configuration-file.html
+## http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html
 declare -r COPY_TARGETS=("/usr/local/mysql/my.cnf")
 for target in ${COPY_TARGETS[@]}
 do
   cp ${MYDIR}/files/${MYNAME}${target} ${target}
 done
 
-# create service script
+: "----- register and start mysql service"
 cp support-files/${SERVICE_FILE} ${INIT_SCRIPT}
 chmod +x ${INIT_SCRIPT}
 
-# start
 ${INIT_SCRIPT} start
 
-# auto start
 ${PRVENV_CMD_SERVICE} ${SERVICE_FILE} on
 
-# set environments
+: "----- add mysql bin path into bashrc"
 echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> ${PRVENV_DEFAULT_BASHRC}

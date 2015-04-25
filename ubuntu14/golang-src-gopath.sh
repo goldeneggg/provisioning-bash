@@ -14,7 +14,6 @@ then
 fi
 echo "envfile path = ${ENV_RC}"
 
-# set GOPATH
 declare -r GOPATH=~/gopath
 if [ ! -d ${GOPATH} ]
 then
