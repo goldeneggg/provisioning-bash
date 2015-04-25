@@ -10,3 +10,11 @@ declare -r MYDIR=$(cd $(dirname $0) && pwd)
 declare -r MYUSER=$(whoami)
 
 source ${MYDIR}/envs
+
+function isroot {
+  [ ${MYUSER} = "root" ] && echo "ok"
+}
+
+[ $(isroot) ] \
+  && { export ENV_RC=${PRVENV_DEFAULT_BASHRC}; } \
+  || { export ENV_RC=${PRVENV_USER_BASHRC}; }

@@ -5,11 +5,7 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-if [ ${MYUSER} != "root" ]
-then
-  echo "${MYUSER} can not run ${MYNAME}"
-  exit 1
-fi
+[ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
 
 ${PRVENV_CMD_PKG_INS} nginx
 

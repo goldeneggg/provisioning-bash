@@ -18,3 +18,5 @@ export PRVENV_CMD_SERVICE="chkconfig"
 
 export PRVENV_DEFAULT_BASHRC=/etc/bashrc
 export PRVENV_UESR_BASHRC=/home/$(whoami)/.bashrc
+
+export PRVENV_INSTALL_WORK_DIR=/tmp
