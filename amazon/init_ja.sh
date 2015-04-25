@@ -9,7 +9,7 @@ source prepare.sh
 ${PRVENV_CMD_PKG_UPD}
 ## net-tools has been unavailable
 #${PREENV_CMD_PKG_INS} net-tools nmap-ncat strace bind-utils traceroute tcpdump jwhois sysstat lsof wget epel-release
-${PREENV_CMD_PKG_INS} nmap-ncat strace bind-utils traceroute tcpdump jwhois sysstat lsof wget epel-release
+${PRVENV_CMD_PKG_INS} nmap-ncat strace bind-utils traceroute tcpdump jwhois sysstat lsof wget epel-release
 ${PRVENV_CMD_PKG} groupinstall "Development Tools"
 
 # copy files
