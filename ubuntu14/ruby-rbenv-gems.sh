@@ -15,7 +15,7 @@ then
 fi
 
 # prepare
-declare -r RBENV_BIN=$HOME/.rbenv/bin/rbenv
+declare -r RBENV_BIN=${HOME}/.rbenv/bin/rbenv
 ${RBENV_BIN} rehash
 
 # function for install

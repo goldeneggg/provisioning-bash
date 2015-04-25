@@ -15,7 +15,7 @@ fi
 echo "envfile path = ${ENV_RC}"
 
 # check already installed
-declare -r RBENV_ROOT=$HOME/.rbenv
+declare -r RBENV_ROOT=${HOME}/.rbenv
 grep "${RBENV_ROOT}" ${ENV_RC}
 if (( $? ))
 then
