@@ -17,3 +17,5 @@ export PRVENV_CMD_SERVICE="sysv-rc-conf"
 
 export PRVENV_DEFAULT_BASHRC=/etc/bash.bashrc
 export PRVENV_USER_BASHRC=/home/$(whoami)/.bashrc
+
+export PRVENV_INSTALL_WORK_DIR=/tmp
