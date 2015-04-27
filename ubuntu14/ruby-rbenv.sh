@@ -12,7 +12,10 @@ bash ${MYDIR}/rbenv.sh
 declare RUBY_VER=${1:-"2.2.2"}
 echo "ruby version = ${RUBY_VER}"
 
-declare -r RBENV_BIN=$HOME/.rbenv/bin/rbenv
+declare -r RBENV_PATH=$HOME/.rbenv/bin
+declare -r RBENV_BIN=${RBENV_PATH}/rbenv
+export PATH=${RBENV_PATH}:${PATH}
+
 ${RBENV_BIN} rehash
 
 : "----- check already installed target version"

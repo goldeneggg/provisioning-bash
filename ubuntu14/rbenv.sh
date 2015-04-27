@@ -25,7 +25,7 @@ then
 
   echo "export PATH=${RBENV_ROOT}/bin"':$PATH' >> ${ENV_RC}
   echo 'eval "$(rbenv init -)"' >> ${ENV_RC}
-  source ${ENV_RC}
 fi
 
+source ${ENV_RC}
 rbenv --version
