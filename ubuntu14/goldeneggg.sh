@@ -39,6 +39,8 @@ mkdir -p ${HOME_BIN}
 cp keychain keychain.pod ${HOME_BIN}/
 popd
 
+export PATH=${HOME_BIN}:${PATH}
+
 : "----- setup my dotfiles"
 pushd ~
 [ -d dotfiles ] || git clone https://github.com/goldeneggg/dotfiles.git
