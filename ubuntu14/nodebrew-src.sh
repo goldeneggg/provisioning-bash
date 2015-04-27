@@ -9,7 +9,8 @@ source prepare.sh
 curl -L git.io/nodebrew | perl - setup
 
 declare -r NBBIN=${HOME}/.nodebrew/current/bin
-echo "export PATH=${NBBIN}:${PATH}" >> ${PRVENV_USER_BASHRC}
+echo "export PATH=${NBBIN}:${PATH}" >> ${ENV_RC}
+source ${ENV_RC}
 
 : "----- install node.js using nodebrew"
 declare -r MAJOR_VER="0.10"

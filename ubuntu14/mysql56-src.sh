@@ -99,4 +99,5 @@ ${INIT_SCRIPT} start
 ${PRVENV_CMD_SERVICE} ${SERVICE_FILE} on
 
 : "----- add mysql bin path into bashrc"
-echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> ${PRVENV_DEFAULT_BASHRC}
+echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> ${ENV_RC}
+source ${ENV_RC}

@@ -22,11 +22,12 @@ tar -C ${GO_PREFIX} -zxf go${GO_VERSION}.linux-amd64.tar.gz
 rm go${GO_VERSION}.linux-amd64.tar.gz
 
 : "----- set golang environments"
-echo "export GOROOT=${GOROOT}" >> ${PRVENV_DEFAULT_BASHRC}
+echo "export GOROOT=${GOROOT}" >> ${ENV_RC}
 declare -r GOPATH=~/gopath
 if [ ! -d ${GOPATH} ]
 then
   mkdir -p ${GOPATH}
-  echo "export GOPATH=${GOPATH}" >> ${PRVENV_DEFAULT_BASHRC}
-  echo 'export PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH' >> ${PRVENV_DEFAULT_BASHRC}
+  echo "export GOPATH=${GOPATH}" >> ${ENV_RC}
+  echo 'export PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH' >> ${ENV_RC}
 fi
+source ${ENV_RC}

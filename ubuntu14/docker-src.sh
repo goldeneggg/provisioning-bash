@@ -34,7 +34,8 @@ export DOCKER_HOST=tcp://0.0.0.0:${DOCKER_PORT}
 echo "DOCKER_OPTS=\"-D -H $DOCKER_HOST\"" >> ${DEFAULT_DOCKER}
 
 : "----- allow docker command for non-priviledge user"
-echo "export DOCKER_HOST=${DOCKER_HOST}" >> ${PRVENV_DEFAULT_BASHRC}
+echo "export DOCKER_HOST=${DOCKER_HOST}" >> ${ENV_RC}
+source ${ENV_RC}
 
 ${PRVENV_CMD_INIT_RELOAD}
 
