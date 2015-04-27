@@ -23,8 +23,9 @@ tar -C ${JDK_PREFIX} -zxf ${JDK_ARCHIVE}
 ln -s ${JDK_PREFIX}/jdk1.${JDK_VER}.0_${JDK_MINER_VER} ${JDK_PREFIX}/jdk
 
 export JAVA_HOME=${JDK_PREFIX}/jdk
-echo "export JAVA_HOME=${JAVA_HOME}" >> ${PRVENV_DEFAULT_BASHRC}
-echo 'export PATH=${JAVA_HOME}/bin:$PATH' >> ${PRVENV_DEFAULT_BASHRC}
+echo "export JAVA_HOME=${JAVA_HOME}" >> ${ENV_RC}
+echo 'export PATH=${JAVA_HOME}/bin:$PATH' >> ${ENV_RC}
+source ${ENV_RC}
 
 which java
 java -version
