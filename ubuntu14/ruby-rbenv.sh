@@ -23,7 +23,7 @@ then
   echo "Ruby version ${RUBY_VER} is not installed yet. Start install."
 
   # *Note: required root priv
-  sudo bash ${MYDIR}/_ruby-rbenv-dep.sh
+  sudo -E bash ${MYDIR}/_ruby-rbenv-dep.sh
 
   ${RBENV_BIN} install ${RUBY_VER}
 
