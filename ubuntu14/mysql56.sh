@@ -5,7 +5,7 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-[ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
+[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
 : "----- download mysql apt repository"
 # http://dev.mysql.com/get/mysql-apt-config_0.3.2-1ubuntu14.04_all.deb

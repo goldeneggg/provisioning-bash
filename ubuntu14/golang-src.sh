@@ -5,7 +5,7 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-[ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
+[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
 # args
 ## 1 = go version

@@ -10,7 +10,7 @@ Provisioner's facade script
 __EOT__
 }
 
-(( $# < 2 )) && (echo "2 arguements is required."; exit 1)
+(( $# < 2 )) && { echo "2 arguements is required."; exit 1; }
 
 declare -r PLATFORM=${1}
 declare -r SCRIPT=${2}
