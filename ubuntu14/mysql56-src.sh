@@ -5,13 +5,14 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-[ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
+[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
 bash ${MYDIR}/_mysql56-src-dep.sh
 
 : "----- download mysql"
+declare -r MINOR_VER=${1:-"24"}
+
 declare -r MAJOR_VER="5.6"
-declare -r MINOR_VER="24"
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
 declare -r TAR=mysql-${VER}.tar.gz
 
