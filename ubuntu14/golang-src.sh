@@ -9,7 +9,7 @@ source prepare.sh
 
 # args
 ## 1 = go version
-declare GO_VERSION=${1:-"1.4.2"}
+declare -r GO_VERSION=${1:-"1.4.2"}
 echo "go version = ${GO_VERSION}"
 
 : "----- install golang"
