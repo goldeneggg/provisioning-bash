@@ -35,11 +35,11 @@ pushd ${SRCDIR}
 make
 make install
 
-: "----- symlink versioning mysql to non-versioning mysql"
+: "----- symlink versioning erlang to non-versioning erlang"
 declare -r ERLANG_HOME=/usr/local/erlang
 [ -d ${ERLANG_HOME} -o -L ${ERLANG_HOME} ] && rm -fr ${ERLANG_HOME}
 ln -s ${PREFIX} ${ERLANG_HOME}
 
-: "----- add mysql bin path into bashrc"
+: "----- add erlang bin path into bashrc"
 echo "export PATH=${ERLANG_HOME}/bin"':$PATH' >> ${ENV_RC}
 source ${ENV_RC}
