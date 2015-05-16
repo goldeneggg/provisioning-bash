@@ -31,7 +31,7 @@ declare -r PREFIX=/usr/local/erlang-${VER}
 
 pushd ${SRCDIR}
 
-./configure --prefix=${PREFIX} --enable-smp-support --enable-threads --enable-m64-build --enable-kernel-poll --enable-native-libs --enable-sctp --enable-hipe --with-dynamic-trace=systemtap --enable-vm-probes --without-javac
+./configure --prefix=${PREFIX} --enable-smp-support --enable-threads --enable-m64-build --enable-kernel-poll --enable-native-libs --enable-sctp --with-dynamic-trace=systemtap --enable-vm-probes --without-javac --disable-hipe
 make
 make install
 
