@@ -29,5 +29,5 @@ then
   echo 'eval "$(rbenv init -)"' >> ${ENV_RC}
 fi
 
-source ${ENV_RC}
+set +u; source ${ENV_RC}; set -u
 rbenv --version

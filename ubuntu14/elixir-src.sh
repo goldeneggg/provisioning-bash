@@ -40,4 +40,4 @@ ln -s ${SRCDIR} ${ELIXIR_HOME}
 
 : "----- add elixir bin path into bashrc"
 echo "export PATH=${ELIXIR_HOME}/bin"':$PATH' >> ${ENV_RC}
-source ${ENV_RC}
+set +u; source ${ENV_RC}; set -u

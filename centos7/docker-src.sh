@@ -30,7 +30,7 @@ ${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib
 declare -r TCP_DOCKER_HOST="tcp://0.0.0.0:${DOCKER_PORT}"
 declare -r ENV_DOCKER_HOST="DOCKER_HOST=${TCP_DOCKER_HOST}"
 echo "export ${ENV_DOCKER_HOST}" >> ${ENV_RC}
-source ${ENV_RC}
+set +u; source ${ENV_RC}; set -u
 
 ## TCP_DOCKER_HOSTに / を含んでいるので変数が展開されるとsedの構文エラーとなる。この場合sedの置換区切り文字を / から | に変更すると良い
 sed -i "/ExecStart/ s|$| -H ${TCP_DOCKER_HOST}|g" ${SERVICE_DOCKER}

@@ -14,7 +14,7 @@ curl -L git.io/nodebrew | perl - setup
 
 declare -r NODEBREW_BIN=${NODEBREW_DIR}/current/bin
 echo "export PATH=${NODEBREW_BIN}:${PATH}" >> ${ENV_RC}
-source ${ENV_RC}
+set +u; source ${ENV_RC}; set -u
 
 : "----- install node.js using nodebrew"
 declare -r MAJOR_VER="0.10"

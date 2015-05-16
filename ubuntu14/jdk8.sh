@@ -29,7 +29,7 @@ ln -s ${JDK_PREFIX}/jdk1.${JDK_VER}.0_${JDK_MINER_VER} ${JAVA_HOME}
 export JAVA_HOME
 echo "export JAVA_HOME=${JAVA_HOME}" >> ${ENV_RC}
 echo 'export PATH=${JAVA_HOME}/bin:$PATH' >> ${ENV_RC}
-source ${ENV_RC}
+set +u; source ${ENV_RC}; set -u
 
 which java
 java -version

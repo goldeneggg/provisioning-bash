@@ -44,4 +44,4 @@ ln -s ${PREFIX} ${ERLANG_HOME}
 
 : "----- add erlang bin path into bashrc"
 echo "export PATH=${ERLANG_HOME}/bin"':$PATH' >> ${ENV_RC}
-source ${ENV_RC}
+set +u; source ${ENV_RC}; set -u

@@ -37,7 +37,7 @@ echo "DOCKER_OPTS=\"-D -H $DOCKER_HOST\"" >> ${DEFAULT_DOCKER}
 
 : "----- allow docker command for non-priviledge user"
 echo "export DOCKER_HOST=${DOCKER_HOST}" >> ${ENV_RC}
-source ${ENV_RC}
+set +u; source ${ENV_RC}; set -u
 
 ${PRVENV_CMD_INIT_RELOAD}
 
