@@ -5,6 +5,8 @@ source prepare.sh
 #<<<<<<<<<<
 
 
+set -e
+
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
 # args
@@ -15,6 +17,7 @@ declare -r JDK_BETA_VER=${3:-"b14"}
 echo "jdk version = ${JDK_VER}-${JDK_MINER_VER}-${JDK_BETA_VER}"
 
 : "----- install jdk"
+pushd ${PRVENV_INSTALL_WORK_DIR}
 declare -r JDK_ARCHIVE=jdk-${JDK_VER}u${JDK_MINER_VER}-linux-x64.tar.gz
 ${PRVENV_WGETCMD} --no-cookies - --header "Cookie: oraclelicense=accept-securebackup-cookie"  https://edelivery.oracle.com/otn-pub/java/jdk/${JDK_VER}u${JDK_MINER_VER}-${JDK_BETA_VER}/${JDK_ARCHIVE}
 

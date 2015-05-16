@@ -5,6 +5,8 @@ source prepare.sh
 #<<<<<<<<<<
 
 
+set -e
+
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
 # args
@@ -17,6 +19,7 @@ declare -r GO_PREFIX=/usr/local
 declare -r GOROOT=${GO_PREFIX}/go
 [ -d ${GOROOT} ] && rm -fr ${GOROOT}
 
+pushd ${PRVENV_INSTALL_WORK_DIR}
 ${PRVENV_WGETCMD} https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz
 tar -C ${GO_PREFIX} -zxf go${GO_VERSION}.linux-amd64.tar.gz
 rm go${GO_VERSION}.linux-amd64.tar.gz

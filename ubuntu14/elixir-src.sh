@@ -5,9 +5,12 @@ source prepare.sh
 #<<<<<<<<<<
 
 
+set -e
+
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
-bash ${MYDIR}/erlang-src.sh
+# installing erlang is too long
+#bash ${MYDIR}/erlang-src.sh
 
 : "----- download erlang"
 declare -r MAJOR_VER=${1:-"1.0"}

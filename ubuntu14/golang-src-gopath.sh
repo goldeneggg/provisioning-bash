@@ -13,5 +13,5 @@ then
   mkdir -p ${GOPATH}
   echo "export GOPATH=${GOPATH}" >> ${ENV_RC}
   echo 'export PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH' >> ${ENV_RC}
+  source ${ENV_RC}
 fi
-source ${ENV_RC}

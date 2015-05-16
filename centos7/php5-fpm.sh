@@ -5,7 +5,9 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-[ $(isroot) ] || (echo "${MYUSER} can not run ${MYNAME}"; exit 1)
+set -e
+
+[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
 # install
 ${PRVENV_CMD_PKG_INS} php56-fpm

@@ -5,6 +5,8 @@ source prepare.sh
 #<<<<<<<<<<
 
 
+set -e
+
 : "----- check already installed rbenv"
 declare -r RBENV_ROOT=${HOME}/.rbenv
 grep "${RBENV_ROOT}" ${ENV_RC}

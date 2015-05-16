@@ -5,6 +5,8 @@ source prepare.sh
 #<<<<<<<<<<
 
 
+set -e
+
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
 bash ${MYDIR}/_mysql56-src-dep.sh
