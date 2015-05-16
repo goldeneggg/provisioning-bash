@@ -13,7 +13,7 @@ ${PRVENV_CMD_PKG_INS} nmap-ncat strace bind-utils traceroute tcpdump jwhois syss
 ${PRVENV_CMD_PKG} groupinstall "Development Tools"
 
 # copy files
-declare -ar COPY_TARGETS=("/etc/locale.conf")
+declare -ar COPY_TARGETS=("/etc/locale.conf" "/etc/ld.so.conf.d/libc.conf")
 for target in ${COPY_TARGETS[@]}
 do
   cp ${MYDIR}/files/${MYNAME}${target} ${target}
