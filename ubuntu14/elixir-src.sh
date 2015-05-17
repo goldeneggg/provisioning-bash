@@ -9,10 +9,16 @@ set -e
 
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
-# installing erlang is too long
+# comment out because installing erlang is too long
 #bash ${MYDIR}/erlang-src.sh
 
-: "----- download erlang"
+: "----- check erlang"
+declare -r ERLANG_HOME=${3:-"/usr/local/erlang"}
+[ -d ${ERLANG_HOME} ] || { echo "${ERLANG_HOME} does not exist"; exit 1; }
+
+export PATH=${ERLANG_HOME}/bin:${PATH}
+
+: "----- download elixir"
 declare -r MAJOR_VER=${1:-"1.0"}
 declare -r MINOR_VER=${2:-"4"}
 
