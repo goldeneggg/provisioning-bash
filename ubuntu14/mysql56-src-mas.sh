@@ -46,12 +46,14 @@ function addToMycnf {
   echo '' >> ${MY_CNF}
 }
 
+set +e
 grep "${REPL_CNFS[0]}" ${MY_CNF} > /dev/null
 if (( $? ))
 then
   addToMycnf "${REPL_CNFS[@]}"
   echo "Add replication settings into ${MY_CNF}"
 fi
+set -e
 
 : "----- add InnoDB settings into my.cnf"
 # http://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit
@@ -66,12 +68,15 @@ declare -ar INNO_CNFS=(
   'innodb_large_prefix' # for utf8mb4
 )
 
+set +e
 grep "${INNO_CNFS[0]}" ${MY_CNF} > /dev/null
 if (( $? ))
 then
   addToMycnf "${INNO_CNFS[@]}"
   echo "Add InnoDB settings into ${MY_CNF}"
 fi
+set -e
+
 IFS=${IFS_BK}
 
 /etc/init.d/mysql.server restart

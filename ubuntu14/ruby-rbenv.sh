@@ -5,8 +5,6 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-set -e
-
 bash ${MYDIR}/rbenv.sh
 
 # args

@@ -51,12 +51,15 @@ function addToMycnf {
   echo '' >> ${MY_CNF}
 }
 
+set +e
 grep "${SLAVE_CNFS[0]}" ${MY_CNF} > /dev/null
 if (( $? ))
 then
   addToMycnf "${SLAVE_CNFS[@]}"
   echo "Add slave settings into ${MY_CNF}"
 fi
+set -e
+
 IFS=${IFS_BK}
 
 /etc/init.d/mysql.server restart
