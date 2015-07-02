@@ -120,6 +120,6 @@ TO app@'${APPUSER_IP}'"
 : "----- create account with grant for only lan network"
 declare -r REM_ROOTUSER_IP="192.168.56.%"
 ${MYSQL_CMD} -u ${MYSQL_USER} -e \
-"GRANT CREATE,DROP,INDEX,ALTER,SELECT,INSERT,UPDATE,DELETE
+"GRANT ALL
 ON *.*
 TO ${MYSQL_USER}@'${REM_ROOTUSER_IP}'"
