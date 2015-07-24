@@ -34,6 +34,7 @@ declare -ar REPL_CNFS=(
   '# replication settings (master)'
   'server_id = 1'
   'sync_binlog = 1'
+  'binlog_format = mixed'
   )
 
 declare -r MY_CNF=${MYSQL_HOME}/my.cnf

@@ -39,6 +39,7 @@ declare -ar SLAVE_CNFS=(
   'sync_relay_log_info = 1'
   'log_slave_updates = 1'
   'skip_slave_start = 1'
+  'binlog_format = mixed'
 )
 
 declare -r MY_CNF=${MYSQL_HOME}/my.cnf
