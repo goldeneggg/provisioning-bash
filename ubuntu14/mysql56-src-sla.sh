@@ -30,6 +30,12 @@ IFS=$'\n'
 
 # See: "High Performance MySQL. Chapter10 - Recommended Replication Configuration"
 declare -ar SLAVE_CNFS=(
+  '# additional innodb settings for slave'
+  'innodb_flush_log_at_trx_commit = 1'
+  'innodb_support_xa = 1'
+  'innodb_file_per_table'
+  'innodb_file_format = Barracuda' # for utf8mb4
+  'innodb_large_prefix' # for utf8mb4
   '# replication settings (slave)'
   "server_id = ${SERVER_ID}"
   'read_only = 1'
@@ -40,6 +46,9 @@ declare -ar SLAVE_CNFS=(
   'log_slave_updates = 1'
   'skip_slave_start = 1'
   'binlog_format = mixed'
+  'binlog_checksum = CRC32'
+  'relay_log_info_repository = TABLE'
+  'relay_log_recovery = ON'
 )
 
 declare -r MY_CNF=${MYSQL_HOME}/my.cnf
