@@ -72,9 +72,9 @@ declare -r REPL_USER="repl"
 
 declare -r MAS_INFO=$(echo 'SHOW MASTER STATUS' | ${MYSQL_CMD} -u ${REPL_USER} -p${REPL_PW} -h ${MASTER_HOST})
 declare -r LOG_FILE=$(echo ${MAS_INFO} | awk '{print $6}')
-declare -r echo "CURRENT LOG_FILE=${LOG_FILE}"
+echo "CURRENT_LOG_FILE=${LOG_FILE}"
 declare -r LOG_POS=$(echo ${MAS_INFO} | awk '{print $7}')
-echo "CURRENT LOG_POS=${LOG_POS}"
+echo "CURRENT_LOG_POS=${LOG_POS}"
 
 : "----- initialize and start replication"
 # Note: Before change master, run "show master status" and check "master_log_file" and "master_log_pos"
