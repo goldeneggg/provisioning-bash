@@ -9,7 +9,7 @@ bash ${MYDIR}/rbenv.sh
 
 # args
 ## 1 = ruby version
-declare RUBY_VER=${1:-"2.2.2"}
+declare RUBY_VER=${1:-"2.2.3"}
 echo "ruby version = ${RUBY_VER}"
 
 declare -r RBENV_PATH=$HOME/.rbenv/bin
