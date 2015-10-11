@@ -25,7 +25,7 @@ case ${PLATFORM} in
     ;;
   debian*|ubuntu*)
     : "----- platform is debian family"
-    dpkg -l git > /dev/null
+    dpkg -l | grep " git " > /dev/null
     (( $? )) && apt-get -y install git
     ;;
   *)
