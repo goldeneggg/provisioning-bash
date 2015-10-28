@@ -13,10 +13,10 @@ bash ${MYDIR}/_mysql57-src-dep.sh
 
 : "----- download mysql"
 # args
-## 1 = minor version
-## 2 = server id
-declare -r MINOR_VER=${1:-"9"}
-declare -r SERVER_ID=${1:-2}
+## 1 = server id
+## 2 = minor version
+declare -r SERVER_ID=${1:-1}
+declare -r MINOR_VER=${2:-"9"}
 echo "server id = ${SERVER_ID}"
 
 declare -r MAJOR_VER="5.7"

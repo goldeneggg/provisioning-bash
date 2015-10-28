@@ -9,16 +9,19 @@ set -e
 
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
-bash ${MYDIR}/mysql57-src.sh
-
-: "----- create replication account"
 # args
-## 1 = replication ip address
-## 2 = replication password
-declare -r REPL_IP=${1:-"192.168.56.%"}
-declare -r REPL_PW=${2:-"p4ssword"}
+## 1 = server_id
+## 2 = replication ip address
+## 3 = replication password
+declare -r SERVER_ID=${1:-1}
+declare -r REPL_IP=${2:-"192.168.56.%"}
+declare -r REPL_PW=${3:-"p4ssword"}
 echo "replication ip address = ${REPL_IP}"
 echo "replication password = ${REPL_PW}"
+
+bash ${MYDIR}/mysql57-src.sh ${SERVER_ID}
+
+: "----- create replication account"
 
 declare -r MYSQL_HOME=/usr/local/mysql
 declare -r MYSQL_CMD=${MYSQL_HOME}/bin/mysql

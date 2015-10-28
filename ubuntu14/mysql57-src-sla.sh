@@ -9,17 +9,19 @@ set -e
 
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
-bash ${MYDIR}/mysql57-src.sh
-
-: "----- add slave settings into my.cnf"
 # args
-## 1 = slave server id
+## 1 = server_id
 ## 2 = replication master host
 ## 3 = replication password
-declare -r MASTER_HOST=${2:-"192.168.56.150"}
+declare -r SERVER_ID=${1:-2}
+declare -r MASTER_HOST=${2:-"192.168.56.250"}
 declare -r REPL_PW=${3:-"p4ssword"}
 echo "replication master host = ${MASTER_HOST}"
 echo "replication password = ${REPL_PW}"
+
+bash ${MYDIR}/mysql57-src.sh ${SERVER_ID}
+
+: "----- add slave settings into my.cnf"
 
 declare -r MYSQL_HOME=/usr/local/mysql
 
