@@ -100,7 +100,8 @@ done
 cp support-files/${SERVICE_FILE} ${INIT_SCRIPT}
 chmod +x ${INIT_SCRIPT}
 
-${INIT_SCRIPT} start
+# XXX not start yet (because if "server_id" config does not exist, occur error)
+#${INIT_SCRIPT} start
 
 ${PRVENV_CMD_SERVICE} ${SERVICE_FILE} on
 
