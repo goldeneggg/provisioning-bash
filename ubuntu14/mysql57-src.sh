@@ -37,10 +37,8 @@ tar zxf ${TAR}
 declare -r PREFIX=/usr/local/mysql-${VER}
 
 # cmake
-## http://dev.mysql.com/doc/refman/5.7/en/source-configuration-options.html
-## http://dev.mysql.com/doc/refman/5.7/en/source-installation-layout.html
-## http://dev.mysql.com/doc/refman/5.7/en/installing-source-distribution.html
-## http://dev.mysql.com/doc/refman/5.7/en/compilation-problems.html
+## https://dev.mysql.com/doc/refman/5.7/en/source-configuration-options.html
+## https://dev.mysql.com/doc/refman/5.7/en/installing-source-distribution.html
 pushd mysql-${VER}
 mkdir bld
 pushd bld
@@ -66,7 +64,8 @@ declare -r MYSQL_HOME=/usr/local/mysql
 ln -s /usr/local/mysql-${VER} ${MYSQL_HOME}
 
 : "----- add user and group for mysql"
-# http://dev.mysql.com/doc/refman/5.7/en/installing-source-distribution.html
+# https://dev.mysql.com/doc/refman/5.7/en/binary-installation.html
+# https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization.html
 declare -r GRP_MYSQL=mysql
 declare -r USER_MYSQL=mysql
 groupadd ${GRP_MYSQL}
@@ -77,9 +76,10 @@ chown -R ${USER_MYSQL}:${GRP_MYSQL} .
 
 : "----- mysql initial setup"
 # creates a default option file named my.cnf in the base installation directory.
-## http://dev.mysql.com/doc/refman/5.7/en/server-default-configuration-file.html
-## http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html
-scripts/mysql_install_db --user=${USER_MYSQL}
+# https://dev.mysql.com/doc/refman/5.7/en/binary-installation.html
+# https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization.html
+bin/mysqld --initialize --user=${USER_MYSQL}
+bin/mysql_ssl_rsa_setup
 chown -R root:root .
 chown -R ${USER_MYSQL}:${GRP_MYSQL} data
 
@@ -96,6 +96,7 @@ do
 done
 
 : "----- register and start mysql service"
+# https://dev.mysql.com/doc/refman/5.7/en/starting-server.html
 cp support-files/${SERVICE_FILE} ${INIT_SCRIPT}
 chmod +x ${INIT_SCRIPT}
 
