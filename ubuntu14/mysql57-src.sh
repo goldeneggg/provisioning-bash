@@ -90,6 +90,9 @@ done
 : "----- append server_id into my.cnf"
 echo "server_id = ${SERVER_ID}" >> ${MYSQL_HOME}/my.cnf
 
+mkdir log
+chown -R ${USER_MYSQL}:${GRP_MYSQL} log
+
 : "----- mysql initial setup"
 # creates a default option file named my.cnf in the base installation directory.
 # https://dev.mysql.com/doc/refman/5.7/en/binary-installation.html
@@ -103,9 +106,6 @@ bin/mysql_ssl_rsa_setup
 
 chown -R root:root .
 chown -R ${USER_MYSQL}:${GRP_MYSQL} data
-
-mkdir log
-chown -R ${USER_MYSQL}:${GRP_MYSQL} log
 
 : "----- register and start mysql service"
 # https://dev.mysql.com/doc/refman/5.7/en/starting-server.html
