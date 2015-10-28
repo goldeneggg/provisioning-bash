@@ -16,10 +16,8 @@ bash ${MYDIR}/mysql57-src.sh
 ## 1 = slave server id
 ## 2 = replication master host
 ## 3 = replication password
-declare -r SERVER_ID=${1:-2}
 declare -r MASTER_HOST=${2:-"192.168.56.150"}
 declare -r REPL_PW=${3:-"p4ssword"}
-echo "slave server id = ${SERVER_ID}"
 echo "replication master host = ${MASTER_HOST}"
 echo "replication password = ${REPL_PW}"
 
@@ -37,7 +35,6 @@ declare -ar SLAVE_CNFS=(
   'innodb_file_format = Barracuda' # for utf8mb4
   'innodb_large_prefix' # for utf8mb4
   '# replication settings (slave)'
-  "server_id = ${SERVER_ID}"
   'read_only = 1'
   'relay_log = /usr/local/mysql/data/mysql-relay-bin'
   'sync_master_info = 1'

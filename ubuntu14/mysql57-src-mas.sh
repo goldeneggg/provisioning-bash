@@ -32,7 +32,6 @@ IFS=$'\n'
 # See: "High Performance MySQL. Chapter10 - Recommended Replication Configuration"
 declare -ar REPL_CNFS=(
   '# replication settings (master)'
-  'server_id = 1'
   'sync_binlog = 1'
   'binlog_format = mixed'
   )

@@ -12,7 +12,12 @@ set -e
 bash ${MYDIR}/_mysql57-src-dep.sh
 
 : "----- download mysql"
+# args
+## 1 = minor version
+## 2 = server id
 declare -r MINOR_VER=${1:-"9"}
+declare -r SERVER_ID=${1:-2}
+echo "server id = ${SERVER_ID}"
 
 declare -r MAJOR_VER="5.7"
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
@@ -34,7 +39,8 @@ declare -r INIT_SCRIPT=/etc/init.d/${SERVICE_FILE}
 tar zxf ${TAR}
 
 : "----- make and install mysql using cmake"
-declare -r PREFIX=/usr/local/mysql-${VER}
+declare -r MYSQL_HOME=/usr/local/mysql
+declare -r PREFIX=${MYSQL_HOME}-${VER}
 
 # cmake
 ## https://dev.mysql.com/doc/refman/5.7/en/source-configuration-options.html
@@ -59,9 +65,8 @@ make
 make install
 
 : "----- symlink versioning mysql to non-versioning mysql"
-declare -r MYSQL_HOME=/usr/local/mysql
 [ -d ${MYSQL_HOME} -o -L ${MYSQL_HOME} ] && rm -fr ${MYSQL_HOME}
-ln -s /usr/local/mysql-${VER} ${MYSQL_HOME}
+ln -s ${MYSQL_HOME}-${VER} ${MYSQL_HOME}
 
 : "----- add user and group for mysql"
 # https://dev.mysql.com/doc/refman/5.7/en/binary-installation.html
@@ -71,7 +76,7 @@ declare -r USER_MYSQL=mysql
 groupadd ${GRP_MYSQL}
 useradd -r -g ${GRP_MYSQL} ${USER_MYSQL}
 
-pushd /usr/local/mysql
+pushd ${MYSQL_HOME}
 chown -R ${USER_MYSQL}:${GRP_MYSQL} .
 
 : "----- mysql initial setup"
@@ -89,19 +94,21 @@ chown -R ${USER_MYSQL}:${GRP_MYSQL} log
 # XXX: Does not this operation need to execute?
 ## http://dev.mysql.com/doc/refman/5.7/en/server-default-configuration-file.html
 ## http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html
-declare -r COPY_TARGETS=("/usr/local/mysql/my.cnf")
+declare -r COPY_TARGETS=("${MYSQL_HOME}/my.cnf")
 for target in ${COPY_TARGETS[@]}
 do
   cp ${MYDIR}/files/${MYNAME}${target} ${target}
 done
+
+: "----- append server_id into my.cnf"
+echo "server_id = ${SERVER_ID}" >> ${MYSQL_HOME}/my.cnf
 
 : "----- register and start mysql service"
 # https://dev.mysql.com/doc/refman/5.7/en/starting-server.html
 cp support-files/${SERVICE_FILE} ${INIT_SCRIPT}
 chmod +x ${INIT_SCRIPT}
 
-# XXX not start yet (because if "server_id" config does not exist, occur error)
-#${INIT_SCRIPT} start
+${INIT_SCRIPT} start
 
 ${PRVENV_CMD_SERVICE} ${SERVICE_FILE} on
 
