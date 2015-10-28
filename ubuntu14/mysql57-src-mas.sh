@@ -21,8 +21,10 @@ echo "replication password = ${REPL_PW}"
 
 bash ${MYDIR}/mysql57-src.sh ${SERVER_ID}
 
-: "----- create replication account"
+: "----- get temporary root password from log-error"
+# TODO (See: http://www.slideshare.net/yoku0825/mysql57-54349575)
 
+: "----- create replication account"
 declare -r MYSQL_HOME=/usr/local/mysql
 declare -r MYSQL_CMD=${MYSQL_HOME}/bin/mysql
 

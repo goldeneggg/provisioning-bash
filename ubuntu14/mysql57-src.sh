@@ -79,21 +79,8 @@ useradd -r -g ${GRP_MYSQL} ${USER_MYSQL}
 pushd ${MYSQL_HOME}
 chown -R ${USER_MYSQL}:${GRP_MYSQL} .
 
-: "----- mysql initial setup"
-# creates a default option file named my.cnf in the base installation directory.
-# https://dev.mysql.com/doc/refman/5.7/en/binary-installation.html
-# https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization.html
-bin/mysqld --initialize --user=${USER_MYSQL}
-bin/mysql_ssl_rsa_setup
-chown -R root:root .
-chown -R ${USER_MYSQL}:${GRP_MYSQL} data
-
-mkdir log
-chown -R ${USER_MYSQL}:${GRP_MYSQL} log
-
-# XXX: Does not this operation need to execute?
-## http://dev.mysql.com/doc/refman/5.7/en/server-default-configuration-file.html
-## http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html
+# http://dev.mysql.com/doc/refman/5.7/en/server-default-configuration-file.html
+# http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html
 declare -r COPY_TARGETS=("${MYSQL_HOME}/my.cnf")
 for target in ${COPY_TARGETS[@]}
 do
@@ -102,6 +89,23 @@ done
 
 : "----- append server_id into my.cnf"
 echo "server_id = ${SERVER_ID}" >> ${MYSQL_HOME}/my.cnf
+
+: "----- mysql initial setup"
+# creates a default option file named my.cnf in the base installation directory.
+# https://dev.mysql.com/doc/refman/5.7/en/binary-installation.html
+# https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization.html
+
+# TODO this command will generate temporary root password
+# so can not execute automatically provisioning
+bin/mysqld --initialize --user=${USER_MYSQL}
+
+bin/mysql_ssl_rsa_setup
+
+chown -R root:root .
+chown -R ${USER_MYSQL}:${GRP_MYSQL} data
+
+mkdir log
+chown -R ${USER_MYSQL}:${GRP_MYSQL} log
 
 : "----- register and start mysql service"
 # https://dev.mysql.com/doc/refman/5.7/en/starting-server.html
