@@ -21,14 +21,18 @@ echo "replication password = ${REPL_PW}"
 
 bash ${MYDIR}/mysql57-src.sh ${SERVER_ID}
 
-: "----- get temporary root password from log-error"
-# TODO (See: http://www.slideshare.net/yoku0825/mysql57-54349575)
+: "----- get temporary root password from log-error
+TMP_PASSWD=$(grep "A temporary password is generated" ${MYLOGDIR}/mysql57-src.sh.log | awk '{print $11}')
+declare -r ROOT_PASSWD="root#123"
+${MYSQL_CMD} -u root -p${TMP_PASSWD} -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWD}'"
 
 : "----- create replication account"
 declare -r MYSQL_HOME=/usr/local/mysql
 declare -r MYSQL_CMD=${MYSQL_HOME}/bin/mysql
+declare -r MYSQL_USER=root
+declare -r MYSQL_CMD_LINE="${MYSQL_CMD} -u ${MYSQL_USER} -p${ROOT_PASSWD}"
 
-${MYSQL_CMD} -u root -e "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'${REPL_IP}' IDENTIFIED BY '${REPL_PW}'"
+${MYSQL_CMD_LINE} -e "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'${REPL_IP}' IDENTIFIED BY '${REPL_PW}'"
 
 declare -r IFS_BK=${IFS}
 IFS=$'\n'
@@ -86,14 +90,11 @@ IFS=${IFS_BK}
 
 /etc/init.d/mysql.server restart
 
-declare -r MYSQL_USER=root
 
 : "----- confirm whether mysql installation is succeed"
-${MYSQL_CMD} -u ${MYSQL_USER} -e "SHOW MASTER STATUS \G"
-
-${MYSQL_CMD} -u ${MYSQL_USER} -e "CREATE DATABASE dummy"
-
-${MYSQL_CMD} -u ${MYSQL_USER} -e \
+${MYSQL_CMD_LINE} -e "SHOW MASTER STATUS \G"
+${MYSQL_CMD_LINE} -e "CREATE DATABASE dummy"
+${MYSQL_CMD_LINE} -e \
 "CREATE TABLE dummy_work (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(20) DEFAULT NULL,
@@ -103,7 +104,7 @@ ${MYSQL_CMD} -u ${MYSQL_USER} -e \
 ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC DEFAULT CHARSET=utf8mb4" \
 dummy
 
-${MYSQL_CMD} -u ${MYSQL_USER} -e \
+${MYSQL_CMD_LINE} -e \
 "INSERT INTO dummy_work (
   name,
   age,
@@ -117,14 +118,14 @@ dummy
 
 : "----- create application account"
 declare -r APPUSER_IP="localhost"
-${MYSQL_CMD} -u ${MYSQL_USER} -e \
+${MYSQL_CMD_LINE} -e \
 "GRANT SELECT,INSERT,UPDATE,DELETE
 ON *.*
 TO app@'${APPUSER_IP}'"
 
 : "----- create account with grant for only lan network"
 declare -r REM_ROOTUSER_IP="192.168.56.%"
-${MYSQL_CMD} -u ${MYSQL_USER} -e \
+${MYSQL_CMD_LINE} -e \
 "GRANT ALL
 ON *.*
 TO ${MYSQL_USER}@'${REM_ROOTUSER_IP}'"

@@ -8,6 +8,8 @@ set -ux
 declare -r MYNAME=`basename $0`
 declare -r MYDIR=$(cd $(dirname $0) && pwd)
 declare -r MYUSER=$(whoami)
+declare -r MYLOGDIR=${MYDIR}/logs
+declare -r MYLOG=${MYLOGDIR}/${MYNAME}.log
 
 source ${MYDIR}/envs
 

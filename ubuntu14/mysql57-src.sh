@@ -107,6 +107,10 @@ bin/mysql_ssl_rsa_setup
 chown -R root:root .
 chown -R ${USER_MYSQL}:${GRP_MYSQL} data
 
+: "----- add mysql bin path into bashrc"
+echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> ${ENV_RC}
+set +u; source ${ENV_RC}; set -u
+
 : "----- register and start mysql service"
 # https://dev.mysql.com/doc/refman/5.7/en/starting-server.html
 cp support-files/${SERVICE_FILE} ${INIT_SCRIPT}
@@ -115,7 +119,3 @@ chmod +x ${INIT_SCRIPT}
 ${INIT_SCRIPT} start
 
 ${PRVENV_CMD_SERVICE} ${SERVICE_FILE} on
-
-: "----- add mysql bin path into bashrc"
-echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> ${ENV_RC}
-set +u; source ${ENV_RC}; set -u
