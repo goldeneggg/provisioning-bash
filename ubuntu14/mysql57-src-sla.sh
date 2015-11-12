@@ -21,9 +21,18 @@ echo "replication password = ${REPL_PW}"
 
 bash ${MYDIR}/mysql57-src.sh ${SERVER_ID}
 
-: "----- add slave settings into my.cnf"
-declare -r MYSQL_HOME=/usr/local/mysql
+declare -r MYSQL_CMD=${MYSQL_HOME}/bin/mysql
+declare -r MYSQL_USER=root
 
+: "----- get temporary root password from log-error"
+TMP_PASSWD=$(grep "A temporary password is generated" ${MYLOGDIR}/mysql57-src.sh.log | awk '{print $11}')
+declare -r ROOT_PASSWD="root#123"
+${MYSQL_CMD} -u ${MYSQL_USER} -p${TMP_PASSWD} -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWD}'"
+
+declare -r MYSQL_HOME=/usr/local/mysql
+declare -r MYSQL_CMD_LINE="${MYSQL_CMD} -u ${MYSQL_USER} -p${ROOT_PASSWD}"
+
+: "----- add slave settings into my.cnf"
 declare -r IFS_BK=${IFS}
 IFS=$'\n'
 
@@ -72,11 +81,7 @@ IFS=${IFS_BK}
 
 /etc/init.d/mysql.server restart
 
-: "----- get temporary root password from log-error"
-# TODO (See: http://www.slideshare.net/yoku0825/mysql57-54349575)
-
 : "----- check master status for start replication"
-declare -r MYSQL_CMD=${MYSQL_HOME}/bin/mysql
 declare -r REPL_USER="repl"
 
 declare -r MAS_INFO=$(echo 'SHOW MASTER STATUS' | ${MYSQL_CMD} -u ${REPL_USER} -p${REPL_PW} -h ${MASTER_HOST})
@@ -88,24 +93,24 @@ echo "CURRENT_LOG_POS=${LOG_POS}"
 : "----- initialize and start replication"
 # Note: Before change master, run "show master status" and check "master_log_file" and "master_log_pos"
 declare -r MASTER_LOG="mysql-bin.000001"
-declare -r MYSQL_USER=root
 
 #${MYSQL_CMD} -u ${MYSQL_USER} -e "STOP SLAVE"
-${MYSQL_CMD} -u ${MYSQL_USER} -e "RESET SLAVE"
-${MYSQL_CMD} -u ${MYSQL_USER} -e \
-"CHANGE MASTER TO
+${MYSQL_CMD_LINE} -e "RESET SLAVE"
+${MYSQL_CMD_LINE} << EOS
+CHANGE MASTER TO
 MASTER_HOST = '${MASTER_HOST}',
 MASTER_USER = '${REPL_USER}',
 MASTER_PASSWORD = '${REPL_PW}',
 MASTER_LOG_FILE = '${MASTER_LOG}',
-MASTER_LOG_POS = 0"
+MASTER_LOG_POS = 0
+EOS
 
 : "----- confirm slave status (before)"
-${MYSQL_CMD} -u ${MYSQL_USER} -e "SHOW SLAVE STATUS \G"
+${MYSQL_CMD_LINE} -e "SHOW SLAVE STATUS \G"
 
 : "----- start slave"
 echo "START SLAVE"
-${MYSQL_CMD} -u ${MYSQL_USER} -e "START SLAVE"
+${MYSQL_CMD_LINE} -e "START SLAVE"
 
 : "----- confirm slave status (after)"
-${MYSQL_CMD} -u ${MYSQL_USER} -e "SHOW SLAVE STATUS \G"
+${MYSQL_CMD_LINE} -e "SHOW SLAVE STATUS \G"
