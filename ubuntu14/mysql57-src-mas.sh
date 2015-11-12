@@ -21,6 +21,7 @@ echo "replication password = ${REPL_PW}"
 
 bash ${MYDIR}/mysql57-src.sh ${SERVER_ID}
 
+declare -r MYSQL_HOME=/usr/local/mysql
 declare -r MYSQL_CMD=${MYSQL_HOME}/bin/mysql
 declare -r MYSQL_USER=root
 
@@ -29,7 +30,6 @@ TMP_PASSWD=$(grep "A temporary password is generated" ${MYLOGDIR}/mysql57-src.sh
 declare -r ROOT_PASSWD="root#123"
 ${MYSQL_CMD} -u ${MYSQL_USER} -p${TMP_PASSWD} -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWD}'"
 
-declare -r MYSQL_HOME=/usr/local/mysql
 declare -r MYSQL_CMD_LINE="${MYSQL_CMD} -u ${MYSQL_USER} -p${ROOT_PASSWD}"
 
 : "----- create replication account"
