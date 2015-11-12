@@ -15,7 +15,7 @@ set -e
 ## 3 = replication password
 declare -r SERVER_ID=${1:-2}
 declare -r MASTER_HOST=${2:-"192.168.56.250"}
-declare -r REPL_PW=${3:-"p4ssword"}
+declare -r REPL_PW=${3:-"p4ss=Word"}
 echo "replication master host = ${MASTER_HOST}"
 echo "replication password = ${REPL_PW}"
 
@@ -26,9 +26,9 @@ declare -r MYSQL_CMD=${MYSQL_HOME}/bin/mysql
 declare -r MYSQL_USER=root
 
 : "----- get temporary root password from log-error"
-TMP_PASSWD=$(grep "A temporary password is generated" ${MYLOGDIR}/mysql57-src.sh.log | awk '{print $11}')
+TMP_PASSWD=$(grep "A temporary password is generated" ${MYLOG} | awk '{print $11}')
 declare -r ROOT_PASSWD="root#123"
-${MYSQL_CMD} -u ${MYSQL_USER} -p${TMP_PASSWD} -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWD}'"
+${MYSQL_CMD} -u ${MYSQL_USER} -p${TMP_PASSWD} --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWD}'"
 
 declare -r MYSQL_CMD_LINE="${MYSQL_CMD} -u ${MYSQL_USER} -p${ROOT_PASSWD}"
 
