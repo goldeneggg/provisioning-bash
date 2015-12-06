@@ -10,7 +10,6 @@ set -e
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
 bash ${MYDIR}/_nginx-src-dep.sh
-bash ${MYDIR}/_nginx-src-initscript.sh
 
 : "----- download nginx"
 declare -r MAJOR_VER="1.9"
@@ -38,3 +37,5 @@ pushd nginx-${VER}
 --with-debug
 make
 make install
+
+bash ${MYDIR}/_nginx-src-initscript.sh

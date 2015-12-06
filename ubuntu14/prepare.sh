@@ -5,11 +5,11 @@
 #set -eux
 set -ux
 
-declare -r MYNAME=`basename $0`
-declare -r MYDIR=$(cd $(dirname $0) && pwd)
-declare -r MYUSER=$(whoami)
-declare -r MYLOGDIR=${MYDIR}/logs
-declare -r MYLOG=${MYLOGDIR}/${MYNAME}.log
+export MYNAME=`basename $0`
+export MYDIR=$(cd $(dirname $0) && pwd)
+export MYUSER=$(whoami)
+export MYLOGDIR=${MYDIR}/logs
+export MYLOG=${MYLOGDIR}/${MYNAME}.log
 
 source ${MYDIR}/envs
 
