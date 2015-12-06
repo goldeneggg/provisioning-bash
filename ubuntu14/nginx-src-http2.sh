@@ -22,8 +22,7 @@ pushd ${PRVENV_INSTALL_WORK_DIR}
 ${PRVENV_WGETCMD} http://nginx.org/download/${TAR}
 
 : "----- check already executing nginx"
-pgrep nginx >/dev/null
-(( $? == 0 )) && ${PRVENV_CMD_INIT_STOP} nginx
+[ -f /etc/init/nginx.conf ] && ${PRVENV_CMD_INIT_STOP} nginx
 
 [ -d nginx-${VER} ] && rm -fr nginx-${VER}
 tar zxf ${TAR}
