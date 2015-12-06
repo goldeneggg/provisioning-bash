@@ -13,7 +13,7 @@ bash ${MYDIR}/_nginx-src-dep.sh
 
 : "----- download nginx"
 declare -r MAJOR_VER="1.9"
-declare -r MINOR_VER="5"
+declare -r MINOR_VER="7"
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
 declare -r TAR=nginx-${VER}.tar.gz
 
