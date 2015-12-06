@@ -33,6 +33,7 @@ tar zxf ${TAR}
 # http://wiki.nginx.org/InstallOptions
 pushd nginx-${VER}
 ./configure \
+--with-http_v2_module
 --with-http_ssl_module
 --with-debug
 make
