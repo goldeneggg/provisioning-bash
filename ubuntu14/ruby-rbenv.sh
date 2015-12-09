@@ -8,8 +8,10 @@ source prepare.sh
 bash ${MYDIR}/rbenv.sh
 
 # args
-## 1 = ruby version
-declare RUBY_VER=${1:-"2.2.3"}
+## 1 = ruby minor version
+declare -r MAJOR_VER="2.2"
+declare -r MINOR_VER=${1:-"3"}
+declare -r RUBY_VER=${MAJOR_VER}.${MINOR_VER}
 echo "ruby version = ${RUBY_VER}"
 
 declare -r RBENV_PATH=$HOME/.rbenv/bin

@@ -18,7 +18,7 @@ set +u; source ${ENV_RC}; set -u
 
 : "----- install node.js using nodebrew"
 declare -r MAJOR_VER="0.12"
-declare -r MINOR_VER="7"
+declare -r MINOR_VER=${1:-"9"}
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
 
 ${NODEBREW_BIN}/nodebrew install-binary v${VER}
