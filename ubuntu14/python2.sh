@@ -12,5 +12,5 @@ bash ${MYDIR}/_python2-dep.sh
 declare -r MINOR_VER=${1:-"7"}
 declare -r VER="2.${MINOR_VER}"
 
-# install python
+: "----- install python"
 ${PRVENV_CMD_PKG_INS} python${VER} python${VER}-dev
