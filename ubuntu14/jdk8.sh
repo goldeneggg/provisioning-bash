@@ -12,8 +12,8 @@ set -e
 # args
 ## 1 = jdk version
 declare -r JDK_VER=${1:-"8"}
-declare -r JDK_MINER_VER=${2:-"45"}
-declare -r JDK_BETA_VER=${3:-"b14"}
+declare -r JDK_MINER_VER=${2:-"66"}
+declare -r JDK_BETA_VER=${3:-"b17"}
 echo "jdk version = ${JDK_VER}-${JDK_MINER_VER}-${JDK_BETA_VER}"
 
 : "----- install jdk"
