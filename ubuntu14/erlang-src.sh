@@ -12,8 +12,8 @@ set -e
 bash ${MYDIR}/_erlang-src-dep.sh
 
 : "----- download erlang"
-declare -r MAJOR_VER=${1:-"17"}
-declare -r MINOR_VER=${2:-"5"}
+declare -r MAJOR_VER=${1:-"18.2"}
+declare -r MINOR_VER=${2:-"1"}
 
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
 declare -r TAR=otp_src_${VER}.tar.gz
@@ -21,7 +21,6 @@ declare -r TAR=otp_src_${VER}.tar.gz
 pushd ${PRVENV_INSTALL_WORK_DIR}
 [ -f ${TAR} ] && rm -f ${TAR}
 
-# http://www.erlang.org/download/otp_src_17.5.tar.gz
 ${PRVENV_WGETCMD} http://www.erlang.org/download/${TAR}
 
 declare -r SRCDIR=${TAR//.tar.gz/}

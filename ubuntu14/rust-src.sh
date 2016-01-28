@@ -10,7 +10,7 @@ set -e
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
 
 : "----- download erlang"
-declare -r MAJOR_VER=${1:-"1.0"}
+declare -r MAJOR_VER=${1:-"1.6"}
 declare -r MINOR_VER=${2:-"0"}
 
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
@@ -19,7 +19,6 @@ declare -r TAR=rust-${VER}-x86_64-unknown-linux-gnu.tar.gz
 pushd ${PRVENV_INSTALL_WORK_DIR}
 [ -f ${TAR} ] && rm -f ${TAR}
 
-# https://static.rust-lang.org/dist/rust-1.0.0-x86_64-unknown-linux-gnu.tar.gz
 ${PRVENV_WGETCMD} https://static.rust-lang.org/dist/${TAR}
 
 declare -r SRCDIR=${TAR//.tar.gz/}
