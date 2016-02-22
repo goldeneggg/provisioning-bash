@@ -11,7 +11,7 @@ set -e
 
 # args
 ## 1 = go version
-declare -r GO_VERSION=${1:-"1.5.3"}
+declare -r GO_VERSION=${1:-"1.6"}
 echo "go version = ${GO_VERSION}"
 
 : "----- install golang"
