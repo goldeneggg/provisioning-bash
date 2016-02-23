@@ -17,7 +17,7 @@ bash ${MYDIR}/mysql56-src.sh
 ## 2 = replication master host
 ## 3 = replication password
 declare -r SERVER_ID=${1:-2}
-declare -r MASTER_HOST=${2:-"192.168.56.150"}
+declare -r MASTER_HOST=${2:-"192.168.56.101"}
 declare -r REPL_PW=${3:-"p4ssword"}
 echo "slave server id = ${SERVER_ID}"
 echo "replication master host = ${MASTER_HOST}"

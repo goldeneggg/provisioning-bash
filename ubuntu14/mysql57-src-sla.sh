@@ -14,7 +14,7 @@ set -e
 ## 2 = replication master host
 ## 3 = replication password
 declare -r SERVER_ID=${1:-2}
-declare -r MASTER_HOST=${2:-"192.168.56.250"}
+declare -r MASTER_HOST=${2:-"192.168.56.111"}
 declare -r REPL_PW=${3:-"p4ss=Word"}
 echo "replication master host = ${MASTER_HOST}"
 echo "replication password = ${REPL_PW}"
