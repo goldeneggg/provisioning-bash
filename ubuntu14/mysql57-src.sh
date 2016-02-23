@@ -16,7 +16,7 @@ bash ${MYDIR}/_mysql57-src-dep.sh
 ## 1 = server id
 ## 2 = minor version
 declare -r SERVER_ID=${1:-1}
-declare -r MINOR_VER=${2:-"10"}
+declare -r MINOR_VER=${2:-"11"}
 echo "server id = ${SERVER_ID}"
 
 declare -r MAJOR_VER="5.7"
@@ -26,7 +26,6 @@ declare -r TAR=mysql-${VER}.tar.gz
 pushd ${PRVENV_INSTALL_WORK_DIR}
 [ -f ${TAR} ] && rm -f ${TAR}
 
-# http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.24.tar.gz
 ${PRVENV_WGETCMD} http://dev.mysql.com/get/Downloads/MySQL-${MAJOR_VER}/${TAR}
 
 : "----- check already executing mysql"
