@@ -118,15 +118,20 @@ INSERT INTO dummy_work (
 )
 EOS
 
-: "----- create application account"
-declare -r APPUSER_IP="localhost"
+: "----- create application account for localhost and lan network"
 ${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
-GRANT SELECT,INSERT,UPDATE,DELETE
+GRANT ALL
 ON *.*
-TO app@'${APPUSER_IP}'
+TO app@'localhost'
 EOS
 
-: "----- create account with grant for only lan network"
+${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
+GRANT ALL
+ON *.*
+TO app@'192.168.56.%'
+EOS
+
+: "----- create root account with grant for only lan network"
 declare -r REM_ROOTUSER_IP="192.168.56.%"
 ${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
 GRANT ALL
