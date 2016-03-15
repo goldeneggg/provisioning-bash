@@ -31,8 +31,9 @@ ${PRVENV_WGETCMD} http://dev.mysql.com/get/Downloads/MySQL-${MAJOR_VER}/${TAR}
 : "----- check already executing mysql"
 declare -r SERVICE_FILE=mysql.server
 declare -r INIT_SCRIPT=/etc/init.d/${SERVICE_FILE}
+declare -r SOCK_FILE=/tmp/mysql.sock
 
-[ -x ${INIT_SCRIPT} ] && ${INIT_SCRIPT} stop
+[ -x ${INIT_SCRIPT} -a -f ${SOCK_FILE} ] && ${INIT_SCRIPT} stop
 
 [ -d mysql-${VER} ] && rm -fr mysql-${VER}
 tar zxf ${TAR}
