@@ -25,10 +25,14 @@ declare -r MYSQL_HOME=/usr/local/mysql
 declare -r MYSQL_CMD=${MYSQL_HOME}/bin/mysql
 declare -r MYSQL_USER=root
 
-: "----- get temporary root password from log-error"
-TMP_PASSWD=$(grep "A temporary password is generated" ${MYLOG} | awk '{print $11}')
+## if installed by "mysqld --initialize" command, temporary password is set.
+#: "----- get temporary root password from log-error"
+#TMP_PASSWD=$(grep "A temporary password is generated" ${MYLOG} | awk '{print $11}')
+
+: "----- set root user password"
 declare -r ROOT_PASSWD="root#123"
-${MYSQL_CMD} -u ${MYSQL_USER} -p${TMP_PASSWD} --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWD}'"
+#${MYSQL_CMD} -u ${MYSQL_USER} -p${TMP_PASSWD} --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWD}'"
+${MYSQL_CMD} -u ${MYSQL_USER} -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWD}'"
 
 declare -r MYSQL_CMD_LINE="${MYSQL_CMD} -u ${MYSQL_USER} -p${ROOT_PASSWD}"
 

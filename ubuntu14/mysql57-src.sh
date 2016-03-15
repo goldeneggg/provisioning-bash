@@ -44,6 +44,7 @@ declare -r PREFIX=${MYSQL_HOME}-${VER}
 # cmake
 ## https://dev.mysql.com/doc/refman/5.7/en/source-configuration-options.html
 ## https://dev.mysql.com/doc/refman/5.7/en/installing-source-distribution.html
+## https://dev.mysql.com/doc/refman/5.7/en/server-management-using-systemd.html
 pushd mysql-${VER}
 mkdir bld
 pushd bld
@@ -58,7 +59,8 @@ cmake .. \
 -DWITH_READLINE=1 \
 -DENABLE_DOWNLOADS=1 \
 -DDOWNLOAD_BOOST=1 \
--DWITH_BOOST=1
+-DWITH_BOOST=1 \
+-DWITH_SYSTEMD=1
 
 make
 make install
@@ -80,6 +82,7 @@ chown -R ${USER_MYSQL}:${GRP_MYSQL} .
 
 # http://dev.mysql.com/doc/refman/5.7/en/server-default-configuration-file.html
 # http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html
+: "----- copy customize configuration files"
 declare -r COPY_TARGETS=("${MYSQL_HOME}/my.cnf")
 for target in ${COPY_TARGETS[@]}
 do
@@ -94,13 +97,16 @@ chown -R ${USER_MYSQL}:${GRP_MYSQL} log
 
 : "----- mysql initial setup"
 # creates a default option file named my.cnf in the base installation directory.
+# https://dev.mysql.com/doc/refman/5.7/en/server-options.html
 # https://dev.mysql.com/doc/refman/5.7/en/binary-installation.html
 # https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization.html
 
-# TODO this command will generate temporary root password
-# so can not execute automatically provisioning
-bin/mysqld --initialize --user=${USER_MYSQL}
+# --initialize option : generation of a random initial root password
+#bin/mysqld --initialize --user=${USER_MYSQL}
+# --initialize-insecure option : no root password is generated
+bin/mysqld --initialize-insecure --user=${USER_MYSQL}
 
+# https://dev.mysql.com/doc/refman/5.7/en/mysql-ssl-rsa-setup.html
 bin/mysql_ssl_rsa_setup
 
 chown -R root:root .
