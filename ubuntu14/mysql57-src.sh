@@ -75,8 +75,10 @@ ln -s ${MYSQL_HOME}-${VER} ${MYSQL_HOME}
 # https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization.html
 declare -r GRP_MYSQL=mysql
 declare -r USER_MYSQL=mysql
+set +e
 groupadd ${GRP_MYSQL}
 useradd -r -g ${GRP_MYSQL} ${USER_MYSQL}
+set -e
 
 pushd ${MYSQL_HOME}
 chown -R ${USER_MYSQL}:${GRP_MYSQL} .
@@ -93,7 +95,7 @@ done
 : "----- append server_id into my.cnf"
 echo "server_id = ${SERVER_ID}" >> ${MYSQL_HOME}/my.cnf
 
-mkdir log
+[ -d log ] || mkdir log
 chown -R ${USER_MYSQL}:${GRP_MYSQL} log
 
 : "----- mysql initial setup"
