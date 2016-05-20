@@ -5,7 +5,7 @@ source prepare.sh
 #<<<<<<<<<<
 
 
-[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
+[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
 bash ${MYDIR}/_python2-dep.sh
 

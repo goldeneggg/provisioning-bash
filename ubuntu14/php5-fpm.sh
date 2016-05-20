@@ -7,7 +7,7 @@ source prepare.sh
 
 set -e
 
-[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
+[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
 ${PRVENV_CMD_PKG_INS} php5-fpm
 ${PRVENV_CMD_PKG_INS} php5-cli php5-curl php5-gd php5-memcache php5-memcached php5-mysql php5-xmlrpc

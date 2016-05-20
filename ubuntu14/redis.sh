@@ -7,7 +7,7 @@ source prepare.sh
 
 set -e
 
-[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
+[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
 : "----- install redis from apt repository"
 ${PRVENV_CMD_PKG_INS} redis-server

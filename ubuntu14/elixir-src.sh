@@ -7,14 +7,14 @@ source prepare.sh
 
 set -e
 
-[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}"; exit 1; }
+[ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
 # comment out because installing erlang is too long
 #bash ${MYDIR}/erlang-src.sh
 
 : "----- check erlang"
 declare -r ERLANG_HOME=${3:-"/usr/local/erlang"}
-[ -d ${ERLANG_HOME} ] || { echo "${ERLANG_HOME} does not exist"; exit 1; }
+[ -d ${ERLANG_HOME} ] || { echo "${ERLANG_HOME} does not exist" >&2; exit 1; }
 
 export PATH=${ERLANG_HOME}/bin:${PATH}
 
