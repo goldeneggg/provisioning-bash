@@ -9,8 +9,8 @@ bash ${MYDIR}/rbenv.sh
 
 # args
 ## 1 = ruby minor version
-declare -r MAJOR_VER="2.2"
-declare -r MINOR_VER=${1:-"3"}
+declare -r MAJOR_VER="2.3"
+declare -r MINOR_VER=${1:-"1"}
 declare -r RUBY_VER=${MAJOR_VER}.${MINOR_VER}
 echo "ruby version = ${RUBY_VER}"
 
