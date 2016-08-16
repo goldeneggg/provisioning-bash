@@ -12,7 +12,7 @@ set -e
 # args
 ## 1 = jdk version
 declare -r JDK_VER=${1:-"8"}
-declare -r JDK_MINER_VER=${2:-"91"}
+declare -r JDK_MINER_VER=${2:-"102"}
 declare -r JDK_BETA_VER=${3:-"b14"}
 echo "jdk version = ${JDK_VER}-${JDK_MINER_VER}-${JDK_BETA_VER}"
 
