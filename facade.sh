@@ -4,7 +4,7 @@ set -ux
 
 function usage {
     cat << __EOT__
-Usage: $0 <platform> <kick script name>
+Usage: $0 <platform> <kick script name> [other args]
 
 Provisioner's facade script
 __EOT__
@@ -34,7 +34,7 @@ case ${PLATFORM} in
     ;;
 esac
 
-declare -r WORKDIR=~/work
+declare -r WORKDIR=${HOME}/work
 [ -d ${WORKDIR} ] || mkdir ${WORKDIR}
 pushd ${WORKDIR}
 
