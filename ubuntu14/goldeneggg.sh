@@ -28,7 +28,7 @@ make install
 popd
 
 : "----- install kehchain for ssh-agent over {tmux,screen} sessions"
-declare -r KEYCHAIN_VER="2.8.0"
+declare -r KEYCHAIN_VER="2.8.2"
 declare -r KEYCHAIN_TAR=keychain-${KEYCHAIN_VER}.tar.bz2
 curl -L http://www.funtoo.org/distfiles/keychain/${KEYCHAIN_TAR} -o ${KEYCHAIN_TAR}
 tar xjf ${KEYCHAIN_TAR}
