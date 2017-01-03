@@ -19,7 +19,7 @@ declare -r ERLANG_HOME=${3:-"/usr/local/erlang"}
 export PATH=${ERLANG_HOME}/bin:${PATH}
 
 : "----- download elixir"
-declare -r MAJOR_VER=${1:-"1.0"}
+declare -r MAJOR_VER=${1:-"1.3"}
 declare -r MINOR_VER=${2:-"4"}
 
 declare -r VER=${MAJOR_VER}.${MINOR_VER}

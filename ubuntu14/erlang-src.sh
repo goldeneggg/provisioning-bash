@@ -13,7 +13,7 @@ bash ${MYDIR}/_erlang-src-dep.sh
 
 : "----- download erlang"
 declare -r MAJOR_VER=${1:-"19"}
-declare -r MINOR_VER=${2:-"0"}
+declare -r MINOR_VER=${2:-"2"}
 
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
 declare -r TAR=otp_src_${VER}.tar.gz
