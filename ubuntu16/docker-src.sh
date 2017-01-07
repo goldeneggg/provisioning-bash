@@ -58,13 +58,17 @@ set +u; source ${ENV_RC}; set -u
 sed -i "/ExecStart/ s|$| -H ${TCP_DOCKER_HOST}|g" ${SERVICE_DOCKER}
 
 : "----- groupadd docker"
-groupadd docker
+getent group | grep docker > /dev/null
+if (( $? ))
+then
+  groupadd docker
 
-: "----- add docker group into targer users"
-for u in ${DOCKER_GROUP_USERS[@]}
-do
-  usermod -aG docker ${u}
-done
+  : "----- add docker group into targer users"
+  for u in ${DOCKER_GROUP_USERS[@]}
+  do
+    usermod -aG docker ${u}
+  done
+fi
 
 : "----- systemd reload"
 ${PRVENV_CMD_INIT_RELOAD}
