@@ -1,1 +1,1 @@
-../ubuntu14/init_ja.sh
+../ubuntu16/init_ja.sh
