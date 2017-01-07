@@ -20,9 +20,9 @@ echo "docker ver = ${DOCKER_VER} port = ${DOCKER_PORT}"
 if (( $# >= 3 ))
 then
   shift 2
+  echo "args for docker group users = ${@}"
 fi
 
-echo "args for docker group users = ${@}"
 declare -a DOCKER_GROUP_USERS
 if (( $# >= 1 ))
 then
