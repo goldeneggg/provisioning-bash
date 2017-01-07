@@ -1,1 +1,1 @@
-../ubuntu14/prepare.sh
+../ubuntu16/prepare.sh
