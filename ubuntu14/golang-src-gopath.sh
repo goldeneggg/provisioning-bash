@@ -7,7 +7,7 @@ source prepare.sh
 
 echo "envfile path = ${ENV_RC}"
 
-declare -r GOPATH=~/gopath
+declare -r GOPATH=~/go
 if [ ! -d ${GOPATH} ]
 then
   mkdir -p ${GOPATH}

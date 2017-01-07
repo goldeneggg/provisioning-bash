@@ -26,7 +26,7 @@ rm go${GO_VERSION}.linux-amd64.tar.gz
 
 : "----- set golang environments"
 echo "export GOROOT=${GOROOT}" >> ${ENV_RC}
-declare -r GOPATH=~/gopath
+declare -r GOPATH=~/go
 if [ ! -d ${GOPATH} ]
 then
   mkdir -p ${GOPATH}
