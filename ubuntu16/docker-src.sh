@@ -14,7 +14,7 @@ set -e
 ## 2 = docker port
 declare -r DOCKER_VER=${1:-"1.12.5"}
 declare -r DOCKER_PORT=${2:-4243}
-echo "docker port = ${DOCKER_PORT}"
+echo "docker ver = ${DOCKER_VER} port = ${DOCKER_PORT}"
 
 : "----- useradd into docker group
 if (( $# >= 3 ))
@@ -22,10 +22,11 @@ then
   shift 2
 fi
 
+echo "args for docker group users = ${@}"
 declare -a DOCKER_GROUP_USERS
 if (( $# >= 1 ))
 then
-  DOCKER_GROUP_USERS="$@"
+  DOCKER_GROUP_USERS="${@}"
   echo "users of docker group = ${DOCKER_GROUP_USERS}"
 fi
 
