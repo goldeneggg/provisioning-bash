@@ -16,7 +16,7 @@ declare -r DOCKER_VER=${1:-"1.12.5"}
 declare -r DOCKER_PORT=${2:-4243}
 echo "docker ver = ${DOCKER_VER} port = ${DOCKER_PORT}"
 
-: "----- useradd into docker group
+: "----- useradd into docker group"
 if (( $# >= 3 ))
 then
   shift 2
