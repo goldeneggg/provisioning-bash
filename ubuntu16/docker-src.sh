@@ -12,9 +12,22 @@ set -e
 # args
 ## 1 = docker version
 ## 2 = docker port
-declare DOCKER_VER=${1:-"1.12.5"}
-declare DOCKER_PORT=${2:-4243}
+declare -r DOCKER_VER=${1:-"1.12.5"}
+declare -r DOCKER_PORT=${2:-4243}
 echo "docker port = ${DOCKER_PORT}"
+
+: "----- useradd into docker group
+if (( $# >= 3 ))
+then
+  shift 2
+fi
+
+declare -a DOCKER_GROUP_USERS
+if (( $# >= 1 ))
+then
+  DOCKER_GROUP_USERS="$@"
+  echo "users of docker group = ${DOCKER_GROUP_USERS}"
+fi
 
 : "----- install docker from source"
 declare -r DOCKER_PREFIX=/usr
@@ -45,6 +58,12 @@ sed -i "/ExecStart/ s|$| -H ${TCP_DOCKER_HOST}|g" ${SERVICE_DOCKER}
 
 : "----- groupadd docker"
 groupadd docker
+
+: "----- add docker group into targer users"
+for u in ${DOCKER_GROUP_USERS[@]}
+do
+  usermod -aG docker ${u}
+done
 
 : "----- systemd reload"
 ${PRVENV_CMD_INIT_RELOAD}
