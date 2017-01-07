@@ -11,12 +11,12 @@ All scripts are written by `bash` so they are easy and useful for your server pr
 
 * If you'd like to provision on existing server, manual operation flow is as follows.
 
-```
-# apt-get -y install git
-# git clone https://github.com/goldeneggg/provisioning-bash.git
+```sh
+# execute facade.sh with execution info
+# <PLATFORM> is linux platform environment (ex. "debian", "ubuntu17" and more)
+# <SCRIPT> is provisioning script file name
 
-# cd provisioning-bash/ubuntu14
-# bash <YOUR_TARGET_SCRIPT>.sh [ARGS]
+curl -fLsS https://raw.githubusercontent.com/goldeneggg/provisioning-bash/master/facade.sh | bash -s <PLATFORM> <SCRIPT> [SOME ARGS...]
 ```
 
 ### Vagrant
@@ -107,7 +107,7 @@ end
 
 * If you'd like to run container using docker and setup by scripts, example of your `Dockerfile` is as follows.
 
-```shell
+```dockerfile
 FROM ubuntu:14.04
 
 MAINTAINER goldeneggg
