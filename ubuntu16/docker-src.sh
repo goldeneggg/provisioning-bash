@@ -33,11 +33,11 @@ fi
 : "----- install docker from source"
 declare -r DOCKER_PREFIX=/usr
 
-: "----- To install, run the following commands as root:
+: "----- To install, run the following commands as root:"
 # command as follows from https://get.docker.com/builds/
 curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VER}.tgz && tar --strip-components=1 -xvzf docker-${DOCKER_VER}.tgz -C ${DOCKER_PREFIX}/bin
 
-#: "----- Then start docker in daemon mode:
+#: "----- Then start docker in daemon mode:"
 # /usr/local/bin/dockerd
 
 : "----- setup systemd for docker"
