@@ -58,7 +58,8 @@ set +u; source ${ENV_RC}; set -u
 sed -i "/ExecStart/ s|$| -H ${TCP_DOCKER_HOST}|g" ${SERVICE_DOCKER}
 
 : "----- groupadd docker"
-getent group | grep docker > /dev/null
+set +e
+groups | grep docker > /dev/null
 if (( $? ))
 then
   groupadd docker
@@ -69,6 +70,7 @@ then
     usermod -aG docker ${u}
   done
 fi
+set -e
 
 : "----- systemd reload"
 ${PRVENV_CMD_INIT_RELOAD}
