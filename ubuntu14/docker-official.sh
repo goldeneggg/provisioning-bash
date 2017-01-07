@@ -9,6 +9,9 @@ set -e
 
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
+# TODO FIXME: インストール手順が大幅に変わっている
+# See: https://docs.docker.com/engine/installation/linux/ubuntulinux/
+
 # args
 ## @ = users of "docker" group
 declare -a DOCKER_GROUP_USERS
