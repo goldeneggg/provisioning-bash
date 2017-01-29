@@ -97,6 +97,10 @@ done
 cp support-files/${SERVICE_FILE} ${INIT_SCRIPT}
 chmod +x ${INIT_SCRIPT}
 
+: "----- touch required logfile"
+# 5.6.35 ではこれが無いと起動でコケることを確認済
+touch log/error.log
+
 ${INIT_SCRIPT} start
 
 ${PRVENV_CMD_SERVICE} ${SERVICE_FILE} on
