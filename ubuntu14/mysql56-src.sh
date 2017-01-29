@@ -81,7 +81,7 @@ scripts/mysql_install_db --user=${USER_MYSQL}
 chown -R root:root .
 chown -R ${USER_MYSQL}:${GRP_MYSQL} data
 
-mkdir log
+[ -d log ] || mkdir log
 chown -R ${USER_MYSQL}:${GRP_MYSQL} log
 
 # XXX: Does not this operation need to execute?
@@ -93,18 +93,16 @@ do
   cp ${MYDIR}/files/${MYNAME}${target} ${target}
 done
 
-: "----- register and start mysql service"
-cp support-files/${SERVICE_FILE} ${INIT_SCRIPT}
-chmod +x ${INIT_SCRIPT}
+: "----- add mysql bin path into bashrc"
+echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> ${ENV_RC}
+set +u; source ${ENV_RC}; set -u
 
 : "----- touch required logfile"
 # 5.6.35 ではこれが無いと起動でコケることを確認済
 touch log/error.log
 
+: "----- register and start mysql service"
+cp support-files/${SERVICE_FILE} ${INIT_SCRIPT}
+chmod +x ${INIT_SCRIPT}
+
 ${INIT_SCRIPT} start
-
-${PRVENV_CMD_SERVICE} ${SERVICE_FILE} on
-
-: "----- add mysql bin path into bashrc"
-echo "export PATH=${MYSQL_HOME}/bin"':$PATH' >> ${ENV_RC}
-set +u; source ${ENV_RC}; set -u

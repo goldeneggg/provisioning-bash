@@ -125,5 +125,3 @@ cp support-files/${SERVICE_FILE} ${INIT_SCRIPT}
 chmod +x ${INIT_SCRIPT}
 
 ${INIT_SCRIPT} start
-
-${PRVENV_CMD_SERVICE} ${SERVICE_FILE} on
