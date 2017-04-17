@@ -12,7 +12,7 @@ set -e
 # args
 ## 1 = docker version
 ## 2 = docker port
-declare -r DOCKER_VER=${1:-"1.13.0"}
+declare -r DOCKER_VER=${1:-"17.04.0-ce"}
 declare -r DOCKER_PORT=${2:-4243}
 echo "docker ver = ${DOCKER_VER} port = ${DOCKER_PORT}"
 
