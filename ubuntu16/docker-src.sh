@@ -57,6 +57,14 @@ set +u; source ${ENV_RC}; set -u
 # TCP_DOCKER_HOSTに / を含んでいるので変数が展開されるとsedの構文エラーとなる。この場合sedの置換区切り文字を / から | に変更すると良い
 sed -i "/ExecStart/ s|$| -H ${TCP_DOCKER_HOST}|g" ${SERVICE_DOCKER}
 
+: "----- install docker-compose"
+declare -r DOCKER_COMPOSE_VER=${3:-"1.12.0"}
+declare -r DOCKER_COMPOSE_PREFIX=/usr/local
+
+curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VER}/docker-compose-$(uname -s)-$(uname -m)" -o ${DOCKER_COMPOSE_PREFIX}/bin/docker-compose
+chmod +x ${DOCKER_COMPOSE_PREFIX}/bin/docker-compose
+
+
 : "----- groupadd docker"
 set +e
 groups | grep docker > /dev/null
