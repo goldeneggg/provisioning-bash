@@ -97,7 +97,7 @@ IFS=${IFS_BK}
 declare -r MYSQLD_SERVICE_NAME=mysqld
 ${PRVENV_CMD_INIT_RESTART} ${MYSQLD_SERVICE_NAME}
 
-: "----- confirm whether mysql installation is succeed"
+: "----- confirm whether mysql installation is succeed by creating dummy table"
 DBNAME=dummy
 ${MYSQL_CMD_LINE} -e "SHOW MASTER STATUS \G"
 ${MYSQL_CMD_LINE} -e "CREATE DATABASE ${DBNAME}"
@@ -121,6 +121,26 @@ INSERT INTO dummy_work (
   15,
   'etc1111111111111111111111111111111'
 )
+EOS
+
+: "----- download example data files provided mysql official"
+pushd /tmp
+
+# world_x database
+declare -r EXAMPLE_DB_WORLD_X=world_x-db
+${PRVENV_WGETCMD} http://downloads.mysql.com/docs/${EXAMPLE_DB_WORLD_X}.tar.gz
+tar zxf ${EXAMPLE_DB_WORLD_X}.tar.gz
+
+# sakila database
+declare -r EXAMPLE_DB_SAKILA=sakila-db
+${PRVENV_WGETCMD} http://downloads.mysql.com/docs/${EXAMPLE_DB_SAKILA}.tar.gz
+tar zxf ${EXAMPLE_DB_SAKILA}.tar.gz
+
+: "----- registered example data into dummy database"
+${MYSQL_CMD_LINE} << EOS
+SOURCE /tmp/${EXAMPLE_DB_WORLD_X}/world_x.sql
+SOURCE /tmp/${EXAMPLE_DB_SAKILA}/sakila-schema.sql
+SOURCE /tmp/${EXAMPLE_DB_SAKILA}/sakila-data.sql
 EOS
 
 : "----- create application account for localhost and lan network"
