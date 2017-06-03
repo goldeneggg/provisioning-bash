@@ -124,16 +124,22 @@ INSERT INTO dummy_work (
 EOS
 
 : "----- create application account for localhost and lan network"
+# Note: https://bugs.mysql.com/bug.php?id=83822
+## can't create no passwd user on 5.7 or later, so "IDENTIFIED BY" must be assigned
+declare -r APP_USER_PASSWD=papp
+
 ${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
 GRANT ALL
 ON *.*
 TO app@'localhost'
+IDENTIFIED BY '${APP_USER_PASSWD}'
 EOS
 
 ${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
 GRANT ALL
 ON *.*
 TO app@'192.168.56.%'
+IDENTIFIED BY '${APP_USER_PASSWD}'
 EOS
 
 : "----- create root account with grant for only lan network"
@@ -142,4 +148,5 @@ ${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
 GRANT ALL
 ON *.*
 TO ${MYSQL_USER}@'${REM_ROOTUSER_IP}'
+IDENTIFIED BY '${ROOT_PASSWD}'
 EOS
