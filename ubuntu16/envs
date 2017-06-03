@@ -10,10 +10,13 @@ export PRVENV_CMD_LOCAL_PKG_INS="${PRVENV_CMD_LOCAL_PKG} -i"
 
 export PRVENV_CMD_INIT="systemctl"
 export PRVENV_CMD_INIT_START="${PRVENV_CMD_INIT} start"
+export PRVENV_CMD_INIT_RESTART="${PRVENV_CMD_INIT} restart"
 export PRVENV_CMD_INIT_STOP="${PRVENV_CMD_INIT} stop"
 export PRVENV_CMD_INIT_STATUS="${PRVENV_CMD_INIT} status"
 export PRVENV_CMD_INIT_RELOAD="${PRVENV_CMD_INIT} daemon-reload"
 export PRVENV_CMD_INIT_ENABLE="${PRVENV_CMD_INIT} enable"
+
+export PRVENV_SYSTEM_SYSTEMD_DIR=/etc/systemd/system
 
 # FIXME: replace sysv-rc-conf
 export PRVENV_CMD_SERVICE="sysv-rc-conf"
