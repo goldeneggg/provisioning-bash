@@ -123,10 +123,12 @@ set +u; source ${ENV_RC}; set -u
 # https://dev.mysql.com/doc/refman/5.7/en/using-systemd.html
 declare -r MYSQLD_SERVICE_NAME=mysqld
 declare -r MYSQLD_SERVICE_FILE=${MYSQL_HOME}/${MYSQLD_SERVICE_NAME}.service
-declare -r MYSQLD_PID_DIR=/var/run/${MYSQLD_SERVICE_NAME}
 
 cp ${MYSQLD_SERVICE_FILE} ${PRVENV_SYSTEM_SYSTEMD_DIR}/
 
-[ -d ${MYSQLD_PID_DIR} ] || mkdir -p ${MYSQLD_PID_DIR}
 ${PRVENV_CMD_INIT_RELOAD}
+
+declare -r MYSQLD_PID_DIR=/var/run/${MYSQLD_SERVICE_NAME}
+mkdir -p ${MYSQLD_PID_DIR}
+chown -R ${USER_MYSQL}:${GRP_MYSQL} ${MYSQLD_PID_DIR}
 ${PRVENV_CMD_INIT_RESTART} ${MYSQLD_SERVICE_NAME}
