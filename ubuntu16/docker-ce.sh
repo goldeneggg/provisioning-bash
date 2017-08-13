@@ -18,16 +18,16 @@ then
   echo "ARGS(@) = users of docker group = ${DOCKER_GROUP_USERS}"
 fi
 
-declare -r SETUP_PKGS="apt-transport-https ca-certificates curl software-properties-common"
-declare -r FINGERPRINT="0EBFCD88"
-
 : "----- remove old version if exists"
-${PRVENV_CMD_PKG_DEL} docker docker-engine
+${PRVENV_CMD_PKG_DEL} docker docker-engine docker.io
 
 : "----- install packages for setup"
+${PRVENV_CMD_PKG_UPD}
+declare -r SETUP_PKGS="apt-transport-https ca-certificates curl software-properties-common"
 ${PRVENV_CMD_PKG_INS} ${SETUP_PKGS}
 
 : "----- add docker's official GPG key"
+declare -r FINGERPRINT="0EBFCD88"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 apt-key fingerprint ${FINGERPRINT}
 

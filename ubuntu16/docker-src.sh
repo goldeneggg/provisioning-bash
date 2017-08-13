@@ -12,7 +12,7 @@ set -e
 # args
 ## 1 = docker version
 ## 2 = docker port
-declare -r DOCKER_VER=${1:-"17.05.0-ce"}
+declare -r DOCKER_VER=${1:-"17.06.0-ce"}
 declare -r DOCKER_PORT=${2:-4243}
 echo "docker ver = ${DOCKER_VER} port = ${DOCKER_PORT}"
 
@@ -34,8 +34,9 @@ fi
 declare -r DOCKER_PREFIX=/usr
 
 : "----- To install, run the following commands as root:"
-# command as follows from https://get.docker.com/builds/
-curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VER}.tgz && tar --strip-components=1 -xvzf docker-${DOCKER_VER}.tgz -C ${DOCKER_PREFIX}/bin
+# command as follows from https://docs.docker.com/engine/installation/linux/docker-ce/binaries/#install-static-binaries
+declare -r DOCKER_TGZ_URL=https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VER}.tgz
+curl -fsSLO ${DOCKER_TGZ_URL} && tar --strip-components=1 -xvzf docker-${DOCKER_VER}.tgz -C ${DOCKER_PREFIX}/bin
 
 #: "----- Then start docker in daemon mode:"
 # /usr/local/bin/dockerd
@@ -86,20 +87,3 @@ ${PRVENV_CMD_INIT_RELOAD}
 : "----- start docker"
 ${PRVENV_CMD_INIT_ENABLE} docker
 ${PRVENV_CMD_INIT_START} docker
-
-
-#: "----- setup upstart for docker"
-#declare -r INIT_DOCKER=/etc/init.d/docker
-#declare -r DEFAULT_DOCKER=/etc/default/docker
-#declare -r CONF_DOCKER=/etc/init/docker.conf
-#
-#${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/sysvinit-debian/docker -O ${INIT_DOCKER}
-#chmod +x ${INIT_DOCKER}
-#
-#${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/sysvinit-debian/docker.default -O ${DEFAULT_DOCKER}
-#
-#${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/upstart/docker.conf -O ${CONF_DOCKER}
-#
-#${PRVENV_CMD_INIT_RELOAD}
-#
-#${PRVENV_CMD_INIT_START} docker
