@@ -14,7 +14,7 @@ echo "github user = ${GITHUB_USER}"
 echo "github mail = ${GITHUB_MAIL}"
 
 : "----- install stow for dotfiles setup"
-declare -r STOW_VER="2.2.0"
+declare -r STOW_VER="2.2.2"
 declare -r STOW_TAR=stow-${STOW_VER}.tar.gz
 
 pushd ${PRVENV_INSTALL_WORK_DIR}
@@ -28,7 +28,7 @@ make install
 popd
 
 : "----- install kehchain for ssh-agent over {tmux,screen} sessions"
-declare -r KEYCHAIN_VER="2.8.2"
+declare -r KEYCHAIN_VER="2.8.3"
 declare -r KEYCHAIN_TAR=keychain-${KEYCHAIN_VER}.tar.bz2
 curl -L http://www.funtoo.org/distfiles/keychain/${KEYCHAIN_TAR} -o ${KEYCHAIN_TAR}
 tar xjf ${KEYCHAIN_TAR}
@@ -40,6 +40,16 @@ cp keychain keychain.pod ${HOME_BIN}/
 popd
 
 export PATH=${HOME_BIN}:${PATH}
+
+:"----- install npm packages"
+if [ `which npm` ]
+then
+  declare -ar NPM_PKGS=("diff-so-fancy" "hubot")
+  for pkg in ${NPM_PKGS[@]}
+  do
+    npm install -g ${pkg}
+  done
+fi
 
 : "----- setup my dotfiles"
 pushd ~
