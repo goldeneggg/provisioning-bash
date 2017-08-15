@@ -41,7 +41,7 @@ popd
 
 export PATH=${HOME_BIN}:${PATH}
 
-:"----- install npm packages"
+: "----- install npm packages"
 if [ `which npm` ]
 then
   declare -ar NPM_PKGS=("diff-so-fancy" "hubot")
