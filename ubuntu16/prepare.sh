@@ -20,5 +20,3 @@ function isroot {
 [ $(isroot) ] \
   && { export ENV_RC=${PRVENV_DEFAULT_BASHRC}; } \
   || { export ENV_RC=${PRVENV_USER_BASHRC}; }
-
-[ $(isroot) ] && ${PRVENV_CMD_PKG_UPD}
