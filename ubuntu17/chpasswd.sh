@@ -1,1 +1,1 @@
-../ubuntu16/chpasswd.sh
+../ubuntu14/chpasswd.sh
