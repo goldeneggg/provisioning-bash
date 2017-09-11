@@ -21,7 +21,7 @@ ${PRVENV_WGETCMD} http://dev.mysql.com/get/${APT_DEB}
 ${PRVENV_CMD_PKG_RMV_PRGE} mysql-client* mysql-common
 ${PRVENV_CMD_PKG_AUTORMV_PRGE}
 
-: "----- install mysql from local apt repository"
+: "----- install mysql-server from local apt repository"
 # Note: This task needs interactive user operation. So it's not possible to be automatically...
 ${PRVENV_CMD_LOCAL_PKG_INS} ${APT_DEB}
 ${PRVENV_CMD_PKG_UPD}
@@ -29,6 +29,9 @@ ${PRVENV_CMD_PKG_UPD}
 ${PRVENV_CMD_PKG_INS} mysql-server
 
 /etc/init.d/mysql start
+
+: "----- install mysql client library"
+${PRVENV_CMD_PKG_INS} libmysqlclient-dev
 
 # security
 ## drop noname user
