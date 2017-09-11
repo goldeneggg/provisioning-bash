@@ -10,13 +10,16 @@ set -e
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
 : "----- download mysql apt repository"
-# http://dev.mysql.com/get/mysql-apt-config_0.3.2-1ubuntu14.04_all.deb
-declare -r APTCONF_VER="0.3.2-1"
-declare -r APT_DEB=mysql-apt-config_${APTCONF_VER}ubuntu14.04_all.deb
+declare -r APTCONF_VER=${1:-"0.8.7-1"}
+declare -r APT_DEB=mysql-apt-config_${APTCONF_VER}_all.deb
 
 pushd ${PRVENV_INSTALL_WORK_DIR}
 [ -f ${APT_DEB} ] && rm -f ${APT_DEB}
 ${PRVENV_WGETCMD} http://dev.mysql.com/get/${APT_DEB}
+
+: "----- remove and purge existed mysql"
+${PRVENV_CMD_PKG_RMV_PRGE} mysql-client* mysql-common
+${PRVENV_CMD_PKG_AUTORMV_PRGE}
 
 : "----- install mysql from local apt repository"
 # Note: This task needs interactive user operation. So it's not possible to be automatically...
