@@ -124,3 +124,5 @@ ${MYSQL_CMD} -u ${MYSQL_USER} -e \
 "GRANT ALL
 ON *.*
 TO ${MYSQL_USER}@'${REM_ROOTUSER_IP}'"
+
+: "----- finish"
