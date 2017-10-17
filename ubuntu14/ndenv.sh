@@ -7,7 +7,7 @@ source prepare.sh
 
 set -e
 
-declare -r MAJOR_VER=${1:-"8.3"}
+declare -r MAJOR_VER=${1:-"8.7"}
 declare -r MINOR_VER=${2:-"0"}
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
 
