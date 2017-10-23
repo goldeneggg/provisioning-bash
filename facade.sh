@@ -21,12 +21,20 @@ case ${PLATFORM} in
   centos*|fedora*|amazon*)
     : "----- platform is rhel family"
     rpm -ql git > /dev/null
-    (( $? )) && yum -y install git
+    if [ $? -ne 0 ]
+    then
+      yum -y update
+      yum -y install git
+    fi
     ;;
   debian*|ubuntu*)
     : "----- platform is debian family"
     dpkg -l | grep " git " > /dev/null
-    (( $? )) && apt-get -y install git
+    if [ $? -ne 0 ]
+    then
+      apt-get -y update
+      apt-get -y install git
+    fi
     ;;
   *)
     echo "platform ${PLATFORM} is invalid"
