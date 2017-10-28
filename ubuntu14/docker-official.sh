@@ -22,7 +22,7 @@ then
 fi
 
 : "----- remove old version if exists"
-${PRVENV_CMD_PKG_DEL} docker docker-engine docker.io
+${PRVENV_CMD_PKG_RMV} docker docker-engine docker.io
 
 : "----- install image-extra(for only ubuntu14 trusty)"
 ${PRVENV_CMD_PKG_UPD}
