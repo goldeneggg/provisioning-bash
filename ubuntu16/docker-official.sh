@@ -22,7 +22,9 @@ then
 fi
 
 : "----- remove old version if exists"
-${PRVENV_CMD_PKG_RMV} docker docker-engine docker.io
+# Note: docker-engine package does not exist
+#${PRVENV_CMD_PKG_RMV} docker docker-engine docker.io
+${PRVENV_CMD_PKG_RMV} docker docker.io
 
 : "----- install dependency packages"
 ${PRVENV_CMD_PKG_INS} apt-transport-https ca-certificates curl software-properties-common
