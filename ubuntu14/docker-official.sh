@@ -9,26 +9,24 @@ set -e
 
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
-# TODO FIXME: インストール手順が大幅に変わっている
-# See: https://docs.docker.com/engine/installation/linux/ubuntulinux/
-
 # args
-## @ = users of "docker" group
-declare -a DOCKER_GROUP_USERS
-if (( $# >= 1 ))
-then
-  DOCKER_GROUP_USERS="$@"
-  echo "ARGS(@) = users of docker group = ${DOCKER_GROUP_USERS}"
-fi
+declare -r DOCKER_VERSION=${1:-"17.09.0"}"~ce-0~ubuntu"
 
-: "----- install using official script"
-${PRVENV_WGETCMD} -qO- https://get.docker.com/ | sh
+: "----- install image-extra(for only ubuntu14 trusty)"
+${PRVENV_CMD_PKG_UPD}
+${PRVENV_CMD_PKG_INS} linux-image-extra-$(uname -r) linux-image-extra-virtual
 
-: "----- add docker group into targer users"
-for u in ${DOCKER_GROUP_USERS[@]}
-do
-  usermod -aG docker ${u}
-done
+: "----- install dependency packages"
+${PRVENV_CMD_PKG_INS} apt-transport-https ca-certificates curl software-properties-common
 
-declare -r INIT_SCRIPT=/etc/init.d/docker
-${INIT_SCRIPT} start
+: "----- add docker officlal GPG KEY"
+declare -r FINGERPRINT=0EBFCD88
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint ${FINGERPRINT}
+
+: "----- add repository for setup pattern (is stable)"
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+: "----- install docker-ce"
+${PRVENV_CMD_PKG_UPD}
+${PRVENV_CMD_PKG_INS} docker-ce=${DOCKER_VERSION}
