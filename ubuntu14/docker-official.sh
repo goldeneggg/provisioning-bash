@@ -35,11 +35,11 @@ ${PRVENV_CMD_PKG_INS} apt-transport-https ca-certificates curl software-properti
 
 : "----- add docker officlal GPG KEY"
 declare -r FINGERPRINT=0EBFCD88
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo apt-key fingerprint ${FINGERPRINT}
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+apt-key fingerprint ${FINGERPRINT}
 
 : "----- add repository for setup pattern (is stable)"
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
 : "----- install docker-ce"
 ${PRVENV_CMD_PKG_UPD}
