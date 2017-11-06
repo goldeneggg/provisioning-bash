@@ -7,7 +7,7 @@ source prepare.sh
 
 : "----- install default packages"
 ${PRVENV_CMD_PKG_UPD}
-${PRVENV_CMD_PKG_INS} build-essential netcat nmap strace dnsutils traceroute tcpdump jwhois sysstat lsof
+${PRVENV_CMD_PKG_INS} build-essential strace sysstat lsof
 
 : "----- set location info (is ja, JP)"
 ${PRVENV_CMD_PKG_INS} language-pack-ja
