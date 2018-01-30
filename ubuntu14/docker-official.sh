@@ -23,7 +23,6 @@ fi
 
 : "----- remove old version if exists"
 # Note: docker-engine package does not exist
-#${PRVENV_CMD_PKG_RMV} docker docker-engine docker.io
 ${PRVENV_CMD_PKG_RMV} docker docker.io
 
 : "----- install image-extra(for only ubuntu14 trusty)"
