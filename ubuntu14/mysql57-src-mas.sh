@@ -93,10 +93,11 @@ set -e
 
 IFS=${IFS_BK}
 
-/etc/init.d/mysql.server restart
+: "----- restart mysqld"
+declare -r MYSQLD_SERVICE_NAME=mysqld
+${PRVENV_CMD_INIT_RESTART} ${MYSQLD_SERVICE_NAME}
 
-
-: "----- confirm whether mysql installation is succeed"
+: "----- confirm whether mysql installation is succeed by creating dummy table"
 DBNAME=dummy
 ${MYSQL_CMD_LINE} -e "SHOW MASTER STATUS \G"
 ${MYSQL_CMD_LINE} -e "CREATE DATABASE ${DBNAME}"
@@ -122,17 +123,43 @@ INSERT INTO dummy_work (
 )
 EOS
 
+: "----- download example data files provided mysql official"
+pushd /tmp
+
+# world_x database
+declare -r EXAMPLE_DB_WORLD_X=world_x-db
+${PRVENV_WGETCMD} http://downloads.mysql.com/docs/${EXAMPLE_DB_WORLD_X}.tar.gz
+tar zxf ${EXAMPLE_DB_WORLD_X}.tar.gz
+
+# sakila database
+declare -r EXAMPLE_DB_SAKILA=sakila-db
+${PRVENV_WGETCMD} http://downloads.mysql.com/docs/${EXAMPLE_DB_SAKILA}.tar.gz
+tar zxf ${EXAMPLE_DB_SAKILA}.tar.gz
+
+: "----- registered example data into dummy database"
+${MYSQL_CMD_LINE} << EOS
+SOURCE /tmp/${EXAMPLE_DB_WORLD_X}/world_x.sql
+SOURCE /tmp/${EXAMPLE_DB_SAKILA}/sakila-schema.sql
+SOURCE /tmp/${EXAMPLE_DB_SAKILA}/sakila-data.sql
+EOS
+
 : "----- create application account for localhost and lan network"
+# Note: https://bugs.mysql.com/bug.php?id=83822
+## can't create no passwd user on 5.7 or later, so "IDENTIFIED BY" must be assigned
+declare -r APP_USER_PASSWD=papp
+
 ${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
 GRANT ALL
 ON *.*
 TO app@'localhost'
+IDENTIFIED BY '${APP_USER_PASSWD}'
 EOS
 
 ${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
 GRANT ALL
 ON *.*
 TO app@'192.168.56.%'
+IDENTIFIED BY '${APP_USER_PASSWD}'
 EOS
 
 : "----- create root account with grant for only lan network"
@@ -141,4 +168,11 @@ ${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
 GRANT ALL
 ON *.*
 TO ${MYSQL_USER}@'${REM_ROOTUSER_IP}'
+IDENTIFIED BY '${ROOT_PASSWD}'
 EOS
+
+# XXX: mysql57-src.sh でmkdir & chownしてるんだけど、作成したvmに後で繋いでみるとdirが消えちゃう という事象に遭遇している
+# 解決するか分からないが、もう一度ココで mkdir & chown してみておく
+declare -r MYSQLD_PID_DIR=/var/run/${MYSQLD_SERVICE_NAME}
+mkdir -p ${MYSQLD_PID_DIR}
+chown -R mysql:mysql ${MYSQLD_PID_DIR}
