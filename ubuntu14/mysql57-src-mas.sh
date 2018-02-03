@@ -93,9 +93,10 @@ set -e
 
 IFS=${IFS_BK}
 
-: "----- restart mysqld"
-declare -r MYSQLD_SERVICE_NAME=mysqld
-${PRVENV_CMD_INIT_RESTART} ${MYSQLD_SERVICE_NAME}
+: "----- restart mysql.server"
+declare -r SERVICE_FILE=mysql.server
+declare -r INIT_SCRIPT=/etc/init.d/${SERVICE_FILE}
+${INIT_SCRIPT} restart
 
 : "----- confirm whether mysql installation is succeed by creating dummy table"
 DBNAME=dummy
@@ -171,8 +172,4 @@ TO ${MYSQL_USER}@'${REM_ROOTUSER_IP}'
 IDENTIFIED BY '${ROOT_PASSWD}'
 EOS
 
-# XXX: mysql57-src.sh でmkdir & chownしてるんだけど、作成したvmに後で繋いでみるとdirが消えちゃう という事象に遭遇している
-# 解決するか分からないが、もう一度ココで mkdir & chown してみておく
-declare -r MYSQLD_PID_DIR=/var/run/${MYSQLD_SERVICE_NAME}
-mkdir -p ${MYSQLD_PID_DIR}
-chown -R mysql:mysql ${MYSQLD_PID_DIR}
+exit 0
