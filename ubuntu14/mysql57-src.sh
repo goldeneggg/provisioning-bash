@@ -61,7 +61,6 @@ cmake .. \
 -DENABLE_DOWNLOADS=1 \
 -DDOWNLOAD_BOOST=1 \
 -DWITH_BOOST=1 \
--DWITH_SYSTEMD=1 \
 -DINSTALL_SECURE_FILE_PRIVDIR=/tmp/
 
 make
@@ -97,6 +96,7 @@ done
 echo "server_id = ${SERVER_ID}" >> ${MYSQL_HOME}/my.cnf
 
 [ -d log ] || mkdir log
+touch log/error.log
 chown -R ${USER_MYSQL}:${GRP_MYSQL} log
 
 : "----- mysql initial setup"
@@ -113,7 +113,6 @@ bin/mysqld --initialize-insecure --user=${USER_MYSQL}
 # https://dev.mysql.com/doc/refman/5.7/en/mysql-ssl-rsa-setup.html
 bin/mysql_ssl_rsa_setup
 
-chown -R root:root .
 chown -R ${USER_MYSQL}:${GRP_MYSQL} data
 
 : "----- add mysql bin path into bashrc"
