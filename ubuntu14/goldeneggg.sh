@@ -54,6 +54,7 @@ fi
 : "----- setup my dotfiles"
 pushd ~
 [ -d dotfiles ] || git clone https://github.com/goldeneggg/dotfiles.git
+[ -d mysnippets ] || git clone https://github.com/goldeneggg/mysnippets.git
 
 pushd dotfiles
 git pull --rebase origin master
