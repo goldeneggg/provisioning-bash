@@ -1,0 +1,25 @@
+#!/bin/bash
+PATH="$PATH:/usr/bin/"
+# DISPLAY="1"
+DISPLAY="0"
+DEPTH="16"
+GEOMETRY="1024x768"
+OPTIONS="-depth ${DEPTH} -geometry ${GEOMETRY} :${DISPLAY} -localhost"
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    log_action_begin_msg "Starting vncserver on localhost:${DISPLAY}"
+    /usr/bin/vncserver ${OPTIONS}
+    ;;
+  stop)
+    log_action_begin_msg "Stopping vncserver on localhost:${DISPLAY}"
+    /usr/bin/vncserver -kill :${DISPLAY}
+    ;;
+  restart)
+    $0 stop
+    $0 start
+    ;;
+esac
+
+exit 0
