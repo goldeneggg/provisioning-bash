@@ -36,9 +36,10 @@ apt-key fingerprint ${FINGERPRINT}
 : "----- add repository for setup pattern (is stable)"
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
-: "----- install docker-ce"
+: "----- install docker-ce (latest version)"
 ${PRVENV_CMD_PKG_UPD}
-${PRVENV_CMD_PKG_INS} docker-ce=${DOCKER_APT_VER}
+#${PRVENV_CMD_PKG_INS} docker-ce=${DOCKER_APT_VER}
+${PRVENV_CMD_PKG_INS} docker-ce
 
 : "----- add docker group into targer users"
 for u in ${DOCKER_GROUP_USERS[@]}
