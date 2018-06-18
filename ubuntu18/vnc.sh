@@ -1,1 +1,1 @@
-../ubuntu14/vnc.sh
+../ubuntu16/vnc.sh
