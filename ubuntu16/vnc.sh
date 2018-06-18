@@ -14,8 +14,15 @@ ${PRVENV_CMD_PKG_UPD}
 ${PRVENV_CMD_PKG_INS} xfce4 xfce4-goodies tightvncserver
 
 : "----- evacuate original xstartup file"
+declare -r XSTARTUP_DIR=/root/.vnc
 declare -r XSTARTUP_FILE=/root/.vnc/xstartup
-mv ${XSTARTUP_FILE} ${XSTARTUP_FILE}.bak
+if [ -f ${XSTARTUP_FILE} ]
+then
+  mv ${XSTARTUP_FILE} ${XSTARTUP_FILE}.bak
+elif [ ! -d ${XSTARTUP_DIR} ]
+then
+  mkdir -p ${XSTARTUP_DIR}
+fi
 
 : "----- copy customize files"
 declare -r SERVICE_FILE=vncserver
