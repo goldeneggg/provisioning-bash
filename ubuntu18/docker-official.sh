@@ -34,3 +34,6 @@ for u in ${DOCKER_GROUP_USERS[@]}
 do
   usermod -aG docker ${u}
 done
+
+: "----- start docker"
+${PRVENV_CMD_INIT_RESTART} docker
