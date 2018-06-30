@@ -12,7 +12,7 @@ set -e
 # args
 ## 1 = docker version
 ## 2 = docker port
-declare -r DOCKER_VER=${1:-"17.12.0-ce"}
+declare -r DOCKER_VER=${1:-"18.03.1"}
 declare -r DOCKER_PORT=${2:-4243}
 echo "docker ver = ${DOCKER_VER} port = ${DOCKER_PORT}"
 
@@ -35,7 +35,7 @@ declare -r DOCKER_PREFIX=/usr
 
 : "----- To install, run the following commands as root:"
 # command as follows from https://docs.docker.com/engine/installation/linux/docker-ce/binaries/#install-static-binaries
-declare -r DOCKER_TGZ_URL=https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VER}.tgz
+declare -r DOCKER_TGZ_URL=https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VER}-ce.tgz
 curl -fsSLO ${DOCKER_TGZ_URL} && tar --strip-components=1 -xvzf docker-${DOCKER_VER}.tgz -C ${DOCKER_PREFIX}/bin
 
 #: "----- Then start docker in daemon mode:"
@@ -45,8 +45,8 @@ curl -fsSLO ${DOCKER_TGZ_URL} && tar --strip-components=1 -xvzf docker-${DOCKER_
 declare -r SERVICE_DOCKER=/etc/systemd/system/docker.service
 declare -r SOCKET_DOCKER=/etc/systemd/system/docker.socket
 
-${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/systemd/docker.service -O ${SERVICE_DOCKER}
-${PRVENV_WGETCMD} https://raw.githubusercontent.com/docker/docker/master/contrib/init/systemd/docker.socket -O ${SOCKET_DOCKER}
+${PRVENV_WGETCMD} https://raw.githubusercontent.com/moby/moby/master/contrib/init/systemd/docker.service -O ${SERVICE_DOCKER}
+${PRVENV_WGETCMD} https://raw.githubusercontent.com/moby/moby/master/contrib/init/systemd/docker.socket -O ${SOCKET_DOCKER}
 
 : "----- accepts access from everywhere"
 declare -r TCP_DOCKER_HOST="tcp://0.0.0.0:${DOCKER_PORT}"

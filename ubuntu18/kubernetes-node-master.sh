@@ -41,7 +41,7 @@ declare -r POD_NETWORK_YAML=https://raw.githubusercontent.com/coreos/flannel/v0.
 kubectl apply -f ${POD_NETWORK_YAML}
 kubectl get pods --all-namespaces
 
- # TODO https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#instructions
+ # Note: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#instructions
 
 : "----- be able to schedule pods on the master"
- #kubectl taint nodes --all node-role.kubernetes.io/master-
+kubectl taint nodes --all node-role.kubernetes.io/master-
