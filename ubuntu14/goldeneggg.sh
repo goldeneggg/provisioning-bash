@@ -58,4 +58,5 @@ pushd ~
 
 pushd dotfiles
 git pull --rebase origin master
+git submodule update --init --recursive
 bash setup.sh -L --github-user ${GITHUB_USER} --github-mail ${GITHUB_MAIL}
