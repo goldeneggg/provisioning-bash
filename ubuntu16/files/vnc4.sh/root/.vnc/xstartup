@@ -1,3 +1,9 @@
 #!/bin/bash
-xrdb $HOME/.Xresources
-startxfce4 &
+
+## ----- for xrdb
+#xrdb $HOME/.Xresources
+#startxfce4 &
+
+## ----- for openbox
+#unset SESSION_MANAGER
+#openbox-session &
