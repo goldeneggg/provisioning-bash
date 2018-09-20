@@ -31,5 +31,7 @@ do
   cp ${MYDIR}/files/${MYNAME}${target} ${target}
 done
 
+chmod +x ${XSTARTUP_FILE}
+
 : "----- finish message"
 echo "vnc4server初回起動にてパスワードを設定し、インストールを完了してください"
