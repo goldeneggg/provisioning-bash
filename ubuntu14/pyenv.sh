@@ -12,7 +12,7 @@ declare -r MINOR_VER_2=${2:-"15"}
 declare -r VER_2=${MAJOR_VER_2}.${MINOR_VER_2}
 
 declare -r MAJOR_VER_3=${3:-"3.6"}
-declare -r MINOR_VER_3=${4:-"5"}
+declare -r MINOR_VER_3=${4:-"8"}
 declare -r VER_3=${MAJOR_VER_3}.${MINOR_VER_3}
 
 : "----- install pyenv"
