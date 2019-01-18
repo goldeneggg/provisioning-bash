@@ -33,7 +33,7 @@ case ${PLATFORM} in
     if [ $? -ne 0 ]
     then
       apt-get -y update
-      apt-get -y install git
+      apt-get -y --no-install-recommends install git
     fi
     ;;
   *)
