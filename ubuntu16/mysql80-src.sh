@@ -21,7 +21,8 @@ echo "server id = ${SERVER_ID}"
 
 declare -r MAJOR_VER="8.0"
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
-declare -r TAR=mysql-${VER}.tar.gz
+declare -r TARNAME=mysql-boost-${VER}
+declare -r TAR=${TARNAME}.tar.gz
 
 pushd ${PRVENV_INSTALL_WORK_DIR}
 [ -f ${TAR} ] && rm -f ${TAR}
@@ -35,7 +36,7 @@ declare -r SOCK_FILE=/tmp/mysql.sock
 
 [ -x ${INIT_SCRIPT} -a -f ${SOCK_FILE} ] && ${INIT_SCRIPT} stop
 
-[ -d mysql-${VER} ] && rm -fr mysql-${VER}
+[ -d ${TARNAME} ] && rm -fr ${TARNAME}
 tar zxf ${TAR}
 
 : "----- make and install mysql using cmake"
@@ -46,7 +47,7 @@ declare -r PREFIX=${MYSQL_HOME}-${VER}
 ## https://dev.mysql.com/doc/refman/8.0/en/source-configuration-options.html
 ## https://dev.mysql.com/doc/refman/8.0/en/installing-source-distribution.html
 ## https://dev.mysql.com/doc/refman/8.0/en/using-systemd.html
-pushd mysql-${VER}
+pushd ${TARNAME}
 mkdir bld
 pushd bld
 cmake .. \
@@ -56,7 +57,7 @@ cmake .. \
 -DENABLED_LOCAL_INFILE=ON \
 -DWITH_ARCHIVE_STORAGE_ENGINE=ON \
 -DENABLE_DOWNLOADS=ON \
--DWITH_BOOST=system \
+-DWITH_BOOST=./boost \
 -DWITH_SYSTEMD=ON \
 -DINSTALL_SECURE_FILE_PRIVDIR=/tmp/ \
 -DWITH_DEBUG=ON \
