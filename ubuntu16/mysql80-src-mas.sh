@@ -37,7 +37,9 @@ ${MYSQL_CMD} -u ${MYSQL_USER} -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$
 declare -r MYSQL_CMD_LINE="${MYSQL_CMD} -u ${MYSQL_USER} -p${ROOT_PASSWD}"
 
 : "----- create replication account"
-${MYSQL_CMD_LINE} -e "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'${REPL_IP}' IDENTIFIED BY '${REPL_PW}'"
+# See: http://next4us-ti.hatenablog.com/entry/2018/07/13/123322<Paste>
+${MYSQL_CMD_LINE} -e "CREATE USER repl@'${REPL_IP}' IDENTIFIED BY '${REPL_PW}'"
+${MYSQL_CMD_LINE} -e "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'${REPL_IP}'"
 
 declare -r IFS_BK=${IFS}
 IFS=$'\n'
@@ -129,28 +131,17 @@ EOS
 ## can't create no passwd user on 5.7 or later, so "IDENTIFIED BY" must be assigned
 declare -r APP_USER_PASSWD=papp
 
-${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
-GRANT ALL
-ON *.*
-TO app@'localhost'
-IDENTIFIED BY '${APP_USER_PASSWD}'
-EOS
+${MYSQL_CMD_LINE} -D ${DBNAME} -e "CREATE USER app@'localhost' IDENTIFIED BY '${APP_USER_PASSWD}'"
+${MYSQL_CMD_LINE} -D ${DBNAME} -e "GRANT ALL ON *.* TO app@'localhost'"
 
-${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
-GRANT ALL
-ON *.*
-TO app@'192.168.56.%'
-IDENTIFIED BY '${APP_USER_PASSWD}'
-EOS
+${MYSQL_CMD_LINE} -D ${DBNAME} -e "CREATE USER app@'192.168.56.%' IDENTIFIED BY '${APP_USER_PASSWD}'"
+${MYSQL_CMD_LINE} -D ${DBNAME} -e "GRANT ALL ON *.* TO app@'192.168.56.%'"
 
 : "----- create root account with grant for only lan network"
 declare -r REM_ROOTUSER_IP="192.168.56.%"
-${MYSQL_CMD_LINE} -D ${DBNAME} << EOS
-GRANT ALL
-ON *.*
-TO ${MYSQL_USER}@'${REM_ROOTUSER_IP}'
-IDENTIFIED BY '${ROOT_PASSWD}'
-EOS
+
+${MYSQL_CMD_LINE} -D ${DBNAME} -e "CREATE USER ${MYSQL_USER}@'${REM_ROOTUSER_IP}' IDENTIFIED BY '${ROOT_PASSWD}'"
+${MYSQL_CMD_LINE} -D ${DBNAME} -e "GRANT ALL ON *.* TO ${MYSQL_USER}@'${REM_ROOTUSER_IP}'"
 
 # XXX: mysql8-src.sh でmkdir & chownしてるんだけど、作成したvmに後で繋いでみるとdirが消えちゃう という事象に遭遇している
 # 解決するか分からないが、もう一度ココで mkdir & chown してみておく
