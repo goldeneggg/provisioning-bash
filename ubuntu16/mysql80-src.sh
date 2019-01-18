@@ -21,7 +21,7 @@ echo "server id = ${SERVER_ID}"
 
 declare -r MAJOR_VER="8.0"
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
-declare -r TARNAME=mysql-boost-${VER}
+declare -r TARNAME=mysql-${VER}
 declare -r TAR=${TARNAME}.tar.gz
 
 pushd ${PRVENV_INSTALL_WORK_DIR}
@@ -48,14 +48,16 @@ declare -r PREFIX=${MYSQL_HOME}-${VER}
 ## https://dev.mysql.com/doc/refman/8.0/en/installing-source-distribution.html
 ## https://dev.mysql.com/doc/refman/8.0/en/using-systemd.html
 pushd mysql-${VER}
-cmake . \
+mkdir bld
+pushd bld
+
+cmake .. \
 -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-#-DDEFAULT_CHARSET=utf8 \
-#-DDEFAULT_COLLATION=utf8_general_ci \
 -DENABLED_LOCAL_INFILE=ON \
 -DWITH_ARCHIVE_STORAGE_ENGINE=ON \
 -DENABLE_DOWNLOADS=ON \
--DWITH_BOOST=./boost/ \
+-DDOWNLOAD_BOOST=ON \
+-DWITH_BOOST=/tmp/boost \
 -DWITH_SYSTEMD=ON \
 -DINSTALL_SECURE_FILE_PRIVDIR=/tmp/ \
 -DWITH_DEBUG=ON \
