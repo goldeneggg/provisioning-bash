@@ -4,7 +4,7 @@ set -ux
 
 function usage {
     cat << __EOT__
-Usage: $0 <platform> <kick script name> [other args]
+Usage: $0 [Options] PLATFORM SCRIPT_NAME [OTHER ARGS...]
 
 Provisioner's facade script
 
