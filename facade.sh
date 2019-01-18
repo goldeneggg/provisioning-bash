@@ -7,8 +7,23 @@ function usage {
 Usage: $0 <platform> <kick script name> [other args]
 
 Provisioner's facade script
+
+Options:
+  -b | --branch          target branch
+  -h | --help            print a summary of the options
+
 __EOT__
 }
+
+
+declare BRANCH=master
+while true; do
+  case "$1" in
+    -h | --help ) usage; exit 1 ;;
+    -b | --branch ) BRANCH=$2; shift 2 ;;
+    * ) break ;;
+  esac
+done
 
 (( $# < 2 )) && { echo "2 arguements is required."; exit 1; }
 
@@ -50,7 +65,13 @@ declare -r REPOS_NAME=provisioning-bash
 [ -d ${REPOS_NAME} ] || git clone https://github.com/goldeneggg/${REPOS_NAME}.git
 
 pushd ${REPOS_NAME}
-git pull --rebase origin master
+if [ ${BRANCH} != "master" ]
+then
+  git branch ${BRANCH} origin/${BRANCH}
+  git checkout ${BRANCH}
+fi
+
+git pull --rebase origin ${BRANCH}
 pushd ${PLATFORM}
 
 declare -r LOGDIR=logs
