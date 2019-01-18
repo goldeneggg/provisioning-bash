@@ -46,8 +46,7 @@ IFS=$'\n'
 # See: "High Performance MySQL. Chapter10 - Recommended Replication Configuration"
 declare -ar REPL_CNFS=(
   '# replication settings (master)'
-  'sync_binlog = 1'
-  'binlog_format = mixed'
+  'binlog_format = MIXED'
   )
 
 declare -r MY_CNF=${MYSQL_HOME}/my.cnf
@@ -69,23 +68,9 @@ then
 fi
 set -e
 
-: "----- add InnoDB settings into my.cnf"
+: "----- add InnoDB settings into my.cnf (Nothing to do! on 8.0)"
 # http://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit
 # See: "High Performance MySQL. Chapter10 - Recommended Replication Configuration"
-declare -ar INNO_CNFS=(
-  '# additional innodb settings for master'
-  'innodb_flush_log_at_trx_commit = 1'
-  'innodb_file_per_table'
-)
-
-set +e
-grep "${INNO_CNFS[0]}" ${MY_CNF} > /dev/null
-if (( $? ))
-then
-  addToMycnf "${INNO_CNFS[@]}"
-  echo "Add InnoDB settings into ${MY_CNF}"
-fi
-set -e
 
 IFS=${IFS_BK}
 
