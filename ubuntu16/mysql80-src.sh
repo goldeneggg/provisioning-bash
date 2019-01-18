@@ -36,7 +36,7 @@ declare -r SOCK_FILE=/tmp/mysql.sock
 
 [ -x ${INIT_SCRIPT} -a -f ${SOCK_FILE} ] && ${INIT_SCRIPT} stop
 
-[ -d ${TARNAME} ] && rm -fr ${TARNAME}
+[ -d mysql-${VER} ] && rm -fr mysql-${VER}
 tar zxf ${TAR}
 
 : "----- make and install mysql using cmake"
@@ -47,7 +47,7 @@ declare -r PREFIX=${MYSQL_HOME}-${VER}
 ## https://dev.mysql.com/doc/refman/8.0/en/source-configuration-options.html
 ## https://dev.mysql.com/doc/refman/8.0/en/installing-source-distribution.html
 ## https://dev.mysql.com/doc/refman/8.0/en/using-systemd.html
-pushd ${TARNAME}
+pushd mysql-${VER}
 mkdir bld
 pushd bld
 cmake .. \
