@@ -1,1 +1,0 @@
-../ubuntu14/elixir-src.sh

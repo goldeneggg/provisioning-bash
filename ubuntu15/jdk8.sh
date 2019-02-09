@@ -1,1 +1,0 @@
-../ubuntu14/jdk8.sh

@@ -1,1 +1,0 @@
-../ubuntu14/_ruby-rbenv-dep.sh

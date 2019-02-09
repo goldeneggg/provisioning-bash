@@ -1,1 +1,0 @@
-../ubuntu14/init_ja.sh

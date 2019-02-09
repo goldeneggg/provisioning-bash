@@ -1,1 +1,0 @@
-../ubuntu14/mysql57-src-sla.sh

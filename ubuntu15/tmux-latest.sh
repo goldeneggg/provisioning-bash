@@ -1,1 +1,0 @@
-../ubuntu14/tmux-latest.sh

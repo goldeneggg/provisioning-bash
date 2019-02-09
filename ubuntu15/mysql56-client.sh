@@ -1,1 +1,0 @@
-../ubuntu14/mysql56-client.sh

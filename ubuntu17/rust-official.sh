@@ -1,1 +1,0 @@
-../ubuntu14/rust-official.sh

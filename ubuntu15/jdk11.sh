@@ -1,1 +1,0 @@
-../ubuntu14/jdk11.sh

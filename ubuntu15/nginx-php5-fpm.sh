@@ -1,1 +1,0 @@
-../ubuntu14/nginx-php5-fpm.sh

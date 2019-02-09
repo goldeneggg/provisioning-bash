@@ -1,1 +1,0 @@
-../ubuntu14/jdk9.sh
