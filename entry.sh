@@ -48,7 +48,7 @@ case ${PLATFORM} in
     if [ $? -ne 0 ]
     then
       apt-get -y update
-      apt-get -y --no-install-recommends install git
+      apt-get -y --no-install-recommends install git ca-certificates
     fi
     ;;
   *)
@@ -62,7 +62,7 @@ declare -r WORKDIR=${HOME}/work
 pushd ${WORKDIR}
 
 declare -r REPOS_NAME=provisioning-bash
-[ -d ${REPOS_NAME} ] || git clone https://github.com/goldeneggg/${REPOS_NAME}.git
+[ -d ${REPOS_NAME} ] || git clone https://github.com/goldeneggg/${REPOS_NAME}
 
 pushd ${REPOS_NAME}
 if [ ${BRANCH} != "master" ]
