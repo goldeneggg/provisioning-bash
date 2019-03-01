@@ -1,1 +1,0 @@
-../ubuntu16/init_ja.sh

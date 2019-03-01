@@ -10,6 +10,6 @@ source ${MYDIR}/envs
 
 
 # initial setup
-bash ${MYDIR}/init_ja.sh
+bash ${MYDIR}/init.sh
 
 # contents as follows

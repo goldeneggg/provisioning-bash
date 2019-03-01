@@ -10,12 +10,32 @@ All scripts are written by `bash` so they are easy and useful for your server pr
 ### Manualy
 
 ```sh
-# execute facade.sh with execution info
 # <PLATFORM> is linux platform environment (ex. "debian", "ubuntu18" and more)
 # <SCRIPT> is provisioning script file name
 
-curl -fLsS https://git.io/fhbZl | bash -s <PLATFORM> <SCRIPT> [SOME ARGS...]
+curl -fLsS https://git.io/prv-bash | bash -s <PLATFORM> <SCRIPT> [SOME ARGS...]
 ```
+
+### Docker
+
+```dockerfile
+FROM ubuntu:18.04
+
+MAINTAINER goldeneggg
+
+RUN mkdir /tmp/prv-bash
+WORKDIR /tmp/prv-bash
+
+# entry.sh on remote github.com is copied to local container path
+ADD https://git.io/prv-bash /tmp/prv-bash/entry.sh
+
+# kick entry.sh
+#   1st arg: platform
+#   2nd arg: script name
+RUN bash entry.sh ubuntu18 init.sh
+```
+
+* Show more information -> [Dockerfile - Docker Documentation](https://docs.docker.com/reference/builder/)
 
 ### Vagrant
 
@@ -76,28 +96,6 @@ end
 
 * This repository will be cloned on `/root/work` directory.
 * Show more information -> [Shell Scripts - Provisioning - Vagrant Documentation](https://docs.vagrantup.com/v2/provisioning/shell.html)
-
-### Docker
-
-```dockerfile
-FROM ubuntu:14.04
-
-MAINTAINER goldeneggg
-
-RUN mkdir /tmp/init
-WORKDIR /tmp/init
-
-# facade.sh on remote github.com is copied to local container path
-ADD https://git.io/fhbZl /tmp/init/facade.sh
-
-# kick facade.sh by RUN task
-#   1st arg: platform
-#   2nd arg: script name
-RUN bash facade.sh ubuntu14 init_ja.sh
-```
-
-* Show more information -> [Dockerfile - Docker Documentation](https://docs.docker.com/reference/builder/)
-
 
 ## Structure
 

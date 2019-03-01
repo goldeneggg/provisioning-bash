@@ -10,17 +10,51 @@ Provisioner's facade script
 
 Options:
   -b | --branch          target branch
+  --local                use local files(not clone from github.com)
   -h | --help            print a summary of the options
 
 __EOT__
 }
 
+function install_git_centos() {
+  yum -y update
+
+  rpm -ql git > /dev/null
+  if [ $? -ne 0 ]
+  then
+    : "----- install git"
+    yum -y install git
+  fi
+}
+
+function uninstall_git_centos() {
+  : "----- uninstall git"
+  yum -y remove git
+}
+
+function install_git_debian() {
+  apt-get -y update
+
+  dpkg -l | grep " git " > /dev/null
+  if [ $? -ne 0 ]
+  then
+    : "----- install git"
+    apt-get -y --no-install-recommends install git ca-certificates
+  fi
+}
+
+function uninstall_git_debian() {
+  : "----- uninstall git"
+  apt-get -y remove --purge git
+}
 
 declare BRANCH=master
+declare ONLOCAL
 while true; do
   case "$1" in
     -h | --help ) usage; exit 1 ;;
     -b | --branch ) BRANCH=$2; shift 2 ;;
+    --local ) ONLOCAL=1; shift 1 ;;
     * ) break ;;
   esac
 done
@@ -31,25 +65,13 @@ declare -r PLATFORM=${1}
 declare -r SCRIPT=${2}
 shift 2
 
-: "----- install git"
+# check assigned platform
 case ${PLATFORM} in
   centos*|fedora*|amazon*)
     : "----- platform is rhel family"
-    rpm -ql git > /dev/null
-    if [ $? -ne 0 ]
-    then
-      yum -y update
-      yum -y install git
-    fi
     ;;
   debian*|ubuntu*)
     : "----- platform is debian family"
-    dpkg -l | grep " git " > /dev/null
-    if [ $? -ne 0 ]
-    then
-      apt-get -y update
-      apt-get -y --no-install-recommends install git ca-certificates
-    fi
     ;;
   *)
     echo "platform ${PLATFORM} is invalid"
@@ -57,23 +79,62 @@ case ${PLATFORM} in
     ;;
 esac
 
-declare -r WORKDIR=${HOME}/work
-[ -d ${WORKDIR} ] || mkdir ${WORKDIR}
-pushd ${WORKDIR}
+declare WORKDIR=.
 
-declare -r REPOS_NAME=provisioning-bash
-[ -d ${REPOS_NAME} ] || git clone https://github.com/goldeneggg/${REPOS_NAME}
-
-pushd ${REPOS_NAME}
-if [ ${BRANCH} != "master" ]
+if [ ${ONLOCAL} != 1 ]
 then
-  git branch ${BRANCH} origin/${BRANCH}
-  git checkout ${BRANCH}
+  WORKDIR=${HOME}/work
+  [ -d ${WORKDIR} ] || mkdir ${WORKDIR}
+  pushd ${WORKDIR}
+
+  # install git
+  case ${PLATFORM} in
+    centos*|fedora*|amazon*)
+      install_git_centos
+      ;;
+    debian*|ubuntu*)
+      install_git_debian
+      ;;
+    *)
+      echo "platform ${PLATFORM} is invalid"
+      exit 1
+      ;;
+  esac
+
+  # setup provisioning-bash
+  : "----- clone provisioning-bash"
+  declare -r REPOS_NAME=provisioning-bash
+  [ -d ${REPOS_NAME} ] || git clone https://github.com/goldeneggg/${REPOS_NAME}
+
+  pushd ${REPOS_NAME}
+  if [ ${BRANCH} != "master" ]
+  then
+    : "----- switch branch to ${BRANCH}"
+    git branch ${BRANCH} origin/${BRANCH}
+    git checkout ${BRANCH}
+  fi
+
+  : "----- pull --rebase"
+  git pull --rebase origin ${BRANCH}
+
+  # uninstall git
+  case ${PLATFORM} in
+    centos*|fedora*|amazon*)
+      uninstall_git_centos
+      ;;
+    debian*|ubuntu*)
+      uninstall_git_debian
+      ;;
+    *)
+      echo "platform ${PLATFORM} is invalid"
+      exit 1
+      ;;
+  esac
 fi
 
-git pull --rebase origin ${BRANCH}
 pushd ${PLATFORM}
 
+: "----- create log dir"
 declare -r LOGDIR=logs
 [ -d ${LOGDIR} ] || mkdir ${LOGDIR}
 
