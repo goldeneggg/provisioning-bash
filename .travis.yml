@@ -1,0 +1,9 @@
+services:
+  - docker
+
+before_install:
+  - cd ubuntu18/docker-files
+  - make build-local
+
+script:
+  - docker run --rm goldeneggg:ubuntu18.04 /bin/sh -c "date | grep UTC > /dev/null"
