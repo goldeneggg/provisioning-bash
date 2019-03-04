@@ -7,7 +7,8 @@ source prepare.sh
 
 : "----- install default packages"
 ${PRVENV_CMD_PKG_UPD}
-${PRVENV_CMD_PKG_INS} build-essential strace sysstat lsof
+${PRVENV_CMD_PKG_INS} build-essential strace sysstat lsof daemontools gdb gdbserver gdebi autoconf
+
 
 : "----- set location info (is ja, JP)"
 ${PRVENV_CMD_PKG_INS} language-pack-ja

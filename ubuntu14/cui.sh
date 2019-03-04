@@ -8,8 +8,7 @@ source prepare.sh
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
 : "----- install packages for cui environment"
-${PRVENV_CMD_PKG_INS} ncurses-term screen tmux git subversion zsh ctags lv daemontools gdb gdbserver unzip stow ack-grep jq gdebi autoconf
-
+${PRVENV_CMD_PKG_INS} ncurses-term screen tmux git zsh ctags lv unzip stow ack-grep jq
 : "----- install latest vim"
 add-apt-repository -y ppa:jonathonf/vim
 ${PRVENV_CMD_PKG_UPD}
