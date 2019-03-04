@@ -4,8 +4,7 @@ services:
   - docker
 
 before_install:
-  - cd ubuntu18/docker-files
-  - make build-local
+  - bash ci.sh build
 
 script:
-  - make test
+  - bash ci.sh run

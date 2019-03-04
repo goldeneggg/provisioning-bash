@@ -13,3 +13,7 @@ build-local:
 	@cp ../../entry.sh ./entry.sh && mkdir ./amazon1 && cp ../prepare.sh amazon1/prepare.sh && cp -r ../envs amazon1/ && cp -r ../files amazon1/ && \
 		cp ../init.sh amazon1/init.sh
 	@docker build -t $(OWNER):$(OS) -f Dockerfile.local .
+
+.PHONY: test
+test:
+	@docker run --rm $(OWNER):$(OS) /bin/sh -c "date | grep JST > /dev/null"

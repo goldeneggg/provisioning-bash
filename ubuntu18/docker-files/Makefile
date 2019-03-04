@@ -19,4 +19,4 @@ build-local:
 
 .PHONY: test
 test:
-	@docker run --rm goldeneggg:ubuntu18.04 /bin/sh -c "date | grep JST > /dev/null"
+	@docker run --rm $(OWNER):$(OS) /bin/sh -c "date | grep JST > /dev/null"
