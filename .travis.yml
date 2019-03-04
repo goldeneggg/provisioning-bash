@@ -1,3 +1,5 @@
+language: minimal
+
 services:
   - docker
 
@@ -6,4 +8,4 @@ before_install:
   - make build-local
 
 script:
-  - docker run --rm goldeneggg:ubuntu18.04 /bin/sh -c "date | grep UTC > /dev/null"
+  - make test
