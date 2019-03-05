@@ -38,4 +38,12 @@ function run() {
   done
 }
 
-eval ${1}
+declare FUNC=run
+while true; do
+  case "$1" in
+    -b | --build) FUNC=build; shift ;;
+    * ) break ;;
+  esac
+done
+
+eval ${FUNC}

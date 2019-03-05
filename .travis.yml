@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-  - bash ci.sh build
+  - bash ci.sh --build
 
 script:
-  - bash ci.sh run
+  - bash ci.sh
