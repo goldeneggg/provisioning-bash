@@ -13,3 +13,7 @@ build-local:
 	@cp ../../entry.sh ./entry.sh && mkdir ./ubuntu14 && cp ../prepare.sh ubuntu14/prepare.sh && cp -r ../envs ubuntu14/ && cp -r ../files ubuntu14/ && \
 		cp ../init.sh ubuntu14/init.sh
 	@docker build -t $(OWNER):$(OS) -f Dockerfile.local .
+
+.PHONY: test
+test:
+	@docker run --rm $(OWNER):$(OS) /bin/sh -c "date | grep JST > /dev/null"
