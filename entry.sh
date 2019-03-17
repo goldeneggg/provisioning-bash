@@ -49,7 +49,7 @@ function uninstall_git_debian() {
 }
 
 declare BRANCH=master
-declare ONLOCAL
+declare ONLOCAL=""
 while true; do
   case "$1" in
     -h | --help ) usage; exit 1 ;;
