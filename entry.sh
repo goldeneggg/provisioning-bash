@@ -49,12 +49,12 @@ function uninstall_git_debian() {
 }
 
 declare BRANCH=master
-declare ONLOCAL=""
+declare ONLOCAL="false"
 while true; do
   case "$1" in
     -h | --help ) usage; exit 1 ;;
     -b | --branch ) BRANCH=$2; shift 2 ;;
-    --local ) ONLOCAL=1; shift 1 ;;
+    --local ) ONLOCAL="true"; shift 1 ;;
     * ) break ;;
   esac
 done
@@ -81,7 +81,7 @@ esac
 
 declare WORKDIR=.
 
-if [ ${ONLOCAL} != 1 ]
+if [ "${ONLOCAL}" = "false" ]
 then
   WORKDIR=${HOME}/work
   [ -d ${WORKDIR} ] || mkdir ${WORKDIR}
