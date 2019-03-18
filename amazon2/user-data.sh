@@ -3,10 +3,13 @@
 WORKDIR=/tmp/work
 ROOT_WORKDIR=/tmp/root_work
 ENTRY=entry.sh
-PLATFORM=amazon1
 
-# provisioning for root
+# "amazon1" or "amazon2"
+PLATFORM=amazon2
+
+# assign your provisioning scripts for root user into ROOT_TARGETS variable
 ROOT_TARGETS=("init.sh")
+
 if [ ${#ROOT_TARGETS[@]} -ne 0 ]
 then
   echo "ROOT_TARGETS=${ROOT_TARGETS}"
@@ -21,7 +24,7 @@ then
   done
 fi
 
-# provisioning for user
+# assign your provisioning scripts for general user into TARGETS variable
 TARGETS=()
 
 if [ ${#TARGETS[@]} -ne 0 ]

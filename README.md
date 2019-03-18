@@ -97,25 +97,11 @@ end
 * This repository will be cloned on `/root/work` directory.
 * Show more information -> [Shell Scripts - Provisioning - Vagrant Documentation](https://docs.vagrantup.com/v2/provisioning/shell.html)
 
-## Structure
+### EC2 user-data
 
-* `./facade.sh` is facade script of provisioning
-* `./PLATFORM` is directory of each `PLATFORM` (ubuntu14, centos7, etc...)
-* `./PLATFORM/SCRIPT` is script for provisioning (ex. docker.sh, apache.sh, etc...)
-* `./PLATFORM/files/SCRIPT` is directory of configuration files
-    * ex. `./PLATFORM/files/SCRIPT/etc/apache2/conf/httpd.conf` is original file of `/etc/apache2/conf/httpd.conf`.
-        * `./PLATFORM/files/SCRIPT` is path prefix. This file supposes that will be copied to same path of target server/container.
+EC2 [user-data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) for Amazon Linux 2 as follows:
 
-
-## License
-
-[LICENSE](LICENSE) file for details.
-
-### EC2 cloud-init
-
-EC2 cloud-init for Amazon Linux 2 as follows:
-
-(original file is [here](https://github.com/goldeneggg/provisioning-bash/blob/master/amazon2/cloud-init.sh))
+(original file is [here](https://github.com/goldeneggg/provisioning-bash/blob/master/amazon2/user-data.sh))
 
 ```sh
 #!/bin/bash
@@ -158,3 +144,17 @@ then
   done
 fi
 ```
+
+## Structure
+
+* `./facade.sh` is facade script of provisioning
+* `./PLATFORM` is directory of each `PLATFORM` (ubuntu14, centos7, etc...)
+* `./PLATFORM/SCRIPT` is script for provisioning (ex. docker.sh, apache.sh, etc...)
+* `./PLATFORM/files/SCRIPT` is directory of configuration files
+    * ex. `./PLATFORM/files/SCRIPT/etc/apache2/conf/httpd.conf` is original file of `/etc/apache2/conf/httpd.conf`.
+        * `./PLATFORM/files/SCRIPT` is path prefix. This file supposes that will be copied to same path of target server/container.
+
+
+## License
+
+[LICENSE](LICENSE) file for details.
