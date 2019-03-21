@@ -109,10 +109,13 @@ EC2 [user-data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.ht
 WORKDIR=/tmp/work
 ROOT_WORKDIR=/tmp/root_work
 ENTRY=entry.sh
+
+# "amazon1" or "amazon2"
 PLATFORM=amazon2
 
-# provisioning for root
+# assign your provisioning scripts for root user into ROOT_TARGETS variable
 ROOT_TARGETS=("init.sh")
+
 if [ ${#ROOT_TARGETS[@]} -ne 0 ]
 then
   echo "ROOT_TARGETS=${ROOT_TARGETS}"
@@ -127,7 +130,7 @@ then
   done
 fi
 
-# provisioning for user
+# assign your provisioning scripts for general user into TARGETS variable
 TARGETS=()
 
 if [ ${#TARGETS[@]} -ne 0 ]
