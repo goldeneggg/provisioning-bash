@@ -1,5 +1,8 @@
-provisioning-bash
-==========
+# provisioning-bash
+
+[![Build Status](https://travis-ci.org/goldeneggg/provisioning-bash.svg?branch=master)](https://travis-ci.org/goldeneggg/provisioning-bash)
+[![MIT License](http://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/goldeneggg/provisioning-bash/blob/master/LICENSE)
+
 __provisioning-bash__ is collection of scripts for OS provisioning.
 
 All scripts are written by `bash` so they are easy and useful for your server provisioning.
@@ -10,7 +13,7 @@ All scripts are written by `bash` so they are easy and useful for your server pr
 ### Manualy
 
 ```sh
-# <PLATFORM> is linux platform environment (ex. "debian", "ubuntu18" and more)
+# <PLATFORM> is linux platform environment (ex. "amazon2", "ubuntu18" and more)
 # <SCRIPT> is provisioning script file name
 
 curl -fLsS https://git.io/prv-bash | bash -s <PLATFORM> <SCRIPT> [SOME ARGS...]
@@ -84,7 +87,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # provisioning scripts
       provisioning_scripts.each do |prv|
         d.vm.provision :shell do |s|
-          s.path = "https://git.io/fhbZl"
+          s.path = "https://git.io/prv-bash"
           s.args = [platform, prv["name"]] + prv["args"]
           s.privileged = prv["root"]
         end
@@ -150,12 +153,12 @@ fi
 
 ## Structure
 
-* `./facade.sh` is facade script of provisioning
-* `./PLATFORM` is directory of each `PLATFORM` (ubuntu14, centos7, etc...)
+* `./entry.sh` is entry point script of provisioning
+* `./PLATFORM` is directory of each `PLATFORM` (ubuntu18, centos7, etc...)
 * `./PLATFORM/SCRIPT` is script for provisioning (ex. docker.sh, apache.sh, etc...)
 * `./PLATFORM/files/SCRIPT` is directory of configuration files
     * ex. `./PLATFORM/files/SCRIPT/etc/apache2/conf/httpd.conf` is original file of `/etc/apache2/conf/httpd.conf`.
-        * `./PLATFORM/files/SCRIPT` is path prefix. This file supposes that will be copied to same path of target server/container.
+        * `./PLATFORM/files/SCRIPT` is path prefix. This file supposes that will be copied to same path of target server or container.
 
 
 ## License
