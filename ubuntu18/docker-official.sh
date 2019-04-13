@@ -23,11 +23,16 @@ fi
 ${PRVENV_CMD_PKG_RMV} docker docker-engine docker.io
 
 : "----- install dependency packages"
-${PRVENV_CMD_PKG_INS} apt-transport-https ca-certificates curl software-properties-common
-
-: "----- install docker.io"
 ${PRVENV_CMD_PKG_UPD}
-${PRVENV_CMD_PKG_INS} docker.io
+${PRVENV_CMD_PKG_INS} apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
+: "----- add Docker’s official GPG ke"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
+: "----- install from the stable repositry"
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+${PRVENV_CMD_PKG_UPD}
+${PRVENV_CMD_PKG_INS} docker-ce docker-ce-cli containerd.io
 
 : "----- add docker group into targer users"
 for u in ${DOCKER_GROUP_USERS[@]}

@@ -10,7 +10,7 @@ set -e
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
 # args
-declare -r DOCKER_VERSION=${1:-"18.03.0"}
+declare -r DOCKER_VERSION=${1:-"18.09.5"}
 declare -r DOCKER_APT_VER=${DOCKER_VERSION}"~ce-0~ubuntu"
 ## @ = users of "docker" group
 declare -a DOCKER_GROUP_USERS

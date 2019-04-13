@@ -11,7 +11,7 @@ set -eu
 
 # args
 ## 1 = go version
-declare -r INNOTOP_VERSION=${1:-"1.9.1"}
+declare -r INNOTOP_VERSION=${1:-"1.11.4"}
 echo "innotop version = ${INNOTOP_VERSION}"
 
 : "----- install dependency cpan modules"

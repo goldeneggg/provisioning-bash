@@ -10,7 +10,7 @@ set -e
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
 # args
-declare -r DOCKER_COMPOSE_VER=${1:-"1.23.2"}
+declare -r DOCKER_COMPOSE_VER=${1:-"1.24.0"}
 declare -r DOCKER_COMPOSE_PREFIX=/usr/local
 echo "docker-compose ver = ${DOCKER_COMPOSE_VER}"
 
