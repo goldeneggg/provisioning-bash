@@ -35,3 +35,6 @@ scripts:
  - name: "pyenv.sh"
    root: false
    args: []
+ - name: "goldeneggg.sh"
+   root: false
+   args: []

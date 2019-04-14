@@ -58,6 +58,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           s.privileged = prv["root"]
         end
       end
+
+      unless ENV['PUB_KEY'].nil?
+        d.vm.provision :shell do |s|
+          s.privileged = false
+
+          pub_key_content = `cat ~/.ssh/#{ENV['PUB_KEY']}`.chomp!
+          s.inline = "echo \"#{pub_key_content}\" >> ~/.ssh/authorized_keys"
+        end
+      end
     end
   end
 end
