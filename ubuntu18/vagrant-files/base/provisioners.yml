@@ -13,3 +13,25 @@ scripts:
  - name: "init_ja.sh"
    root: true
    args: []
+ - name: "cui.sh"
+   root: true
+   args: []
+ - name: "networktools.sh"
+   root: true
+   args: []
+ - name: "golang-src.sh"
+   root: true
+   args: []
+ - name: "golang-src-gopath.sh"
+   root: false
+   args: []
+ - name: "docker-official.sh"
+   root: true
+   args:
+    - "vagrant"
+ - name: "docker-compose.sh"
+   root: true
+   args: []
+ - name: "pyenv.sh"
+   root: false
+   args: []

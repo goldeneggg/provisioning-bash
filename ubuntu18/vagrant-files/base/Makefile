@@ -19,5 +19,5 @@ halt:
 
 .PHONY: destroy
 destroy:
-	@vagrant destroy
+	@vagrant destroy -f
 
