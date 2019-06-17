@@ -16,7 +16,7 @@ bash ${MYDIR}/_mysql80-src-dep.sh
 ## 1 = server id
 ## 2 = minor version
 declare -r SERVER_ID=${1:-1}
-declare -r MINOR_VER=${2:-"15"}
+declare -r MINOR_VER=${2:-"16"}
 echo "server id = ${SERVER_ID}"
 
 declare -r MAJOR_VER="8.0"
