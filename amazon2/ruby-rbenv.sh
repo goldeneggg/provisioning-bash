@@ -1,0 +1,1 @@
+../amazon1/ruby-rbenv.sh
