@@ -8,7 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/bionic64"
 
   # require "vagrant plugin install vagrant-disksize"
-  config.disksize.size = '20GB'
+  config.disksize.size = '10GB'
 
   machines = [
     {
