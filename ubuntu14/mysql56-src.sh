@@ -12,7 +12,7 @@ set -e
 bash ${MYDIR}/_mysql56-src-dep.sh
 
 : "----- download mysql"
-declare -r MINOR_VER=${1:-"44"}
+declare -r MINOR_VER=${1:-"45"}
 
 declare -r MAJOR_VER="5.6"
 declare -r VER=${MAJOR_VER}.${MINOR_VER}

@@ -13,7 +13,7 @@ set -e
 : "----- download deb package"
 # args
 ## 1 = version id
-declare -r VER=${1:-"0.8.12-1"}
+declare -r VER=${1:-"0.8.13-1"}
 echo "version id = ${VER}"
 declare -r DEBNAME=mysql-apt-config_${VER}_all.deb
 

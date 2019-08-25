@@ -9,7 +9,7 @@ set -e
 
 # See: latest stable version from https://nodejs.org/ja/download/ at 2018-11-19
 declare -r MAJOR_VER=${1:-"10.16"}
-declare -r MINOR_VER=${2:-"0"}
+declare -r MINOR_VER=${2:-"3"}
 declare -r VER=${MAJOR_VER}.${MINOR_VER}
 
 : "----- install ndenv"

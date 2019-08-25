@@ -11,16 +11,17 @@ set -e
 
 # args
 ## 1 = jdk version
-declare -r JDK_VER=${1:-"11.0.3"}
-declare -r JDK_BETA_VER=${2:-"+12"}
+declare -r JDK_VER=${1:-"11.0.4"}
+declare -r JDK_BETA_VER=${2:-"+10"}
 echo "jdk version = ${JDK_VER}${JDK_BETA_VER}"
 
+
 : "----- install jdk"
-# https://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7/jdk-11.0.1_linux-x64_bin.tar.gz
+# https://download.oracle.com/otn/java/jdk/11.0.4+10/cf1bbcbf431a474eb9fc550051f4ee78/jdk-11.0.4_linux-x64_bin.tar.gz
 pushd ${PRVENV_INSTALL_WORK_DIR}
 declare -r JDK_ARCHIVE=jdk-${JDK_VER}_linux-x64_bin.tar.gz
-declare -r PATH_HASH=37f5e150db5247ab9333b11c1dddcd30
-${PRVENV_WGETCMD} --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/${JDK_VER}${JDK_BETA_VER}/${PATH_HASH}/${JDK_ARCHIVE}
+declare -r PATH_HASH=cf1bbcbf431a474eb9fc550051f4ee78
+${PRVENV_WGETCMD} --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn/java/jdk/${JDK_VER}${JDK_BETA_VER}/${PATH_HASH}/${JDK_ARCHIVE}
 
 declare -r JDK_PREFIX=/usr/local
 declare -r JAVA_HOME=${JDK_PREFIX}/java

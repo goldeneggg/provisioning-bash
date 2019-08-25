@@ -7,13 +7,35 @@ __provisioning-bash__ is collection of scripts for OS provisioning.
 
 All scripts are written by `bash` so they are easy and useful for your server provisioning.
 
+<!-- TOC depthFrom:1 -->
+
+- [provisioning-bash](#provisioning-bash)
+  - [Structure](#structure)
+  - [Usage](#usage)
+    - [Manualy](#manualy)
+    - [Docker](#docker)
+    - [Vagrant](#vagrant)
+    - [EC2 user-data](#ec2-user-data)
+  - [License](#license)
+
+<!-- /TOC -->
+
+## Structure
+
+* `./entry.sh` is entry point script for provisioning
+* `./PLATFORM` is directory of each `PLATFORM` (ubuntu18, centos7, etc...)
+* `./PLATFORM/SCRIPT` is script for provisioning (ex. docker.sh, apache.sh, etc...)
+* `./PLATFORM/files/SCRIPT` is directory of configuration files
+    * ex. `./PLATFORM/files/SCRIPT/etc/apache2/conf/httpd.conf` is original file of `/etc/apache2/conf/httpd.conf`.
+        * `./PLATFORM/files/SCRIPT` is path prefix. This file supposes that will be copied to same path of target server or container.
+
 
 ## Usage
 
 ### Manualy
 
 ```sh
-# <PLATFORM> is linux platform environment (ex. "amazon2", "ubuntu18" and more)
+# <PLATFORM> is platform environment (ex. "amazon2", "ubuntu18" and more)
 # <SCRIPT> is provisioning script file name
 
 curl -fLsS https://git.io/prv-bash | bash -s <PLATFORM> <SCRIPT> [SOME ARGS...]
@@ -150,15 +172,6 @@ then
   done
 fi
 ```
-
-## Structure
-
-* `./entry.sh` is entry point script of provisioning
-* `./PLATFORM` is directory of each `PLATFORM` (ubuntu18, centos7, etc...)
-* `./PLATFORM/SCRIPT` is script for provisioning (ex. docker.sh, apache.sh, etc...)
-* `./PLATFORM/files/SCRIPT` is directory of configuration files
-    * ex. `./PLATFORM/files/SCRIPT/etc/apache2/conf/httpd.conf` is original file of `/etc/apache2/conf/httpd.conf`.
-        * `./PLATFORM/files/SCRIPT` is path prefix. This file supposes that will be copied to same path of target server or container.
 
 
 ## License
