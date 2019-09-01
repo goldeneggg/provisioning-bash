@@ -3,7 +3,7 @@
 set -ux
 
 function usage {
-    cat << __EOT__
+  cat << EOT
 Usage: $0 [Options] PLATFORM SCRIPT_NAME [OTHER ARGS...]
 
 Provisioner's facade script
@@ -13,7 +13,7 @@ Options:
   --local                use local files(not clone from github.com)
   -h | --help            print a summary of the options
 
-__EOT__
+EOT
 }
 
 function install_git_centos() {
