@@ -65,6 +65,10 @@ declare -r PLATFORM=${1}
 declare -r SCRIPT=${2}
 shift 2
 
+: "----- check whoami"
+declare -r WHOAMI=$(whoami)
+echo "whoami =  ${WHOAMI}"
+
 # check assigned platform
 case ${PLATFORM} in
   centos*|fedora*|amazon*)
@@ -90,10 +94,10 @@ then
   # install git
   case ${PLATFORM} in
     centos*|fedora*|amazon*)
-      install_git_centos
+      [ "${WHOAMI}" = "root"] && install_git_centos
       ;;
     debian*|ubuntu*)
-      install_git_debian
+      [ "${WHOAMI}" = "root"] && install_git_debian
       ;;
     *)
       echo "platform ${PLATFORM} is invalid"
@@ -120,10 +124,10 @@ then
   # uninstall git
   case ${PLATFORM} in
     centos*|fedora*|amazon*)
-      uninstall_git_centos
+      [ "${WHOAMI}" = "root"] && uninstall_git_centos
       ;;
     debian*|ubuntu*)
-      uninstall_git_debian
+      [ "${WHOAMI}" = "root"] && uninstall_git_debian
       ;;
     *)
       echo "platform ${PLATFORM} is invalid"
