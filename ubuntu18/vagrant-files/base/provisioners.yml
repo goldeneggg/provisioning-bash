@@ -10,7 +10,7 @@ platform: "ubuntu18"
 #    - <some argsN>
 #   args: []  is no argument
 scripts:
- - name: "init_ja.sh"
+ - name: "init.sh"
    root: true
    args: []
  - name: "cui.sh"

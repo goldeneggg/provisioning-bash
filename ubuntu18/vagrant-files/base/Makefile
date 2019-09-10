@@ -16,12 +16,14 @@ add-sshconf:
 	@vagrant ssh-config >> $(SSH_CONF)
 	@echo "  ForwardAgent yes" >> $(SSH_CONF)
 
+.PHONY: host
 host:
 	@echo $(VAG_HOST)
 
 # Note:
 # - ssh-agent zsh
 #   ssh-add ~/.ssh/id_rsa
+.PHONY: ssh
 ssh:
 	@ssh -F $(SSH_CONF) -A $(VAG_HOST)
 
