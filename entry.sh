@@ -33,19 +33,19 @@ function uninstall_git_centos() {
 }
 
 function install_git_debian() {
-  apt-get -y update
+  DEBIAN_FRONTEND=noninteractive apt-get -y update
 
   dpkg -l | grep " git " > /dev/null
   if [ $? -ne 0 ]
   then
     : "----- install git"
-    apt-get -y --no-install-recommends install git ca-certificates
+    DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install git ca-certificates
   fi
 }
 
 function uninstall_git_debian() {
   : "----- uninstall git"
-  apt-get -y remove --purge git
+  DEBIAN_FRONTEND=noninteractive apt-get -y remove --purge git
 }
 
 declare BRANCH=master

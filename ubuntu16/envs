@@ -1,6 +1,6 @@
 export PRVENV_WGETCMD="wget --no-check-certificate --no-cache"
 
-export PRVENV_CMD_PKG="apt-get -y"
+export PRVENV_CMD_PKG="DEBIAN_FRONTEND=noninteractive apt-get -y"
 export PRVENV_CMD_PKG_INS="${PRVENV_CMD_PKG} --no-install-recommends install"
 export PRVENV_CMD_PKG_UPD="${PRVENV_CMD_PKG} update"
 export PRVENV_CMD_PKG_RMV="${PRVENV_CMD_PKG} remove"
