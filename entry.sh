@@ -94,10 +94,10 @@ then
   # install git
   case ${PLATFORM} in
     centos*|fedora*|amazon*)
-      [ "${WHOAMI}" = "root"] && install_git_centos
+      [ "${WHOAMI}" = "root" ] && install_git_centos
       ;;
     debian*|ubuntu*)
-      [ "${WHOAMI}" = "root"] && install_git_debian
+      [ "${WHOAMI}" = "root" ] && install_git_debian
       ;;
     *)
       echo "platform ${PLATFORM} is invalid"
@@ -124,10 +124,10 @@ then
   # uninstall git
   case ${PLATFORM} in
     centos*|fedora*|amazon*)
-      [ "${WHOAMI}" = "root"] && uninstall_git_centos
+      [ "${WHOAMI}" = "root" ] && uninstall_git_centos
       ;;
     debian*|ubuntu*)
-      [ "${WHOAMI}" = "root"] && uninstall_git_debian
+      [ "${WHOAMI}" = "root" ] && uninstall_git_debian
       ;;
     *)
       echo "platform ${PLATFORM} is invalid"
