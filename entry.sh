@@ -33,19 +33,19 @@ function uninstall_git_centos() {
 }
 
 function install_git_debian() {
-  DEBIAN_FRONTEND=noninteractive apt-get -y update
+  apt-get -y update
 
   dpkg -l | grep " git " > /dev/null
   if [ $? -ne 0 ]
   then
     : "----- install git"
-    DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install git ca-certificates
+    apt-get -y --no-install-recommends install git ca-certificates
   fi
 }
 
 function uninstall_git_debian() {
   : "----- uninstall git"
-  DEBIAN_FRONTEND=noninteractive apt-get -y remove --purge git
+  apt-get -y remove --purge git
 }
 
 declare BRANCH=master
@@ -76,6 +76,7 @@ case ${PLATFORM} in
     ;;
   debian*|ubuntu*)
     : "----- platform is debian family"
+    export DEBIAN_FRONTEND=noninteractive
     ;;
   *)
     echo "platform ${PLATFORM} is invalid"
