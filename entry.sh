@@ -17,35 +17,35 @@ EOT
 }
 
 function install_git_centos() {
-  yum -y update
+  ${SUDOCMD}yum -y update
 
   rpm -ql git > /dev/null
   if [ $? -ne 0 ]
   then
     : "----- install git"
-    yum -y install git
+    ${SUDOCMD}yum -y install git
   fi
 }
 
 function uninstall_git_centos() {
   : "----- uninstall git"
-  yum -y remove git
+  ${SUDOCMD}yum -y remove git
 }
 
 function install_git_debian() {
-  apt-get -y update
+  ${SUDOCMD}apt-get -y update
 
   dpkg -l | grep " git " > /dev/null
   if [ $? -ne 0 ]
   then
     : "----- install git"
-    apt-get -y --no-install-recommends install git ca-certificates
+    ${SUDOCMD}apt-get -y --no-install-recommends install git ca-certificates
   fi
 }
 
 function uninstall_git_debian() {
   : "----- uninstall git"
-  apt-get -y remove --purge git
+  ${SUDOCMD}apt-get -y remove --purge git
 }
 
 declare BRANCH=master
@@ -68,6 +68,11 @@ shift 2
 : "----- check whoami"
 declare -r WHOAMI=$(whoami)
 echo "whoami =  ${WHOAMI}"
+declare SUDOCMD
+if [ "${WHOAMI}" != "root" ]
+then
+  SUDOCMD="sudo "
+fi
 
 # check assigned platform
 case ${PLATFORM} in
@@ -95,10 +100,10 @@ then
   # install git
   case ${PLATFORM} in
     centos*|fedora*|amazon*)
-      [ "${WHOAMI}" = "root" ] && install_git_centos
+      install_git_centos
       ;;
     debian*|ubuntu*)
-      [ "${WHOAMI}" = "root" ] && install_git_debian
+      install_git_debian
       ;;
     *)
       echo "platform ${PLATFORM} is invalid"
@@ -125,10 +130,10 @@ then
   # uninstall git
   case ${PLATFORM} in
     centos*|fedora*|amazon*)
-      [ "${WHOAMI}" = "root" ] && uninstall_git_centos
+      uninstall_git_centos
       ;;
     debian*|ubuntu*)
-      [ "${WHOAMI}" = "root" ] && uninstall_git_debian
+      uninstall_git_debian
       ;;
     *)
       echo "platform ${PLATFORM} is invalid"
