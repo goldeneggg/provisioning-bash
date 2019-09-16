@@ -2,6 +2,17 @@
 
 set -ux
 
+
+: "----- check whoami"
+declare -r WHOAMI=$(whoami)
+echo "whoami = ${WHOAMI}"
+declare SUDOCMD=""
+if [ "${WHOAMI}" != "root" ]
+then
+  SUDOCMD="sudo "
+fi
+
+
 function usage {
   cat << EOT
 Usage: $0 [Options] PLATFORM SCRIPT_NAME [OTHER ARGS...]
@@ -64,15 +75,6 @@ done
 declare -r PLATFORM=${1}
 declare -r SCRIPT=${2}
 shift 2
-
-: "----- check whoami"
-declare -r WHOAMI=$(whoami)
-echo "whoami =  ${WHOAMI}"
-declare SUDOCMD
-if [ "${WHOAMI}" != "root" ]
-then
-  SUDOCMD="sudo "
-fi
 
 # check assigned platform
 case ${PLATFORM} in
