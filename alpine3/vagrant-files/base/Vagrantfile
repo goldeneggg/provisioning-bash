@@ -1,0 +1,72 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "alpine/alpine64"
+
+  # require "vagrant plugin install vagrant-disksize"
+  config.disksize.size = '10GB'
+
+  machines = [
+    {
+      hostname:  "vagalpine3base",
+      ip:  "192.168.56.130",
+      memory:  4096,
+      cpus:  2,
+      forwarded_ports:  {
+        # 80 => 20080,    # web
+        # 4243 => 24243,  # docker api
+      }
+    }
+  ]
+
+  # provisoner
+  require 'yaml'
+  yaml_path = "./provisioners.yml"
+  if !File.exist?(yaml_path)
+    $stderr.puts("provisioners define yaml: #{yaml_path} does not exist")
+    exit 1
+  end
+  provisioner = YAML.load_file(yaml_path)
+  platform = provisioner['platform']
+  provisioning_scripts = provisioner['scripts']
+
+  machines.each do |m|
+    config.vm.define m[:hostname] do |d|
+      d.vm.hostname = m[:hostname]
+      d.vm.network :private_network, ip: m[:ip]
+
+      d.vm.provider :virtualbox do |vb|
+        vb.memory = m[:memory]
+        vb.cpus = m[:cpus]
+      end
+
+      m[:forwarded_ports].each do |guest_port, host_port|
+        d.vm.network :forwarded_port, host: host_port, guest: guest_port
+      end
+
+      # d.vm.synced_folder ".", "/vagrant", disabled: true
+
+      # provisioning scripts
+      provisioning_scripts.each do |prv|
+        d.vm.provision :shell do |s|
+          s.path = "https://git.io/prv-bash"
+          s.args = [platform, prv["name"]] + prv["args"]
+          s.privileged = prv["root"]
+        end
+      end
+
+      unless ENV['PUB_KEY'].nil?
+        d.vm.provision :shell do |s|
+          s.privileged = false
+
+          pub_key_content = `cat ~/.ssh/#{ENV['PUB_KEY']}`.chomp!
+          s.inline = "echo \"#{pub_key_content}\" >> ~/.ssh/authorized_keys"
+        end
+      end
+    end
+  end
+end

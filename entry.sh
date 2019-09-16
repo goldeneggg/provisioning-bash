@@ -59,6 +59,23 @@ function uninstall_git_debian() {
   ${SUDOCMD}apt-get -y remove --purge git
 }
 
+function install_git_alpine() {
+  ${SUDOCMD}apk --no-cache update
+
+  apk info git > /dev/null
+  if [ $? -ne 0 ]
+  then
+    : "----- install git"
+    #${SUDOCMD}apk --no-cache add git ca-certificates
+    ${SUDOCMD}apk --no-cache add git
+  fi
+}
+
+function uninstall_git_alpine() {
+  : "----- uninstall git"
+  ${SUDOCMD}apk del --purge git
+}
+
 declare BRANCH=master
 declare ONLOCAL="false"
 while true; do
@@ -85,6 +102,9 @@ case ${PLATFORM} in
     : "----- platform is debian family"
     export DEBIAN_FRONTEND=noninteractive
     ;;
+  alpine*)
+    : "----- platform is alpine family"
+    ;;
   *)
     echo "platform ${PLATFORM} is invalid"
     exit 1
@@ -106,6 +126,9 @@ then
       ;;
     debian*|ubuntu*)
       install_git_debian
+      ;;
+    alpine*)
+      install_git_alpine
       ;;
     *)
       echo "platform ${PLATFORM} is invalid"
@@ -136,6 +159,9 @@ then
       ;;
     debian*|ubuntu*)
       uninstall_git_debian
+      ;;
+    alpine*)
+      uninstall_git_alpine
       ;;
     *)
       echo "platform ${PLATFORM} is invalid"

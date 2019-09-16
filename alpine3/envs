@@ -1,0 +1,28 @@
+export PRVENV_WGETCMD="wget --no-check-certificate --no-cache"
+
+export PRVENV_CMD_PKG="apk --no-cache"
+export PRVENV_CMD_PKG_INS="${PRVENV_CMD_PKG} add"
+export PRVENV_CMD_PKG_UPD="${PRVENV_CMD_PKG} update"
+export PRVENV_CMD_PKG_RMV="${PRVENV_CMD_PKG} del"
+export PRVENV_CMD_PKG_RMV_PRGE="${PRVENV_CMD_PKG} del --purge"
+export PRVENV_CMD_PKG_AUTORMV_PRGE="${PRVENV_CMD_PKG} del --purge"
+
+#export PRVENV_CMD_LOCAL_PKG="dpkg"
+#export PRVENV_CMD_LOCAL_PKG_INS="${PRVENV_CMD_LOCAL_PKG} -i"
+
+export PRVENV_CMD_INIT="rc-service"
+export PRVENV_CMD_INIT_START="${PRVENV_CMD_INIT} start"
+export PRVENV_CMD_INIT_RESTART="${PRVENV_CMD_INIT} restart"
+export PRVENV_CMD_INIT_STOP="${PRVENV_CMD_INIT} stop"
+export PRVENV_CMD_INIT_STATUS="rc-status"
+export PRVENV_CMD_INIT_RELOAD="${PRVENV_CMD_INIT} reload"
+#export PRVENV_CMD_INIT_ENABLE="${PRVENV_CMD_INIT} enable"
+
+export PRVENV_SYSTEM_SYSTEMD_DIR=/etc/systemd/system
+
+#export PRVENV_CMD_SERVICE="sysv-rc-conf"
+
+#export PRVENV_DEFAULT_BASHRC=/etc/bash.bashrc
+#export PRVENV_USER_BASHRC=/home/$(whoami)/.bash_profile
+
+export PRVENV_INSTALL_WORK_DIR=/tmp
