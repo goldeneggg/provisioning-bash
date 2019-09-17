@@ -31,6 +31,10 @@ ssh:
 halt:
 	@vagrant halt
 
+.PHONY: reload
+reload:
+	@vagrant reload
+
 .PHONY: destroy
 destroy:
 	@vagrant destroy -f
