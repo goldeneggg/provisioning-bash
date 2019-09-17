@@ -19,12 +19,10 @@ echo "MY_TZ = ${MY_TZ}"
 ${PRVENV_CMD_PKG_UPD}
 
 : "----- setup timezone"
-DEBIAN_FRONTEND=noninteractive ${PRVENV_CMD_PKG_INS} tzdata
 rm /etc/localtime
 ln -s /usr/share/zoneinfo/${MY_TZ} /etc/localtime
 
 : "----- setup lang and locale"
-DEBIAN_FRONTEND=noninteractive ${PRVENV_CMD_PKG_INS} language-pack-${MY_LOCALE}
 update-locale LANG=${MY_LANG}
 
 : "----- install default packages"

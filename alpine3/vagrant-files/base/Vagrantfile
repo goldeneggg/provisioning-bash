@@ -53,8 +53,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # provisioning scripts
       provisioning_scripts.each do |prv|
         d.vm.provision :shell do |s|
-          s.path = "https://git.io/prv-bash"
-          s.args = [platform, prv["name"]] + prv["args"]
+          #s.path = "https://git.io/prv-bash"
+          s.path = "https://raw.githubusercontent.com/goldeneggg/provisioning-bash/alpine3/entry.sh"
+          #s.args = [platform, prv["name"]] + prv["args"]
+          s.args = ["-b", "alpine3", platform, prv["name"]] + prv["args"]
           s.privileged = prv["root"]
         end
       end

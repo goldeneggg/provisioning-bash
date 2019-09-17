@@ -13,6 +13,3 @@ scripts:
  - name: "init.sh"
    root: true
    args: []
- - name: "cui.sh"
-   root: true
-   args: []
