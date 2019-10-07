@@ -37,4 +37,6 @@ scripts:
    args: []
  - name: "goldeneggg.sh"
    root: false
-   args: []
+   args:
+    - "goldeneggg"
+    - "jpshadowapps@gmail.com"
