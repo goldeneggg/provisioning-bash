@@ -8,7 +8,10 @@ source prepare.sh
 [ $(isroot) ] || { echo "${MYUSER} can not run ${MYNAME}" >&2; exit 1; }
 
 : "----- install packages for cui environment"
-${PRVENV_CMD_PKG_INS} ncurses-term screen tmux git zsh ctags lv unzip stow ack-grep jq
+${PRVENV_CMD_PKG_INS} ncurses-term screen tmux git zsh ctags lv unzip stow ack-grep jq 
+: "----- install latest ripgrep"
+# See: https://github.com/phiresky/ripgrep-all#linux
+${PRVENV_CMD_PKG_INS} ripgrep pandoc poppler-utils ffmpeg cargo
 : "----- install latest vim"
 add-apt-repository -y ppa:jonathonf/vim
 ${PRVENV_CMD_PKG_UPD}
