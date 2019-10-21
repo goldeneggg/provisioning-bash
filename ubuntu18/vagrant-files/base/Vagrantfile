@@ -51,7 +51,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # d.vm.synced_folder '.', '/vagrant', disabled: true
       
       branch = ENV['BRANCH']
-      puts "BRANCH = [#{branch}]"
 
       # provisioning scripts
       provisioning_scripts.each do |prv|
