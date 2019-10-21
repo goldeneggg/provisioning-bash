@@ -2,18 +2,18 @@
 # vi: set ft=ruby :
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
+VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = 'ubuntu/bionic64'
 
   # require "vagrant plugin install vagrant-disksize"
   config.disksize.size = '10GB'
 
   machines = [
     {
-      hostname:  "vagubuntu18base",
-      ip:  "192.168.56.110",
+      hostname:  'vagubuntu18base',
+      ip:  '192.168.56.110',
       memory:  4096,
       cpus:  2,
       forwarded_ports:  {
@@ -25,7 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # provisoner
   require 'yaml'
-  yaml_path = "./provisioners.yml"
+  yaml_path = './provisioners.yml'
   if !File.exist?(yaml_path)
     $stderr.puts("provisioners define yaml: #{yaml_path} does not exist")
     exit 1
@@ -48,14 +48,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         d.vm.network :forwarded_port, host: host_port, guest: guest_port
       end
 
-      # d.vm.synced_folder ".", "/vagrant", disabled: true
+      # d.vm.synced_folder '.', '/vagrant', disabled: true
+      
+      branch = ENV['BRANCH']
+      puts "BRANCH = [#{branch}]"
 
       # provisioning scripts
       provisioning_scripts.each do |prv|
         d.vm.provision :shell do |s|
-          s.path = "https://git.io/prv-bash"
-          s.args = [platform, prv["name"]] + prv["args"]
-          s.privileged = prv["root"]
+          s.path = branch.nil? ? 'https://git.io/prv-bash' : "https://raw.githubusercontent.com/goldeneggg/provisioning-bash/#{branch}/entry.sh"
+          s.args = branch.nil? ? [platform, prv['name']] + prv['args'] : ['-b', branch, platform, prv['name']] + prv['args']
+          s.privileged = prv['root']
         end
       end
 

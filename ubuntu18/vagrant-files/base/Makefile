@@ -8,6 +8,12 @@ VAG_HOST = $(eval VAG_HOST := $(shell vagrant status | awk 'NR == 3 {print $$1}'
 up:
 	@PUB_KEY=$(PUB_KEY) vagrant up
 
+BRANCH := some-fixes
+
+.PHONY: up-branch
+up-branch:
+	@PUB_KEY=$(PUB_KEY) BRANCH=$(BRANCH) vagrant up
+
 .PHONY: init
 init:
 	@PUB_KEY=$(PUB_KEY) vagrant up --provision && vagrant reload
