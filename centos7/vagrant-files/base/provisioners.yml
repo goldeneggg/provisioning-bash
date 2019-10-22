@@ -1,6 +1,6 @@
-# platform(ubuntu14 / centos7 / amazon)
+# platform(ubuntu18 / centos7 / amazon2)
 #
-platform: "amazon2"
+platform: "centos7"
 
 # scripts : execute provisioners
 # - name: <script name>

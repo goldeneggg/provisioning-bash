@@ -5,15 +5,15 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "gbailey/amzn2"
+  config.vm.box = "centos/7"
 
   # require "vagrant plugin install vagrant-disksize"
   config.disksize.size = '10GB'
 
   machines = [
     {
-      hostname:  "vagamzn2base",
-      ip:  "192.168.56.120",
+      hostname:  "vagcentos7base",
+      ip:  "192.168.56.130",
       memory:  4096,
       cpus:  2,
       forwarded_ports:  {
