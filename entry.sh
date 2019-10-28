@@ -152,22 +152,22 @@ then
   : "----- pull --rebase"
   git pull --rebase origin ${BRANCH}
 
-  # uninstall git
-  case ${PLATFORM} in
-    centos*|fedora*|amazon*)
-      uninstall_git_centos
-      ;;
-    debian*|ubuntu*)
-      uninstall_git_debian
-      ;;
-    alpine*)
-      uninstall_git_alpine
-      ;;
-    *)
-      echo "platform ${PLATFORM} is invalid"
-      exit 1
-      ;;
-  esac
+  # # uninstall git
+  # case ${PLATFORM} in
+  #   centos*|fedora*|amazon*)
+  #     uninstall_git_centos
+  #     ;;
+  #   debian*|ubuntu*)
+  #     uninstall_git_debian
+  #     ;;
+  #   alpine*)
+  #     uninstall_git_alpine
+  #     ;;
+  #   *)
+  #     echo "platform ${PLATFORM} is invalid"
+  #     exit 1
+  #     ;;
+  # esac
 fi
 
 pushd ${PLATFORM}

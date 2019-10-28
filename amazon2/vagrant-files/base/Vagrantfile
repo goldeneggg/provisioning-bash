@@ -17,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       memory:  4096,
       cpus:  2,
       forwarded_ports:  {
-        80 => 22080,    # web
+        # 80 => 22080,    # web
         # 4243 => 24243,  # docker api
       }
     }
@@ -49,12 +49,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 
       # d.vm.synced_folder ".", "/vagrant", disabled: true
+      
+      branch = ENV['BRANCH']
 
       # provisioning scripts
       provisioning_scripts.each do |prv|
         d.vm.provision :shell do |s|
-          s.path = "https://git.io/prv-bash"
-          s.args = [platform, prv["name"]] + prv["args"]
+          s.path = branch.nil? ? 'https://git.io/prv-bash' : "https://raw.githubusercontent.com/goldeneggg/provisioning-bash/#{branch}/entry.sh"
+          s.args = branch.nil? ? [platform, prv['name']] + prv['args'] : ['-b', branch, platform, prv['name']] + prv['args']
           s.privileged = prv["root"]
         end
       end
