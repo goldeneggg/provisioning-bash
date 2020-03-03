@@ -1,0 +1,33 @@
+# platform(ubuntu14 / centos7 / amazon)
+#
+platform: "ubuntu14"
+
+# scripts : execute provisioners
+# - name: <script name>
+#   root: true  *if this script is privilledged
+#   args:
+#    - <some args1>
+#    - <some argsN>
+#   args: []  is no argument
+scripts:
+ - name: "init.sh"
+   root: true
+   args: []
+ - name: "cui.sh"
+   root: true
+   args: []
+ - name: "networktools.sh"
+   root: true
+   args: []
+ - name: "docker-official.sh"
+   root: true
+   args:
+    - "vagrant"
+ - name: "docker-compose.sh"
+   root: true
+   args: []
+ - name: "goldeneggg.sh"
+   root: false
+   args:
+    - "goldeneggg"
+    - "jpshadowapps@gmail.com"
