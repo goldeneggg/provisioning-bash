@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM centos:7
 
 MAINTAINER goldeneggg
 
@@ -7,4 +7,4 @@ WORKDIR /tmp/prv-bash
 
 ADD https://git.io/prv-bash /tmp/prv-bash/entry.sh
 
-RUN bash entry.sh ubuntu14 init.sh
+RUN bash entry.sh centos7 init.sh
