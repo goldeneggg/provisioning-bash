@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos:6
 
 MAINTAINER goldeneggg
 
@@ -7,4 +7,4 @@ WORKDIR /tmp/prv-bash
 
 ADD https://git.io/prv-bash /tmp/prv-bash/entry.sh
 
-RUN bash entry.sh centos7 init.sh
+RUN bash entry.sh centos6 init.sh

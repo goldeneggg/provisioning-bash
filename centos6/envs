@@ -1,0 +1,23 @@
+export PRVENV_WGETCMD="wget --no-check-certificate --no-cache"
+
+export PRVENV_CMD_PKG="yum -y"
+export PRVENV_CMD_PKG_INS="${PRVENV_CMD_PKG} install"
+export PRVENV_CMD_PKG_UPD="${PRVENV_CMD_PKG} update"
+export PRVENV_CMD_PKG_RMV="${PRVENV_CMD_PKG} remove"
+
+export PRVENV_CMD_LOCAL_PKG="rpm"
+export PRVENV_CMD_LOCAL_PKG_INS="${PRVENV_CMD_LOCAL_PKG} -Uvh"
+
+export PRVENV_CMD_INIT="systemctl"
+export PRVENV_CMD_INIT_START="${PRVENV_CMD_INIT} start"
+export PRVENV_CMD_INIT_STOP="${PRVENV_CMD_INIT} stop"
+export PRVENV_CMD_INIT_STATUS="${PRVENV_CMD_INIT} status"
+export PRVENV_CMD_INIT_RELOAD="${PRVENV_CMD_INIT} daemon-reload"
+export PRVENV_CMD_INIT_ENABLE="${PRVENV_CMD_INIT} enable"
+
+export PRVENV_CMD_SERVICE="chkconfig"
+
+export PRVENV_DEFAULT_BASHRC=/etc/bashrc
+export PRVENV_USER_BASHRC=/home/$(whoami)/.bash_profile
+
+export PRVENV_INSTALL_WORK_DIR=/tmp

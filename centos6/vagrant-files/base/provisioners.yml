@@ -1,0 +1,23 @@
+# platform(ubuntu18 / centos7 / amazon2)
+#
+platform: "centos6"
+
+# scripts : execute provisioners
+# - name: <script name>
+#   root: true  *if this script is privilledged
+#   args:
+#    - <some args1>
+#    - <some argsN>
+#   args: []  is no argument
+scripts:
+ - name: "init.sh"
+   root: true
+   args: []
+ # - name: "cui.sh"
+ #   root: true
+ #   args: []
+ # - name: "goldeneggg.sh"
+ #   root: false
+ #   args:
+ #    - "goldeneggg"
+ #    - "jpshadowapps@gmail.com"
