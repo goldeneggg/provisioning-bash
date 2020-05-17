@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PFS=("amazon2" "centos7" "ubuntu14" "ubuntu18" "alpine3")
+PFS=("ubuntu14" "ubuntu18" "amazon2" "centos6" "centos7" "alpine3")
 
 function build() {
   for pf in ${PFS[@]}
