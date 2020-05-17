@@ -1,0 +1,37 @@
+name: CI Docker
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**/*.md'
+      - 'LICENSE'
+      - '**/.gitignore'
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+      - 'LICENSE'
+      - '**/.gitignore'
+
+jobs:
+  test:
+    name: CI
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ 'ubuntu-18.04' ]
+        #dist: [ 'amazon2', 'centos7' ]
+
+    steps:
+    - name: Check out code
+      id: checkout
+      uses: actions/checkout@v2
+
+    - name: Build local
+      id: build-local
+      run: bash ci.sh --build
+
+    - name: Run tests
+      id: run-tests
+      run: bash ci.sh
