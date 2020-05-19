@@ -18,6 +18,10 @@ up-branch:
 init:
 	@PUB_KEY=$(PUB_KEY) vagrant up --provision && vagrant reload
 
+.PHONY: init-branch
+init-branch:
+	@PUB_KEY=$(PUB_KEY) BRANCH=$(BRANCH) vagrant up --provision && vagrant reload
+
 add-sshconf:
 	@vagrant ssh-config >> $(SSH_CONF)
 	@echo "  ForwardAgent yes" >> $(SSH_CONF)
@@ -44,4 +48,3 @@ reload:
 .PHONY: destroy
 destroy:
 	@vagrant destroy -f
-
