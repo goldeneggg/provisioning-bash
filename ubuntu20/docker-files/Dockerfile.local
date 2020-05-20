@@ -1,0 +1,18 @@
+FROM ubuntu:20.04
+
+MAINTAINER goldeneggg
+
+RUN mkdir -p /tmp/prv-bash/ubuntu20
+WORKDIR /tmp/prv-bash
+
+ADD entry.sh entry.sh
+ADD ubuntu20/prepare.sh ubuntu20/prepare.sh
+ADD ubuntu20/envs ubuntu20/envs
+ADD ubuntu20/files ubuntu20/files
+
+ADD ubuntu20/init.sh ubuntu20/init.sh
+RUN bash entry.sh --local ubuntu20 init.sh
+
+# other script
+#ADD ubuntu20/init.sh /tmp/prv-bash/ubuntu20/xxx.sh
+#RUN bash entry.sh --local ubuntu20 xxx.sh
